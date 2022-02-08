@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+
+  postgres:
+    image: postgres
+    ports: 
+      - 5432:5432
+    restart: always
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    volumes:
+      - './.docker/postgres/data:/var/lib/postgresql/data'

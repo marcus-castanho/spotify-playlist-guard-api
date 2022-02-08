@@ -1,0 +1,47 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String     @id
+  display_name  String
+  email         String
+  image         String
+  country       String
+  playlists     Playlist[]
+  external_url  String
+  href          String
+  uri           String
+  refresh_token String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@map("users")
+}
+
+model Playlist {
+  id              String   @id
+  collaborative   Boolean
+  description     String
+  external_url    String
+  followers       Int
+  href            String
+  name            String
+  owner           User     @relation(fields: [userId], references: [id])
+  userId          String
+  public          Boolean
+  snapshot_id     String
+  tracks          String[]
+  uri             String
+  active          Boolean
+  allowed_userIds String[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("playlists")
+}
