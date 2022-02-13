@@ -1,5 +1,4 @@
-import { Playlist } from '@prisma/client';
-import { ArrayMaxSize, IsArray, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -16,10 +15,6 @@ export class CreateUserDto {
 
   @IsString()
   country: string;
-
-  @IsArray()
-  @ArrayMaxSize(0)
-  playlists: Array<Playlist>;
 
   @IsString()
   external_url: string;
