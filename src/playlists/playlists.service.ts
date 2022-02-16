@@ -29,7 +29,7 @@ export class PlaylistsService {
 
     if (!(await this.usersService.find(userId))) {
       throw new UnprocessableEntityException(
-        'The spotify user id provided is not registered.',
+        'The Spotify user ID provided is not registered.',
       );
     }
 
@@ -39,7 +39,7 @@ export class PlaylistsService {
       })
     ) {
       throw new ConflictException(
-        'The spotify playlist id provided is already registered.',
+        'The playlist Spotify ID provided is already registered.',
       );
     }
 

@@ -19,7 +19,7 @@ export class UsersService {
 
     if (await this.prismaService.user.findUnique({ where: { id } })) {
       throw new ConflictException(
-        'The spotify user id provided is already registered.',
+        'The Spotify user ID provided is already registered.',
       );
     }
 
