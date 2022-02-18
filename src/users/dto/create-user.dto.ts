@@ -28,3 +28,16 @@ export class CreateUserDto {
   @IsString()
   refresh_token: string;
 }
+
+// provider: string;
+// id: string;
+// username: string;
+// displayName: string;
+// profileUrl: string | null;
+// photos: [string] | null;
+// country: string;
+// followers: number | null;
+// product: string | null;
+// emails?: [{ value: string; type: null }] | undefined;
+// _raw: string;
+// _json: any;

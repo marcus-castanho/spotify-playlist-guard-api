@@ -1,6 +1,4 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
 import { AuthService } from './auth.service';
 import { SpotifyOauthGuard } from './guards/spotify-oauth.guards';
 
@@ -10,5 +8,14 @@ export class AuthController {
 
   @Get('login')
   @UseGuards(SpotifyOauthGuard)
-  login(@Req() req: Request) {}
+  login() {
+    return;
+  }
+
+  @Get('redirect')
+  @UseGuards(SpotifyOauthGuard)
+  googleAuthRedirect(@Req() req: any) {
+    console.log(Object.keys(req));
+    return req.user;
+  }
 }

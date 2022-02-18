@@ -6,7 +6,13 @@ import { PlaylistsModule } from './playlists/playlists.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [PrismaModule, UsersModule, PlaylistsModule, ConfigModule.forRoot(), AuthModule],
+  imports: [
+    PrismaModule,
+    UsersModule,
+    PlaylistsModule,
+    AuthModule,
+    ConfigModule.forRoot({ isGlobal: true }),
+  ],
   controllers: [],
   providers: [],
 })
