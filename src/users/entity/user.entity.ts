@@ -1,12 +1,17 @@
 export class User {
-  id: string;
+  country: string;
   display_name: string;
   email: string;
-  image: string;
-  country: string;
-  playlists: [];
   external_url: string;
+  followers: number;
   href: string;
+  id: string;
+  images: string[];
+  product: string;
+  type: string;
   uri: string;
-  refresh_token: string;
+  playlists: [];
+  accessToken: string;
+  refreshToken: string;
+  expires_in: number;
 }

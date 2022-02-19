@@ -14,8 +14,19 @@ export class AuthController {
 
   @Get('redirect')
   @UseGuards(SpotifyOauthGuard)
-  googleAuthRedirect(@Req() req: any) {
-    console.log(Object.keys(req));
-    return req.user;
+  async spotifyAuthRedirect(@Req() req: any) {
+    const { user, authInfo } = req;
+
+    const authUser = await this.authService
+      .validateUser(user, {
+        ...authInfo,
+      })
+      .then((user) => {
+        req.user = undefined;
+        req.authInfo = undefined;
+        return user;
+      });
+
+    return authUser;
   }
 }

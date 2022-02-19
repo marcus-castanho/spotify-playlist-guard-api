@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  ConflictException,
   Injectable,
   UnprocessableEntityException,
 } from '@nestjs/common';
@@ -14,22 +13,28 @@ import { User } from './entity/user.entity';
 export class UsersService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(createUserDto: CreateUserDto): Promise<Partial<User>> {
+  async createIfNotExists(
+    createUserDto: CreateUserDto,
+  ): Promise<Partial<User>> {
     const { id } = createUserDto;
 
-    if (await this.prismaService.user.findUnique({ where: { id } })) {
-      throw new ConflictException(
-        'The Spotify user ID provided is already registered.',
-      );
+    const user = await this.prismaService.user.findUnique({
+      where: { id },
+    });
+
+    if (user) {
+      return this.updateIfDifferent(user, createUserDto);
     }
 
-    const user = await this.prismaService.user.create({
+    const newUser = await this.prismaService.user.create({
       data: { ...createUserDto },
     });
 
     return this.prismaService.exclude<Partial<User>, keyof Partial<User>>(
-      user,
-      'refresh_token',
+      newUser,
+      'accessToken',
+      'refreshToken',
+      'expires_in',
     );
   }
 
@@ -42,7 +47,9 @@ export class UsersService {
 
     return this.prismaService.exclude<Partial<User>, keyof Partial<User>>(
       user,
-      'refresh_token',
+      'accessToken',
+      'refreshToken',
+      'expires_in',
     );
   }
 
@@ -57,7 +64,9 @@ export class UsersService {
     return users.map((user) =>
       this.prismaService.exclude<Partial<User>, keyof Partial<User>>(
         user,
-        'refresh_token',
+        'accessToken',
+        'refreshToken',
+        'expires_in',
       ),
     );
   }
@@ -81,8 +90,30 @@ export class UsersService {
 
     return this.prismaService.exclude<Partial<User>, keyof Partial<User>>(
       updatedUser,
-      'refresh_token',
+      'accessToken',
+      'refreshToken',
+      'expires_in',
     );
+  }
+
+  async updateIfDifferent(user: Partial<User>, incomingData: CreateUserDto) {
+    const differentProps = Object.keys(user).filter((prop) => {
+      const ingoredProps = ['playlists', 'createdAt', 'updatedAt'];
+
+      if (user[prop] !== incomingData[prop] && !ingoredProps.includes(prop))
+        return true;
+
+      return false;
+    });
+
+    return differentProps.length > 0
+      ? await this.update(user.id, incomingData)
+      : this.prismaService.exclude<Partial<User>, keyof Partial<User>>(
+          user,
+          'accessToken',
+          'refreshToken',
+          'expires_in',
+        );
   }
 
   async delete(id: string, res: Response): Promise<void> {

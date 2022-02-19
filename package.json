@@ -27,7 +27,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/passport": "^8.1.1",
     "@nestjs/platform-express": "^8.0.0",
-    "@prisma/client": "^3.9.1",
+    "@prisma/client": "^3.9.2",
     "class-validator": "^0.13.2",
     "passport": "^0.5.2",
     "passport-spotify": "^2.0.0",

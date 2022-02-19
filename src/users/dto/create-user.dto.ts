@@ -1,8 +1,8 @@
-import { IsString } from 'class-validator';
+import { ArrayMinSize, IsArray, IsNumber, IsString } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
-  id: string;
+  country: string;
 
   @IsString()
   display_name: string;
@@ -11,33 +11,36 @@ export class CreateUserDto {
   email: string;
 
   @IsString()
-  image: string;
-
-  @IsString()
-  country: string;
-
-  @IsString()
   external_url: string;
+
+  @IsNumber()
+  followers: number;
 
   @IsString()
   href: string;
 
   @IsString()
+  id: string;
+
+  @IsArray()
+  @ArrayMinSize(1)
+  images: string[];
+
+  @IsString()
+  product: string;
+
+  @IsString()
+  type: string;
+
+  @IsString()
   uri: string;
 
   @IsString()
-  refresh_token: string;
-}
+  refreshToken: string;
 
-// provider: string;
-// id: string;
-// username: string;
-// displayName: string;
-// profileUrl: string | null;
-// photos: [string] | null;
-// country: string;
-// followers: number | null;
-// product: string | null;
-// emails?: [{ value: string; type: null }] | undefined;
-// _raw: string;
-// _json: any;
+  @IsString()
+  accessToken: string;
+
+  @IsNumber()
+  expires_in: number;
+}
