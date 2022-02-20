@@ -1,20 +1,24 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { Response } from 'express';
 import { AuthService } from './auth.service';
+import { Public } from './decorators/public.decorator';
 import { SpotifyOauthGuard } from './guards/spotify-oauth.guards';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get('login')
+  @Public()
   @UseGuards(SpotifyOauthGuard)
-  login() {
+  @Get('login')
+  login(): void {
     return;
   }
 
-  @Get('redirect')
+  @Public()
   @UseGuards(SpotifyOauthGuard)
-  async spotifyAuthRedirect(@Req() req: any) {
+  @Get('redirect')
+  async spotifyAuthRedirect(@Req() req: any, @Res() res: Response) {
     const { user, authInfo } = req;
 
     const authUser = await this.authService
@@ -27,6 +31,10 @@ export class AuthController {
         return user;
       });
 
-    return authUser;
+    const jwt = this.authService.login(authUser);
+
+    res.set('authorization', `Bearer ${jwt}`);
+
+    return res.status(201).json(authUser);
   }
 }
