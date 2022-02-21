@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Profile } from 'passport-spotify';
 import { JwtPayload } from 'src/@types/jwt';
 import { AuthInfo, ProfileJson } from 'src/@types/passport-spotify';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { User } from 'src/users/entity/user.entity';
 import { UsersService } from 'src/users/users.service';
 
@@ -15,7 +16,7 @@ export class AuthService {
 
   login(user: Partial<User>) {
     const payload: JwtPayload = {
-      username: user.display_name,
+      name: user.display_name,
       sub: user.id,
     };
 
@@ -34,7 +35,7 @@ export class AuthService {
 
     const imagesUrl = images.map((object) => object.url);
 
-    const userData = {
+    const userData: CreateUserDto = {
       external_url: external_urls.spotify,
       followers: followers.total,
       images: imagesUrl,

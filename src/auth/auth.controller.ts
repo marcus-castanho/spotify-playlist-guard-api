@@ -3,6 +3,8 @@ import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import { SpotifyOauthGuard } from './guards/spotify-oauth.guards';
+import { Profile } from 'passport-spotify';
+import { AuthInfo } from 'src/@types/passport-spotify';
 
 @Controller('auth')
 export class AuthController {
@@ -18,8 +20,11 @@ export class AuthController {
   @Public()
   @UseGuards(SpotifyOauthGuard)
   @Get('redirect')
-  async spotifyAuthRedirect(@Req() req: any, @Res() res: Response) {
-    const { user, authInfo } = req;
+  async spotifyAuthRedirect(
+    @Req() req: any,
+    @Res() res: Response,
+  ): Promise<Response> {
+    const { user, authInfo }: { user: Profile; authInfo: AuthInfo } = req;
 
     const authUser = await this.authService
       .validateUser(user, {

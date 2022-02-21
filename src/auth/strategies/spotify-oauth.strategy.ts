@@ -20,7 +20,7 @@ export class SpotifyOauthStrategy extends PassportStrategy(
         expires_in: number,
         profile: Profile,
         done: VerifyCallback,
-      ) => {
+      ): void => {
         return done(null, profile, { accessToken, refreshToken, expires_in });
       },
     );
