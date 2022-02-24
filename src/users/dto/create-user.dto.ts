@@ -1,4 +1,10 @@
-import { ArrayMinSize, IsArray, IsNumber, IsString } from 'class-validator';
+import {
+  ArrayMinSize,
+  IsArray,
+  IsDate,
+  IsNumber,
+  IsString,
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -41,6 +47,6 @@ export class CreateUserDto {
   @IsString()
   accessToken: string;
 
-  @IsNumber()
-  expires_in: number;
+  @IsDate()
+  expiresAt: Date;
 }

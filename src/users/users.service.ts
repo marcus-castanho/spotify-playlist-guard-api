@@ -6,8 +6,10 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { createCipheriv, createDecipheriv, randomBytes, scrypt } from 'crypto';
 import { Response } from 'express';
-import { EncryptedData } from 'src/@types/encryption';
+import { EncryptedData, Tokens } from 'src/@types/encryption';
+import { Credentials } from 'src/@types/spotify-web-api-node';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { SpotifyService } from 'src/spotify/spotify.service';
 import { promisify } from 'util';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -16,6 +18,7 @@ import { User } from './entity/user.entity';
 @Injectable()
 export class UsersService {
   constructor(
+    private readonly spotifyService: SpotifyService,
     private readonly configService: ConfigService,
     private readonly prismaService: PrismaService,
   ) {}
@@ -49,7 +52,7 @@ export class UsersService {
       newUser,
       'accessToken',
       'refreshToken',
-      'expires_in',
+      'expiresAt',
     );
   }
 
@@ -64,8 +67,57 @@ export class UsersService {
       user,
       'accessToken',
       'refreshToken',
-      'expires_in',
+      'expiresAt',
     );
+  }
+
+  async setUserTokens(id: string): Promise<void> {
+    const requestDate = new Date();
+    const userTokens = await this.prismaService.user.findUnique({
+      where: { id },
+      select: {
+        accessToken: true,
+        ivAccessToken: true,
+        refreshToken: true,
+        ivRefreshToken: true,
+        expiresAt: true,
+      },
+    });
+
+    if (!userTokens) throw new UnprocessableEntityException();
+
+    const { accessToken, ivAccessToken, refreshToken, expiresAt } = userTokens;
+
+    if (requestDate <= expiresAt) {
+      userTokens.accessToken = await this.decryptData(
+        accessToken,
+        ivAccessToken,
+      );
+      this.spotifyService.setAccessToken(userTokens.accessToken);
+      return;
+    }
+
+    this.spotifyService.setRefreshToken(refreshToken);
+
+    const newAccessToken = await this.spotifyService
+      .refreshAccessToken()
+      .then((data) => {
+        this.spotifyService.setAccessToken(data.body.access_token);
+        return data.body.access_token;
+      });
+
+    const encryptedAccessToken = await this.encryptData(newAccessToken);
+    const newIvAccessToken = encryptedAccessToken.iv;
+
+    await this.prismaService.user.update({
+      where: { id },
+      data: {
+        ivAccessToken: newIvAccessToken,
+        accessToken: encryptedAccessToken.encryptedData,
+      },
+    });
+
+    return;
   }
 
   async listPage(page: number): Promise<Array<Partial<User>>> {
@@ -81,7 +133,7 @@ export class UsersService {
         user,
         'accessToken',
         'refreshToken',
-        'expires_in',
+        'expiresAt',
       ),
     );
   }
@@ -128,7 +180,7 @@ export class UsersService {
       updatedUser,
       'accessToken',
       'refreshToken',
-      'expires_in',
+      'expiresAt',
     );
   }
 
@@ -144,6 +196,23 @@ export class UsersService {
     });
 
     res.status(204).json();
+  }
+
+  async updateUserTokens(
+    accessToken: string,
+    refreshToken: string,
+  ): Promise<Tokens> {
+    const encryptedAccessToken = await this.encryptData(accessToken);
+    const encryptedRefreshToken = await this.encryptData(refreshToken);
+    const ivAccessToken = encryptedAccessToken.iv;
+    const ivRefreshToken = encryptedRefreshToken.iv;
+
+    return {
+      accessToken: encryptedAccessToken.encryptedData,
+      ivAccessToken,
+      refreshToken: encryptedRefreshToken.encryptedData,
+      ivRefreshToken,
+    };
   }
 
   async encryptData(data: string): Promise<EncryptedData> {

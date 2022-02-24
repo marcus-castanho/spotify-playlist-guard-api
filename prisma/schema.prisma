@@ -24,7 +24,7 @@ model User {
   accessToken    String
   ivRefreshToken String
   refreshToken   String
-  expires_in     Int
+  expiresAt      DateTime
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
 

@@ -24,6 +24,10 @@ export class AuthService {
   }
 
   async validateUser(profile: Profile, info: AuthInfo): Promise<Partial<User>> {
+    const { accessToken, refreshToken, expires_in } = info;
+    const expiresAt = new Date();
+    expiresAt.setSeconds(expiresAt.getSeconds() + expires_in);
+
     const {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       explicit_content,
@@ -39,8 +43,10 @@ export class AuthService {
       external_url: external_urls.spotify,
       followers: followers.total,
       images: imagesUrl,
+      accessToken,
+      refreshToken,
+      expiresAt,
       ...profileJson,
-      ...info,
     };
 
     return this.userService.createIfNotExists({

@@ -35,7 +35,8 @@
     "passport-spotify": "^2.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "spotify-web-api-node": "^5.0.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
@@ -46,6 +47,7 @@
     "@types/node": "^16.0.0",
     "@types/passport-jwt": "^3.0.6",
     "@types/passport-spotify": "^2.0.1",
+    "@types/spotify-web-api-node": "^5.0.7",
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",

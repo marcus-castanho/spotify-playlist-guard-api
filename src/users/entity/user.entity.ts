@@ -15,5 +15,5 @@ export class User {
   accessToken: string;
   ivRefreshToken: string;
   refreshToken: string;
-  expires_in: number;
+  expiresAt: Date;
 }
