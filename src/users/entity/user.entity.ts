@@ -11,7 +11,9 @@ export class User {
   type: string;
   uri: string;
   playlists: [];
+  ivAccessToken: string;
   accessToken: string;
+  ivRefreshToken: string;
   refreshToken: string;
   expires_in: number;
 }
