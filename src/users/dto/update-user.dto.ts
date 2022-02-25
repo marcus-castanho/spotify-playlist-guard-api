@@ -1,5 +1,6 @@
 import { OmitType, PartialType } from '@nestjs/mapped-types';
-import { IsOptional, IsString } from 'class-validator';
+import { IsArray, IsOptional, IsString } from 'class-validator';
+import { Playlist } from 'src/playlists/entities/playlist.entity';
 import { CreateUserDto } from './create-user.dto';
 
 export class UpdateUserDto extends PartialType(
@@ -12,4 +13,8 @@ export class UpdateUserDto extends PartialType(
   @IsOptional()
   @IsString()
   ivRefreshToken?: string;
+
+  @IsOptional()
+  @IsArray()
+  playlists?: Playlist[];
 }

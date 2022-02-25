@@ -7,7 +7,6 @@ import { ConfigService } from '@nestjs/config';
 import { createCipheriv, createDecipheriv, randomBytes, scrypt } from 'crypto';
 import { Response } from 'express';
 import { EncryptedData, Tokens } from 'src/@types/encryption';
-import { Credentials } from 'src/@types/spotify-web-api-node';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SpotifyService } from 'src/spotify/spotify.service';
 import { promisify } from 'util';
@@ -36,13 +35,11 @@ export class UsersService {
       return this.update(id, createUserDto);
     }
 
-    const encryptedAccessToken = await this.encryptData(accessToken);
-    const encryptedRefreshToken = await this.encryptData(refreshToken);
-    const ivAccessToken = encryptedAccessToken.iv;
-    const ivRefreshToken = encryptedRefreshToken.iv;
+    const newTokens = await this.updateUserTokens(accessToken, refreshToken);
+    const { ivAccessToken, ivRefreshToken } = newTokens;
 
-    createUserDto.accessToken = encryptedAccessToken.encryptedData;
-    createUserDto.refreshToken = encryptedRefreshToken.encryptedData;
+    createUserDto.accessToken = newTokens.accessToken;
+    createUserDto.refreshToken = newTokens.refreshToken;
 
     const newUser = await this.prismaService.user.create({
       data: { ivAccessToken, ivRefreshToken, ...createUserDto },
@@ -151,13 +148,11 @@ export class UsersService {
     if (!user) throw new UnprocessableEntityException();
 
     if (accessToken || refreshToken) {
-      const encryptedAccessToken = await this.encryptData(accessToken);
-      const encryptedRefreshToken = await this.encryptData(refreshToken);
-      const ivAccessToken = encryptedAccessToken.iv;
-      const ivRefreshToken = encryptedRefreshToken.iv;
+      const newTokens = await this.updateUserTokens(accessToken, refreshToken);
+      const { ivAccessToken, ivRefreshToken } = newTokens;
 
-      updateUserDto.accessToken = encryptedAccessToken.encryptedData;
-      updateUserDto.refreshToken = encryptedRefreshToken.encryptedData;
+      updateUserDto.accessToken = newTokens.accessToken;
+      updateUserDto.refreshToken = newTokens.refreshToken;
 
       updatedUser = await this.prismaService.user.update({
         where: { id },
