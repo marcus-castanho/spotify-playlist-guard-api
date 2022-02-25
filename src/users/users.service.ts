@@ -48,7 +48,9 @@ export class UsersService {
     return this.prismaService.exclude<Partial<User>, keyof Partial<User>>(
       newUser,
       'accessToken',
+      'ivAccessToken',
       'refreshToken',
+      'ivRefreshToken',
       'expiresAt',
     );
   }
@@ -63,7 +65,9 @@ export class UsersService {
     return this.prismaService.exclude<Partial<User>, keyof Partial<User>>(
       user,
       'accessToken',
+      'ivAccessToken',
       'refreshToken',
+      'ivRefreshToken',
       'expiresAt',
     );
   }
@@ -129,7 +133,9 @@ export class UsersService {
       this.prismaService.exclude<Partial<User>, keyof Partial<User>>(
         user,
         'accessToken',
+        'ivAccessToken',
         'refreshToken',
+        'ivRefreshToken',
         'expiresAt',
       ),
     );
@@ -174,7 +180,9 @@ export class UsersService {
     return this.prismaService.exclude<Partial<User>, keyof Partial<User>>(
       updatedUser,
       'accessToken',
+      'ivAccessToken',
       'refreshToken',
+      'ivRefreshToken',
       'expiresAt',
     );
   }

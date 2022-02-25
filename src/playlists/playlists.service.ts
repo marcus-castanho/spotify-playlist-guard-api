@@ -2,10 +2,13 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { Response } from 'express';
+import { SinglePlaylistResponse } from 'src/@types/spotify-web-api-node';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { SpotifyService } from 'src/spotify/spotify.service';
 import { UsersService } from 'src/users/users.service';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
@@ -16,18 +19,43 @@ export class PlaylistsService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly usersService: UsersService,
+    private readonly spotifyService: SpotifyService,
   ) {}
 
-  async create(
-    createPlaylistDto: CreatePlaylistDto,
-  ): Promise<Partial<Playlist>> {
-    const { userId, ...playlistData } = createPlaylistDto;
+  async add(createPlaylistDto: CreatePlaylistDto): Promise<Partial<Playlist>> {
+    const { id, allowed_userIds, active, userId } = createPlaylistDto;
+    await this.usersService.setUserTokens(userId);
+
+    const playlist: SinglePlaylistResponse = await this.spotifyService
+      .getPlaylist(id)
+      .then((data) => {
+        console.log(data.body);
+        return data.body;
+      })
+      .catch((error) => {
+        throw new NotFoundException(error.message);
+      });
+    const {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      images,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      type,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      primary_color,
+      tracks,
+      owner,
+      followers,
+      external_urls,
+      ...playlistData
+    } = playlist;
+
+    const tracksIds = tracks.items.map((track) => track.track.id);
 
     if (!playlistData.collaborative) {
       throw new ConflictException('Only collaborative playlists are allowed.');
     }
 
-    if (!(await this.usersService.find(userId))) {
+    if (!(await this.usersService.find(owner.id))) {
       throw new UnprocessableEntityException(
         'The Spotify user ID provided is not registered.',
       );
@@ -42,13 +70,17 @@ export class PlaylistsService {
         'The playlist Spotify ID provided is already registered.',
       );
     }
-
     return await this.prismaService.playlist.create({
       data: {
+        active,
+        allowed_userIds,
+        tracks: tracksIds,
+        followers: followers.total,
+        external_url: external_urls.spotify,
         ...playlistData,
         owner: {
           connect: {
-            id: userId,
+            id: owner.id,
           },
         },
       },

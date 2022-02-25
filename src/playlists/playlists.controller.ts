@@ -18,11 +18,11 @@ import { Response } from 'express';
 export class PlaylistsController {
   constructor(private readonly playlistsService: PlaylistsService) {}
 
-  @Post('/create')
-  create(
+  @Post('/add')
+  add(
     @Body() createPlaylistDto: CreatePlaylistDto,
   ): Promise<Partial<Playlist>> {
-    return this.playlistsService.create(createPlaylistDto);
+    return this.playlistsService.add(createPlaylistDto);
   }
 
   @Get('/find/:id')

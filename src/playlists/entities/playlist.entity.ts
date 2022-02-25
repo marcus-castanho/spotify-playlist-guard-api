@@ -1,10 +1,10 @@
 export class Playlist {
-  id: string;
   collaborative: boolean;
   description: string;
   external_url: string;
   followers: number;
   href: string;
+  id: string;
   name: string;
   userId: string;
   public: boolean;
