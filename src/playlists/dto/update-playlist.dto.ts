@@ -1,5 +1,4 @@
 import {
-  ArrayMinSize,
   IsArray,
   IsBoolean,
   IsNumber,
@@ -51,9 +50,4 @@ export class UpdatePlaylistDto {
   @IsOptional()
   @IsBoolean()
   active: boolean;
-
-  @IsOptional()
-  @IsArray()
-  @ArrayMinSize(1)
-  allowed_userIds: string[];
 }

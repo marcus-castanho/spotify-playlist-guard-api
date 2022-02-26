@@ -10,7 +10,9 @@ import { SinglePlaylistResponse } from 'src/@types/spotify-web-api-node';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SpotifyService } from 'src/spotify/spotify.service';
 import { UsersService } from 'src/users/users.service';
+import { ActivatePlaylistDto } from './dto/activate-playlist.dto copy';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
+import { UpdateAllowedUsersDto } from './dto/update-allowedUsers-playlist.dto';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 import { Playlist } from './entities/playlist.entity';
 
@@ -22,14 +24,17 @@ export class PlaylistsService {
     private readonly spotifyService: SpotifyService,
   ) {}
 
-  async add(createPlaylistDto: CreatePlaylistDto): Promise<Partial<Playlist>> {
-    const { id, allowed_userIds, active, userId } = createPlaylistDto;
+  async add(
+    userId: string,
+    createPlaylistDto: CreatePlaylistDto,
+  ): Promise<Partial<Playlist>> {
+    const { id, allowed_userIds, active } = createPlaylistDto;
+
     await this.usersService.setUserTokens(userId);
 
     const playlist: SinglePlaylistResponse = await this.spotifyService
       .getPlaylist(id)
       .then((data) => {
-        console.log(data.body);
         return data.body;
       })
       .catch((error) => {
@@ -48,19 +53,16 @@ export class PlaylistsService {
       external_urls,
       ...playlistData
     } = playlist;
-
     const tracksIds = tracks.items.map((track) => track.track.id);
 
+    if (owner.id !== userId) {
+      throw new UnprocessableEntityException(
+        'The user ID provided does not match the owner of the playlist.',
+      );
+    }
     if (!playlistData.collaborative) {
       throw new ConflictException('Only collaborative playlists are allowed.');
     }
-
-    if (!(await this.usersService.find(owner.id))) {
-      throw new UnprocessableEntityException(
-        'The Spotify user ID provided is not registered.',
-      );
-    }
-
     if (
       await this.prismaService.playlist.findUnique({
         where: { id: playlistData.id },
@@ -70,6 +72,7 @@ export class PlaylistsService {
         'The playlist Spotify ID provided is already registered.',
       );
     }
+
     return await this.prismaService.playlist.create({
       data: {
         active,
@@ -87,20 +90,32 @@ export class PlaylistsService {
     });
   }
 
-  async find(id: string): Promise<Partial<Playlist>> {
+  async find(userId: string, id: string): Promise<Partial<Playlist>> {
     const playlist = await this.prismaService.playlist.findUnique({
       where: { id },
     });
 
-    if (!playlist) throw new UnprocessableEntityException();
+    if (!playlist || playlist.userId !== userId) {
+      throw new NotFoundException(
+        'Thera is no playlist match for the provided ID',
+      );
+    }
 
     return playlist;
   }
 
-  async listPage(page: number): Promise<Array<Partial<Playlist>>> {
+  async listPage(
+    userId: string,
+    page: number,
+  ): Promise<Array<Partial<Playlist>>> {
     if (page <= 0) throw new BadRequestException();
 
     const playlists = await this.prismaService.playlist.findMany({
+      where: {
+        owner: {
+          id: userId,
+        },
+      },
       skip: page - 1,
       take: 15,
     });
@@ -116,7 +131,14 @@ export class PlaylistsService {
       where: { id },
     });
 
-    if (!playlist) throw new UnprocessableEntityException();
+    if (!playlist)
+      throw new NotFoundException(
+        'Thera is no playlist match for the provided ID',
+      );
+
+    if (updatePlaylistDto.public || !updatePlaylistDto.collaborative) {
+      updatePlaylistDto.active = false;
+    }
 
     const updatedPlaylist = await this.prismaService.playlist.update({
       where: { id },
@@ -128,17 +150,68 @@ export class PlaylistsService {
     return updatedPlaylist;
   }
 
-  async delete(id: string, res: Response): Promise<void> {
+  async activate(
+    userId: string,
+    id: string,
+    activatePlaylistDto: ActivatePlaylistDto,
+  ): Promise<any> {
+    const { active } = activatePlaylistDto;
     const playlist = await this.prismaService.playlist.findUnique({
       where: { id },
     });
 
-    if (!playlist) throw new UnprocessableEntityException();
+    if (!playlist || playlist.userId !== userId) {
+      throw new UnprocessableEntityException();
+    }
+
+    await this.prismaService.playlist.update({
+      where: { id },
+      data: {
+        active,
+      },
+    });
+    const status = active ? 'active' : 'not active';
+
+    return { message: `The playlist is now ${status}.` };
+  }
+
+  async updateAllowedUsers(
+    userId: string,
+    id: string,
+    updateAllowedUsersDto: UpdateAllowedUsersDto,
+  ): Promise<Partial<Playlist>> {
+    const { allowed_userIds } = updateAllowedUsersDto;
+    const playlist = await this.prismaService.playlist.findUnique({
+      where: { id },
+    });
+
+    if (!playlist || playlist.userId !== userId) {
+      throw new UnprocessableEntityException();
+    }
+
+    return this.prismaService.playlist.update({
+      where: { id },
+      data: {
+        allowed_userIds,
+      },
+    });
+  }
+
+  async delete(userId: string, id: string, res: Response): Promise<void> {
+    const playlist = await this.prismaService.playlist.findUnique({
+      where: { id },
+    });
+
+    if (!playlist || playlist.userId !== userId) {
+      throw new UnprocessableEntityException();
+    }
 
     await this.prismaService.playlist.delete({
       where: { id },
     });
 
     res.status(204).json();
+
+    return;
   }
 }

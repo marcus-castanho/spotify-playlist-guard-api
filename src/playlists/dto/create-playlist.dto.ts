@@ -10,7 +10,4 @@ export class CreatePlaylistDto {
   @IsArray()
   @ArrayMinSize(1)
   allowed_userIds: string[];
-
-  @IsString()
-  userId: string;
 }

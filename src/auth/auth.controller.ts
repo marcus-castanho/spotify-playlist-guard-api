@@ -2,7 +2,7 @@ import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
-import { SpotifyOauthGuard } from './guards/spotify-oauth.guards';
+import { SpotifyOauthGuard } from './guards/spotify-oauth.guard';
 import { Profile } from 'passport-spotify';
 import { AuthInfo } from 'src/@types/passport-spotify';
 
