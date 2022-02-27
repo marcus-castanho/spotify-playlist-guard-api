@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="asset-url" id="artdeco/static/images/icons.svg"
     content="https://static-exp1.licdn.com/sc/h/6bja66gymvrvqrp5m6btz3vkz">
-  <title>LinkedIn Login, Sign in | LinkedIn</title>
+  <title>Spotify Guard</title>
   <link rel="shortcut icon" href="https://static-exp1.licdn.com/sc/h/9lb1g1kp916tat669q9r5g2kz">
   <link rel="apple-touch-icon" href="https://static-exp1.licdn.com/sc/h/1exdo4axa6eaw1jioxh1vu4fj">
   <link rel="apple-touch-icon-precomposed" href="https://static-exp1.licdn.com/sc/h/55ggxxse8uyjdh2x78ht3j40q">
@@ -102,8 +102,9 @@
             <h1 class="header__content__heading ">Sign in</h1>
             <p class="header__content__subheading ">Start guarding your collaborative playlists</p>
           </div>
-          <form method="post" class="login__form" action="/checkpoint/lg/login-submit" novalidate><input type="hidden"
-              name="csrfToken" value="ajax:5704558796183730116" /><code id="login_form_validation_error_username"
+          <form method="get" class="login__form" action="/auth/login" novalidate>
+            <!-- <input type="hidden" name="csrfToken" value="ajax:5704558796183730116" /> -->
+            <code id="login_form_validation_error_username"
               style="display: none;"><!--"Please enter a valid username"--></code><code
               id="consumer_login__text_plain__large_username"
               style="display: none;"><!--"Email or phone number must be between 3 to 128 characters"--></code><code
@@ -149,8 +150,9 @@
             <!-- <a href="/checkpoint/rp/request-password-reset?trk=guest_homepage-basic_nav-header-signin"
               class="btn__tertiary--medium forgot-password" data-cie-control-urn="forgot-password-btn">Forgot
               password?</a> -->
-            <div class="login__form_action_container "><button class="btn__primary--large from__button--floating"
-                data-litms-control-urn="login-submit" type="submit" aria-label="Sign in">
+            <div class="login__form_action_container "><button href="/auth/login"
+                class="btn__primary--large from__button--floating" data-litms-control-urn="login-submit" type="submit"
+                aria-label="Sign in">
                 <svg viewBox="0 0 167.5 167.5" height="20" width="20" style="transform: translateY(25%);">
                   <path fill="currentColor"
                     d="M83.7 0C37.5 0 0 37.5 0 83.7c0 46.3 37.5 83.7 83.7 83.7 46.3 0 83.7-37.5 83.7-83.7S130 0 83.7 0zM122 120.8c-1.4 2.5-4.6 3.2-7 1.7-19.8-12-44.5-14.7-73.7-8-2.8.5-5.6-1.2-6.2-4-.2-2.8 1.5-5.6 4-6.2 32-7.3 59.6-4.2 81.6 9.3 2.6 1.5 3.4 4.7 1.8 7.2zM132.5 98c-2 3-6 4-9 2.2-22.5-14-56.8-18-83.4-9.8-3.2 1-7-1-8-4.3s1-7 4.6-8c30.4-9 68.2-4.5 94 11 3 2 4 6 2 9zm1-23.8c-27-16-71.6-17.5-97.4-9.7-4 1.3-8.2-1-9.5-5.2-1.3-4 1-8.5 5.2-9.8 29.6-9 78.8-7.2 109.8 11.2 3.7 2.2 5 7 2.7 10.7-2 3.8-7 5-10.6 2.8z">
