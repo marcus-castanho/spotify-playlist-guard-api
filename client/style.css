@@ -6039,16 +6039,16 @@ html.edge .btn__tertiary--medium:focus {
   color: rgba(0, 115, 177, 0.35);
   cursor: not-allowed;
 }
-.btn__tertiary--medium:hover {
+/* .btn__tertiary--medium:hover {
   background: #d0e8ff !important;
-}
+} */
 .btn__primary--large {
-  background-color: #0073b1;
+  background-color: #1DB954;
   border: 0;
   border-radius: 2px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  color: #fff;
+  color: #000;
   cursor: pointer;
   display: inline-block;
   font-size: 1.6rem;
@@ -6072,7 +6072,7 @@ html.edge .btn__tertiary--medium:focus {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
   vertical-align: middle;
   z-index: 0;
-  background: #0a66c2 !important;
+  /* background: #0a66c2 !important; */
   border-radius: 28px !important;
 }
 @media only screen and (-ms-high-contrast: active) {
@@ -6113,17 +6113,17 @@ html.edge .btn__primary--large:focus {
 .btn__primary--large:hover:not(:disabled):not(.disabled),
 .btn__primary--large.hover-not-disabled {
   background-color: #006097;
-  color: #fff;
+  color: #000;
 }
 .btn__primary--large:focus,
 .btn__primary--large.focus {
   background-color: #006097;
-  color: #fff;
+  color: #000;
 }
 .btn__primary--large:active:not(:disabled):not(.disabled),
 .btn__primary--large.active-not-disabled {
   background-color: #004b7c;
-  color: #fff;
+  color: #000;
 }
 .btn__primary--large:disabled,
 .btn__primary--large.disabled {
@@ -6132,7 +6132,7 @@ html.edge .btn__primary--large:focus {
   cursor: not-allowed;
 }
 .btn__primary--large:hover {
-  background: #004182 !important;
+  background: #1ed55f !important;
 }
 .btn__secondary--large {
   background-color: rgba(0, 0, 0, 0);
@@ -6304,7 +6304,7 @@ html.edge .btn__secondary--large:focus {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
   vertical-align: middle;
   z-index: 0;
-  color: #0a66c2 !important;
+  color: #000000 !important;
   border-radius: 28px !important;
   position: relative;
   right: 4px;
@@ -6347,7 +6347,7 @@ html.edge .join-now #join_now:focus {
 .ie .join-now #join_now {
   border-radius: 0;
 }
-.join-now #join_now:hover:not(:disabled):not(.disabled),
+/* .join-now #join_now:hover:not(:disabled):not(.disabled),
 .join-now #join_now.hover-not-disabled {
   background-color: rgba(152, 216, 244, 0.25);
   color: #006097;
@@ -6369,7 +6369,7 @@ html.edge .join-now #join_now:focus {
 }
 .join-now #join_now:hover {
   background: #d0e8ff !important;
-}
+} */
 .join-now #join_now:hover {
   text-decoration: underline;
 }
