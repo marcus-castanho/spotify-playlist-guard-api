@@ -3,12 +3,17 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { SpotifyOauthStrategy } from './strategies/spotify-oauth.strategy';
 import { UsersModule } from 'src/users/users.module';
-import { PassportModule } from '@nestjs/passport';
+import { IAuthModuleOptions, PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+
+export interface AuthModuleOptions extends IAuthModuleOptions {
+  successRedirect: string;
+  failureRedirect: string;
+}
 
 @Module({
   imports: [
