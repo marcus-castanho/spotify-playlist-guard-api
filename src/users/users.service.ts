@@ -3,7 +3,6 @@ import {
   Injectable,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
 import { Tokens } from 'src/@types/encryption';
 import { EncryptionService } from 'src/encryption/encryption.service';
@@ -17,7 +16,6 @@ import { User } from './entity/user.entity';
 export class UsersService {
   constructor(
     private readonly spotifyService: SpotifyService,
-    private readonly configService: ConfigService,
     private readonly prismaService: PrismaService,
     private readonly encryptionService: EncryptionService,
   ) {}

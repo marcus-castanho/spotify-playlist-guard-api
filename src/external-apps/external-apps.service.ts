@@ -4,7 +4,6 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { ApiKey } from 'src/@types/encryption';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateExternalAppDto } from './dto/create-external-app.dto';
@@ -18,7 +17,6 @@ import { EncryptionService } from 'src/encryption/encryption.service';
 export class ExternalAppsService {
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly configService: ConfigService,
     private readonly encryptionService: EncryptionService,
   ) {}
   async create(
