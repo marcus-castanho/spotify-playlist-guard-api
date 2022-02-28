@@ -52,3 +52,16 @@ model Playlist {
 
   @@map("playlists")
 }
+
+model ExternalApp {
+  id           String   @id @default(uuid())
+  name         String
+  recoverEmail String
+  baseUrl      String   @unique
+  ivApiKey     String
+  apiKey       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("externalApps")
+}

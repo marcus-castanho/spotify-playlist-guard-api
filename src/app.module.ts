@@ -4,6 +4,7 @@ import { UsersModule } from './users/users.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { PlaylistsModule } from './playlists/playlists.module';
 import { AuthModule } from './auth/auth.module';
+import { ExternalAppsModule } from './external-apps/external-apps.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { AuthModule } from './auth/auth.module';
     PlaylistsModule,
     AuthModule,
     ConfigModule.forRoot({ isGlobal: true }),
+    ExternalAppsModule,
   ],
   controllers: [],
   providers: [],

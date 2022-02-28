@@ -97,7 +97,7 @@ export class PlaylistsService {
 
     if (!playlist || playlist.userId !== userId) {
       throw new NotFoundException(
-        'Thera is no playlist match for the provided ID',
+        'There is no playlist match for the provided ID',
       );
     }
 
@@ -133,7 +133,7 @@ export class PlaylistsService {
 
     if (!playlist)
       throw new NotFoundException(
-        'Thera is no playlist match for the provided ID',
+        'There is no playlist match for the provided ID',
       );
 
     if (updatePlaylistDto.public || !updatePlaylistDto.collaborative) {
