@@ -20,9 +20,11 @@ export class AuthService {
 
   login(user: User | AdminUser) {
     const name = user instanceof User ? user.display_name : user.name;
+    const roles = user instanceof User ? [] : user.roles;
     const payload: JwtPayload = {
       name,
       sub: user.id,
+      roles,
     };
 
     return this.jwtService.sign(payload);
