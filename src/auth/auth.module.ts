@@ -9,9 +9,13 @@ import { ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './guards/roles.guard';
+import { AdminUsersModule } from 'src/admin-users/admin-users.module';
+import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
   imports: [
+    AdminUsersModule,
     UsersModule,
     PassportModule,
     JwtModule.registerAsync({
@@ -28,11 +32,16 @@ import { APP_GUARD } from '@nestjs/core';
   ],
   providers: [
     AuthService,
-    SpotifyOauthStrategy,
     JwtStrategy,
+    LocalStrategy,
+    SpotifyOauthStrategy,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
   controllers: [AuthController],
