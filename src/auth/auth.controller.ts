@@ -1,24 +1,33 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import { SpotifyOauthGuard } from './guards/spotify-oauth.guard';
 import { Profile } from 'passport-spotify';
 import { AuthInfo } from 'src/@types/passport-spotify';
-import { SpotifyOauthStrategy } from './strategies/spotify-oauth.strategy';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly spotifyOauthStrategy: SpotifyOauthStrategy,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Public()
   @UseGuards(SpotifyOauthGuard)
   @Get('login')
   login(): void {
     return;
+  }
+
+  @Public()
+  @UseGuards(AuthGuard('local'))
+  @Post('login/admin')
+  loginAdmin(@Req() req: any, @Res() res: Response): Response {
+    const adminUser = req.user;
+    const jwt = this.authService.login(adminUser);
+
+    res.set('authorization', `Bearer ${jwt}`);
+
+    return res.status(201).json(adminUser);
   }
 
   @Public()

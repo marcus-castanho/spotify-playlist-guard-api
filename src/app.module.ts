@@ -4,6 +4,9 @@ import { UsersModule } from './users/users.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { PlaylistsModule } from './playlists/playlists.module';
 import { AuthModule } from './auth/auth.module';
+import { ExternalAppsModule } from './external-apps/external-apps.module';
+import { EncryptionModule } from './encryption/encryption.module';
+import { AdminUsersModule } from './admin-users/admin-users.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 
@@ -14,6 +17,9 @@ import { join } from 'path';
     PlaylistsModule,
     AuthModule,
     ConfigModule.forRoot({ isGlobal: true }),
+    ExternalAppsModule,
+    EncryptionModule,
+    AdminUsersModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
     }),

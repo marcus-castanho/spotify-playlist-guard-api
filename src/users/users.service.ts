@@ -3,13 +3,11 @@ import {
   Injectable,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { createCipheriv, createDecipheriv, randomBytes, scrypt } from 'crypto';
 import { Response } from 'express';
-import { EncryptedData, Tokens } from 'src/@types/encryption';
+import { Tokens } from 'src/@types/encryption';
+import { EncryptionService } from 'src/encryption/encryption.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SpotifyService } from 'src/spotify/spotify.service';
-import { promisify } from 'util';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entity/user.entity';
@@ -18,8 +16,8 @@ import { User } from './entity/user.entity';
 export class UsersService {
   constructor(
     private readonly spotifyService: SpotifyService,
-    private readonly configService: ConfigService,
     private readonly prismaService: PrismaService,
+    private readonly encryptionService: EncryptionService,
   ) {}
 
   async createIfNotExists(
@@ -90,7 +88,7 @@ export class UsersService {
     const { accessToken, ivAccessToken, refreshToken, expiresAt } = userTokens;
 
     if (requestDate <= expiresAt) {
-      userTokens.accessToken = await this.decryptData(
+      userTokens.accessToken = await this.encryptionService.decryptData(
         accessToken,
         ivAccessToken,
       );
@@ -107,7 +105,9 @@ export class UsersService {
         return data.body.access_token;
       });
 
-    const encryptedAccessToken = await this.encryptData(newAccessToken);
+    const encryptedAccessToken = await this.encryptionService.encryptData(
+      newAccessToken,
+    );
     const newIvAccessToken = encryptedAccessToken.iv;
 
     await this.prismaService.user.update({
@@ -205,8 +205,12 @@ export class UsersService {
     accessToken: string,
     refreshToken: string,
   ): Promise<Tokens> {
-    const encryptedAccessToken = await this.encryptData(accessToken);
-    const encryptedRefreshToken = await this.encryptData(refreshToken);
+    const encryptedAccessToken = await this.encryptionService.encryptData(
+      accessToken,
+    );
+    const encryptedRefreshToken = await this.encryptionService.encryptData(
+      refreshToken,
+    );
     const ivAccessToken = encryptedAccessToken.iv;
     const ivRefreshToken = encryptedRefreshToken.iv;
 
@@ -216,38 +220,5 @@ export class UsersService {
       refreshToken: encryptedRefreshToken.encryptedData,
       ivRefreshToken,
     };
-  }
-
-  async encryptData(data: string): Promise<EncryptedData> {
-    const bufferData = Buffer.from(data, 'utf-8');
-    const iv = randomBytes(16);
-    const password = this.configService.get<string>('ENCRYPTION_PASSWORD');
-    const key = (await promisify(scrypt)(password, 'salt', 32)) as Buffer;
-    const cipher = createCipheriv('aes-256-ctr', key, iv);
-
-    const encryptedData = Buffer.concat([
-      cipher.update(bufferData),
-      cipher.final(),
-    ]);
-
-    return {
-      iv: iv.toString('hex'),
-      encryptedData: encryptedData.toString('hex'),
-    };
-  }
-
-  async decryptData(data: string, iv: string): Promise<string> {
-    const bufferIv = Buffer.from(iv, 'hex');
-    const bufferData = Buffer.from(data, 'hex');
-    const password = this.configService.get<string>('ENCRYPTION_PASSWORD');
-    const key = (await promisify(scrypt)(password, 'salt', 32)) as Buffer;
-    const decipher = createDecipheriv('aes-256-ctr', key, bufferIv);
-
-    const decryptedData = Buffer.concat([
-      decipher.update(bufferData),
-      decipher.final(),
-    ]);
-
-    return decryptedData.toString();
   }
 }
