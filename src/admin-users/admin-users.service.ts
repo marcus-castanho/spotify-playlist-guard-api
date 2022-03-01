@@ -111,6 +111,12 @@ export class AdminUsersService {
       );
     }
 
+    if (id !== adminUser.id) {
+      throw new ForbiddenException(
+        'The id provided does not match the logged user',
+      );
+    }
+
     const newAdminUser = await this.prismaService.adminUser.update({
       where: { id },
       data: {
@@ -132,6 +138,12 @@ export class AdminUsersService {
     if (!adminUser) {
       throw new NotFoundException(
         'No admin user registered with the provided id.',
+      );
+    }
+
+    if (id !== adminUser.id) {
+      throw new ForbiddenException(
+        'The id provided does not match the logged user',
       );
     }
 
