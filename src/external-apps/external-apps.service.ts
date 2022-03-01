@@ -19,6 +19,7 @@ export class ExternalAppsService {
     private readonly prismaService: PrismaService,
     private readonly encryptionService: EncryptionService,
   ) {}
+
   async create(
     createExternalAppDto: CreateExternalAppDto,
   ): Promise<Partial<ExternalApp>> {
