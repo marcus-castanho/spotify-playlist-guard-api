@@ -4,8 +4,6 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { Tokens } from 'src/@types/encryption';
-import { EncryptionService } from 'src/encryption/encryption.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SpotifyService } from 'src/spotify/spotify.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,13 +15,10 @@ export class UsersService {
   constructor(
     private readonly spotifyService: SpotifyService,
     private readonly prismaService: PrismaService,
-    private readonly encryptionService: EncryptionService,
   ) {}
 
-  async createIfNotExists(
-    createUserDto: CreateUserDto,
-  ): Promise<Partial<User>> {
-    const { id, accessToken, refreshToken } = createUserDto;
+  async createIfNotExists(createUserDto: CreateUserDto): Promise<User> {
+    const { id } = createUserDto;
 
     const user = await this.prismaService.user.findUnique({
       where: { id },
@@ -33,39 +28,29 @@ export class UsersService {
       return this.update(id, createUserDto);
     }
 
-    const newTokens = await this.updateUserTokens(accessToken, refreshToken);
-    const { ivAccessToken, ivRefreshToken } = newTokens;
-
-    createUserDto.accessToken = newTokens.accessToken;
-    createUserDto.refreshToken = newTokens.refreshToken;
-
     const newUser = await this.prismaService.user.create({
-      data: { ivAccessToken, ivRefreshToken, ...createUserDto },
+      data: { ...createUserDto },
     });
 
-    return this.prismaService.exclude<Partial<User>, keyof Partial<User>>(
+    return this.prismaService.exclude<User, keyof User>(
       newUser,
       'accessToken',
-      'ivAccessToken',
       'refreshToken',
-      'ivRefreshToken',
       'expiresAt',
     );
   }
 
-  async find(id: string): Promise<Partial<User>> {
+  async find(id: string): Promise<User> {
     const user = await this.prismaService.user.findUnique({
       where: { id },
     });
 
     if (!user) throw new UnprocessableEntityException();
 
-    return this.prismaService.exclude<Partial<User>, keyof Partial<User>>(
+    return this.prismaService.exclude<User, keyof User>(
       user,
       'accessToken',
-      'ivAccessToken',
       'refreshToken',
-      'ivRefreshToken',
       'expiresAt',
     );
   }
@@ -76,23 +61,17 @@ export class UsersService {
       where: { id },
       select: {
         accessToken: true,
-        ivAccessToken: true,
         refreshToken: true,
-        ivRefreshToken: true,
         expiresAt: true,
       },
     });
 
     if (!userTokens) throw new UnprocessableEntityException();
 
-    const { accessToken, ivAccessToken, refreshToken, expiresAt } = userTokens;
+    const { accessToken, refreshToken, expiresAt } = userTokens;
 
     if (requestDate <= expiresAt) {
-      userTokens.accessToken = await this.encryptionService.decryptData(
-        accessToken,
-        ivAccessToken,
-      );
-      this.spotifyService.setAccessToken(userTokens.accessToken);
+      this.spotifyService.setAccessToken(accessToken);
       return;
     }
 
@@ -105,16 +84,10 @@ export class UsersService {
         return data.body.access_token;
       });
 
-    const encryptedAccessToken = await this.encryptionService.encryptData(
-      newAccessToken,
-    );
-    const newIvAccessToken = encryptedAccessToken.iv;
-
     await this.prismaService.user.update({
       where: { id },
       data: {
-        ivAccessToken: newIvAccessToken,
-        accessToken: encryptedAccessToken.encryptedData,
+        accessToken: newAccessToken,
       },
     });
 
@@ -133,56 +106,30 @@ export class UsersService {
       this.prismaService.exclude<Partial<User>, keyof Partial<User>>(
         user,
         'accessToken',
-        'ivAccessToken',
         'refreshToken',
-        'ivRefreshToken',
         'expiresAt',
       ),
     );
   }
 
-  async update(
-    id: string,
-    updateUserDto: UpdateUserDto,
-  ): Promise<Partial<User>> {
-    let updatedUser: Partial<User>;
-    const { accessToken, refreshToken } = updateUserDto;
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.prismaService.user.findUnique({
       where: { id },
     });
 
     if (!user) throw new UnprocessableEntityException();
 
-    if (accessToken || refreshToken) {
-      const newTokens = await this.updateUserTokens(accessToken, refreshToken);
-      const { ivAccessToken, ivRefreshToken } = newTokens;
-
-      updateUserDto.accessToken = newTokens.accessToken;
-      updateUserDto.refreshToken = newTokens.refreshToken;
-
-      updatedUser = await this.prismaService.user.update({
-        where: { id },
-        data: {
-          ivAccessToken,
-          ivRefreshToken,
-          ...updateUserDto,
-        },
-      });
-    }
-
-    updatedUser = await this.prismaService.user.update({
+    const updatedUser = await this.prismaService.user.update({
       where: { id },
       data: {
         ...updateUserDto,
       },
     });
 
-    return this.prismaService.exclude<Partial<User>, keyof Partial<User>>(
+    return this.prismaService.exclude<User, keyof User>(
       updatedUser,
       'accessToken',
-      'ivAccessToken',
       'refreshToken',
-      'ivRefreshToken',
       'expiresAt',
     );
   }
@@ -199,26 +146,5 @@ export class UsersService {
     });
 
     res.status(204).json();
-  }
-
-  async updateUserTokens(
-    accessToken: string,
-    refreshToken: string,
-  ): Promise<Tokens> {
-    const encryptedAccessToken = await this.encryptionService.encryptData(
-      accessToken,
-    );
-    const encryptedRefreshToken = await this.encryptionService.encryptData(
-      refreshToken,
-    );
-    const ivAccessToken = encryptedAccessToken.iv;
-    const ivRefreshToken = encryptedRefreshToken.iv;
-
-    return {
-      accessToken: encryptedAccessToken.encryptedData,
-      ivAccessToken,
-      refreshToken: encryptedRefreshToken.encryptedData,
-      ivRefreshToken,
-    };
   }
 }

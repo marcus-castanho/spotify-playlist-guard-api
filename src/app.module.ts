@@ -5,7 +5,6 @@ import { PrismaModule } from './prisma/prisma.module';
 import { PlaylistsModule } from './playlists/playlists.module';
 import { AuthModule } from './auth/auth.module';
 import { ExternalAppsModule } from './external-apps/external-apps.module';
-import { EncryptionModule } from './encryption/encryption.module';
 import { AdminUsersModule } from './admin-users/admin-users.module';
 
 @Module({
@@ -16,7 +15,6 @@ import { AdminUsersModule } from './admin-users/admin-users.module';
     AuthModule,
     ConfigModule.forRoot({ isGlobal: true }),
     ExternalAppsModule,
-    EncryptionModule,
     AdminUsersModule,
   ],
   controllers: [],

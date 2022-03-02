@@ -17,7 +17,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get('/find/:id')
-  find(@Param('id') id: string): Promise<Partial<User>> {
+  find(@Param('id') id: string): Promise<User> {
     return this.usersService.find(id);
   }
 

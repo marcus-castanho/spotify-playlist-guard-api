@@ -10,14 +10,10 @@ import { UpdateExternalAppDto } from './dto/update-external-app.dto';
 import { ExternalApp } from './entities/external-app.entity';
 import { v4 } from 'uuid';
 import { Response } from 'express';
-import { EncryptionService } from 'src/encryption/encryption.service';
 
 @Injectable()
 export class ExternalAppsService {
-  constructor(
-    private readonly prismaService: PrismaService,
-    private readonly encryptionService: EncryptionService,
-  ) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(
     createExternalAppDto: CreateExternalAppDto,
