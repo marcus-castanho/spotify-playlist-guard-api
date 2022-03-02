@@ -7,6 +7,7 @@ import { promisify } from 'util';
 @Injectable()
 export class EncryptionService {
   constructor(private readonly configService: ConfigService) {}
+
   async encryptData(data: string): Promise<EncryptedData> {
     const bufferData = Buffer.from(data, 'utf-8');
     const iv = randomBytes(16);

@@ -15,9 +15,9 @@ import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
   imports: [
-    AdminUsersModule,
     UsersModule,
     PassportModule,
+    AdminUsersModule,
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => {
         return {

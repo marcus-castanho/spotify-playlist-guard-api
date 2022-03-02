@@ -9,9 +9,3 @@ export type Tokens = {
   refreshToken: string;
   ivRefreshToken: string;
 };
-
-export type ApiKey = {
-  apiKey?: string;
-  ivApiKey?: string;
-  encryptedApiKey?: string;
-};
