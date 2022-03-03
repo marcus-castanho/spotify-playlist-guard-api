@@ -143,12 +143,19 @@ export class PlaylistsService {
     const playlist = await this.prismaService.playlist.findUnique({
       where: { id },
     });
+
     if (!playlist)
       throw new NotFoundException(
         'There is no playlist match for the provided ID',
       );
-    if (updatePlaylistDto.public || !updatePlaylistDto.collaborative) {
-      updatePlaylistDto.active = false;
+
+    if (
+      updatePlaylistDto.hasOwnProperty('public') ||
+      updatePlaylistDto.hasOwnProperty('collaborative')
+    ) {
+      const { collaborative } = updatePlaylistDto;
+      const isPublic = updatePlaylistDto.public;
+      if (isPublic || !collaborative) updatePlaylistDto.active = !collaborative;
     }
     const updatedPlaylist = await this.prismaService.playlist.update({
       where: { id },

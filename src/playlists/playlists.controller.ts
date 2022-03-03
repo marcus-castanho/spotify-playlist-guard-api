@@ -79,7 +79,13 @@ export class PlaylistsController {
     return this.playlistsService.delete(userId, id, res);
   }
 
-  //ROUTE TO BE USED BY THE BOT VIA APIKEY
+  @Public()
+  @UseGuards(ExternalAppGuard)
+  @Get('findAll/active')
+  async findAllActive() {
+    return this.playlistsService.findAllActive();
+  }
+
   @Public()
   @UseGuards(ExternalAppGuard)
   @Patch('/update/:id')
@@ -88,12 +94,5 @@ export class PlaylistsController {
     @Body() updatePlaylistDto: UpdatePlaylistDto,
   ): Promise<Partial<Playlist>> {
     return this.playlistsService.update(id, updatePlaylistDto);
-  }
-
-  @Public()
-  @UseGuards(ExternalAppGuard)
-  @Get('findAll/active')
-  async findAllActive() {
-    return this.playlistsService.findAllActive();
   }
 }
