@@ -24,19 +24,19 @@ export class ExternalAppsController {
   @Post('add')
   async create(
     @Body() createExternalAppDto: CreateExternalAppDto,
-  ): Promise<Partial<ExternalApp>> {
+  ): Promise<ExternalApp> {
     return this.externalAppsService.create(createExternalAppDto);
   }
 
   @Roles(Role.Admin)
   @Get('find/:id')
-  async findOne(@Param('id') id: string): Promise<Partial<ExternalApp>> {
+  async findOne(@Param('id') id: string): Promise<ExternalApp> {
     return this.externalAppsService.findOne(id);
   }
 
   @Roles(Role.Admin)
   @Get('list/:page')
-  listPage(@Param('page') page: number): Promise<Partial<ExternalApp[]>> {
+  listPage(@Param('page') page: number): Promise<ExternalApp[]> {
     return this.externalAppsService.listPage(page);
   }
 

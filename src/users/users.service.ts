@@ -94,7 +94,7 @@ export class UsersService {
     return;
   }
 
-  async listPage(page: number): Promise<Array<Partial<User>>> {
+  async listPage(page: number): Promise<Array<User>> {
     if (page <= 0) throw new BadRequestException();
 
     const users = await this.prismaService.user.findMany({
@@ -103,7 +103,7 @@ export class UsersService {
     });
 
     return users.map((user) =>
-      this.prismaService.exclude<Partial<User>, keyof Partial<User>>(
+      this.prismaService.exclude<User, keyof User>(
         user,
         'accessToken',
         'refreshToken',

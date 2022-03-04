@@ -17,7 +17,7 @@ export class ExternalAppsService {
 
   async create(
     createExternalAppDto: CreateExternalAppDto,
-  ): Promise<Partial<ExternalApp>> {
+  ): Promise<ExternalApp> {
     const { baseUrl } = createExternalAppDto;
 
     const externalApp = await this.prismaService.externalApp.findUnique({
@@ -41,14 +41,14 @@ export class ExternalAppsService {
 
     return {
       apiKey,
-      ...this.prismaService.exclude<
-        Partial<ExternalApp>,
-        keyof Partial<ExternalApp>
-      >(newExternalApp, 'apiKey'),
+      ...this.prismaService.exclude<ExternalApp, keyof ExternalApp>(
+        newExternalApp,
+        'apiKey',
+      ),
     };
   }
 
-  async findOne(id: string): Promise<Partial<ExternalApp>> {
+  async findOne(id: string): Promise<ExternalApp> {
     const externalApp = await this.prismaService.externalApp.findUnique({
       where: { id },
     });
@@ -62,7 +62,7 @@ export class ExternalAppsService {
     return externalApp;
   }
 
-  async listPage(page: number): Promise<Partial<ExternalApp[]>> {
+  async listPage(page: number): Promise<ExternalApp[]> {
     if (page <= 0) throw new BadRequestException();
 
     const externalApps = await this.prismaService.externalApp.findMany({
@@ -76,7 +76,7 @@ export class ExternalAppsService {
   async update(
     id: string,
     updateExternalAppDto: UpdateExternalAppDto,
-  ): Promise<Partial<ExternalApp>> {
+  ): Promise<ExternalApp> {
     const externalApp = await this.prismaService.externalApp.findUnique({
       where: { id },
     });
@@ -94,10 +94,10 @@ export class ExternalAppsService {
       },
     });
 
-    return this.prismaService.exclude<
-      Partial<ExternalApp>,
-      keyof Partial<ExternalApp>
-    >(updatedExternalApp, 'apiKey');
+    return this.prismaService.exclude<ExternalApp, keyof ExternalApp>(
+      updatedExternalApp,
+      'apiKey',
+    );
   }
 
   async remove(id: string, res: Response): Promise<void> {

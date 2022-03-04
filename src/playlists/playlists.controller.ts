@@ -28,7 +28,7 @@ export class PlaylistsController {
   add(
     @ReqUser('sub') userId: string,
     @Body() createPlaylistDto: CreatePlaylistDto,
-  ): Promise<Partial<Playlist>> {
+  ): Promise<Playlist> {
     return this.playlistsService.add(userId, createPlaylistDto);
   }
 
@@ -36,7 +36,7 @@ export class PlaylistsController {
   find(
     @ReqUser('sub') userId: string,
     @Param('id') id: string,
-  ): Promise<Partial<Playlist>> {
+  ): Promise<Playlist> {
     return this.playlistsService.find(userId, id);
   }
 
@@ -44,7 +44,7 @@ export class PlaylistsController {
   listPage(
     @ReqUser('sub') userId: string,
     @Param('page') page: number,
-  ): Promise<Array<Partial<Playlist>>> {
+  ): Promise<Array<Playlist>> {
     return this.playlistsService.listPage(userId, page);
   }
 
@@ -53,7 +53,7 @@ export class PlaylistsController {
     @ReqUser('sub') userId: string,
     @Param('id') id: string,
     @Body() activatePlaylistDto: ActivatePlaylistDto,
-  ): Promise<Partial<Playlist>> {
+  ): Promise<Playlist> {
     return this.playlistsService.activate(userId, id, activatePlaylistDto);
   }
 
@@ -62,7 +62,7 @@ export class PlaylistsController {
     @ReqUser('sub') userId: string,
     @Param('id') id: string,
     @Body() updateAllowedUsersDto: UpdateAllowedUsersDto,
-  ): Promise<Partial<Playlist>> {
+  ): Promise<Playlist> {
     return this.playlistsService.updateAllowedUsers(
       userId,
       id,
@@ -92,7 +92,7 @@ export class PlaylistsController {
   update(
     @Param('id') id: string,
     @Body() updatePlaylistDto: UpdatePlaylistDto,
-  ): Promise<Partial<Playlist>> {
+  ): Promise<Playlist> {
     return this.playlistsService.update(id, updatePlaylistDto);
   }
 }

@@ -33,7 +33,7 @@ export class AuthService {
   async validateAdminUser(
     email: string,
     inputPassword: string,
-  ): Promise<Partial<AdminUser>> {
+  ): Promise<AdminUser> {
     const adminUser = await this.adminUserSerivce.findOneByEmail(email);
     const validatePassword = bcrypt.compareSync(
       inputPassword,
@@ -50,7 +50,7 @@ export class AuthService {
     return null;
   }
 
-  async validateUser(profile: Profile, info: AuthInfo): Promise<Partial<User>> {
+  async validateUser(profile: Profile, info: AuthInfo): Promise<User> {
     const { accessToken, refreshToken, expires_in } = info;
     const expiresAt = new Date();
     expiresAt.setSeconds(expiresAt.getSeconds() + expires_in);

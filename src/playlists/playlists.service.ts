@@ -27,7 +27,7 @@ export class PlaylistsService {
   async add(
     userId: string,
     createPlaylistDto: CreatePlaylistDto,
-  ): Promise<Partial<Playlist>> {
+  ): Promise<Playlist> {
     const { id, allowed_userIds, active } = createPlaylistDto;
 
     await this.usersService.setUserTokens(userId);
@@ -90,7 +90,7 @@ export class PlaylistsService {
     });
   }
 
-  async find(userId: string, id: string): Promise<Partial<Playlist>> {
+  async find(userId: string, id: string): Promise<Playlist> {
     const playlist = await this.prismaService.playlist.findUnique({
       where: { id },
     });
@@ -117,10 +117,7 @@ export class PlaylistsService {
     return playlists;
   }
 
-  async listPage(
-    userId: string,
-    page: number,
-  ): Promise<Array<Partial<Playlist>>> {
+  async listPage(userId: string, page: number): Promise<Array<Playlist>> {
     if (page <= 0) throw new BadRequestException();
 
     const playlists = await this.prismaService.playlist.findMany({
@@ -139,7 +136,7 @@ export class PlaylistsService {
   async update(
     id: string,
     updatePlaylistDto: UpdatePlaylistDto,
-  ): Promise<Partial<Playlist>> {
+  ): Promise<Playlist> {
     const playlist = await this.prismaService.playlist.findUnique({
       where: { id },
     });
@@ -195,7 +192,7 @@ export class PlaylistsService {
     userId: string,
     id: string,
     updateAllowedUsersDto: UpdateAllowedUsersDto,
-  ): Promise<Partial<Playlist>> {
+  ): Promise<Playlist> {
     const { allowed_userIds } = updateAllowedUsersDto;
     const playlist = await this.prismaService.playlist.findUnique({
       where: { id },

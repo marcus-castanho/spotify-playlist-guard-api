@@ -22,7 +22,7 @@ export class UsersController {
   }
 
   @Get('/list/:page')
-  listPage(@Param('page') page: number): Promise<Array<Partial<User>>> {
+  listPage(@Param('page') page: number): Promise<Array<User>> {
     return this.usersService.listPage(page);
   }
 
@@ -30,7 +30,7 @@ export class UsersController {
   update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
-  ): Promise<Partial<User>> {
+  ): Promise<User> {
     return this.usersService.update(id, updateUserDto);
   }
 

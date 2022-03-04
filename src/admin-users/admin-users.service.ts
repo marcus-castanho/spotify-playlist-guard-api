@@ -59,7 +59,7 @@ export class AdminUsersService {
     });
 
     return adminUsers.map((adminUser) =>
-      this.prismaService.exclude<Partial<AdminUser>, keyof Partial<AdminUser>>(
+      this.prismaService.exclude<AdminUser, keyof AdminUser>(
         adminUser,
         'password',
       ),
