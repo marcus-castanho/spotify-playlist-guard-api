@@ -104,6 +104,19 @@ export class PlaylistsService {
     return playlist;
   }
 
+  async findAllActive(): Promise<Playlist[]> {
+    const playlists = await this.prismaService.playlist.findMany({
+      where: {
+        active: true,
+      },
+      include: {
+        owner: true,
+      },
+    });
+
+    return playlists;
+  }
+
   async listPage(
     userId: string,
     page: number,
@@ -136,17 +149,20 @@ export class PlaylistsService {
         'There is no playlist match for the provided ID',
       );
 
-    if (updatePlaylistDto.public || !updatePlaylistDto.collaborative) {
-      updatePlaylistDto.active = false;
+    if (
+      updatePlaylistDto.hasOwnProperty('public') ||
+      updatePlaylistDto.hasOwnProperty('collaborative')
+    ) {
+      const { collaborative } = updatePlaylistDto;
+      const isPublic = updatePlaylistDto.public;
+      if (isPublic || !collaborative) updatePlaylistDto.active = !collaborative;
     }
-
     const updatedPlaylist = await this.prismaService.playlist.update({
       where: { id },
       data: {
         ...updatePlaylistDto,
       },
     });
-
     return updatedPlaylist;
   }
 

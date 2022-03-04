@@ -20,9 +20,9 @@ export interface AuthModuleOptions extends IAuthModuleOptions {
 
 @Module({
   imports: [
-    AdminUsersModule,
     UsersModule,
     PassportModule,
+    AdminUsersModule,
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => {
         return {

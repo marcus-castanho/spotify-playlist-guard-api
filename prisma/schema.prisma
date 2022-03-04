@@ -20,25 +20,23 @@ model AdminUser {
 }
 
 model User {
-  id             String     @id
-  country        String
-  display_name   String
-  email          String
-  external_url   String
-  followers      Int
-  href           String
-  images         String[]
-  product        String
-  type           String
-  uri            String
-  playlists      Playlist[]
-  ivAccessToken  String
-  accessToken    String
-  ivRefreshToken String
-  refreshToken   String
-  expiresAt      DateTime
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
+  id           String     @id
+  country      String
+  display_name String
+  email        String
+  external_url String
+  followers    Int
+  href         String
+  images       String[]
+  product      String
+  type         String
+  uri          String
+  playlists    Playlist[]
+  accessToken  String
+  refreshToken String
+  expiresAt    DateTime
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
   @@map("users")
 }
@@ -70,8 +68,7 @@ model ExternalApp {
   name         String
   recoverEmail String
   baseUrl      String   @unique
-  ivApiKey     String
-  apiKey       String
+  apiKey       String   @unique
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 

@@ -7,6 +7,7 @@ import {
   Patch,
   Delete,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { PlaylistsService } from './playlists.service';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
@@ -16,6 +17,8 @@ import { Response } from 'express';
 import { ReqUser } from 'src/auth/decorators/user.decorator';
 import { ActivatePlaylistDto } from './dto/activate-playlist.dto copy';
 import { UpdateAllowedUsersDto } from './dto/update-allowedUsers-playlist.dto';
+import { Public } from 'src/auth/decorators/public.decorator';
+import { ExternalAppGuard } from 'src/auth/guards/external-app.guard';
 
 @Controller('playlists')
 export class PlaylistsController {
@@ -43,15 +46,6 @@ export class PlaylistsController {
     @Param('page') page: number,
   ): Promise<Array<Partial<Playlist>>> {
     return this.playlistsService.listPage(userId, page);
-  }
-
-  //ROUTE TO BE USED BY THE BOT VIA APIKEY
-  @Patch('/update/:id')
-  update(
-    @Param('id') id: string,
-    @Body() updatePlaylistDto: UpdatePlaylistDto,
-  ): Promise<Partial<Playlist>> {
-    return this.playlistsService.update(id, updatePlaylistDto);
   }
 
   @Patch('/active/:id')
@@ -83,5 +77,22 @@ export class PlaylistsController {
     @Res() res: Response,
   ): Promise<void> {
     return this.playlistsService.delete(userId, id, res);
+  }
+
+  @Public()
+  @UseGuards(ExternalAppGuard)
+  @Get('findAll/active')
+  async findAllActive() {
+    return this.playlistsService.findAllActive();
+  }
+
+  @Public()
+  @UseGuards(ExternalAppGuard)
+  @Patch('/update/:id')
+  update(
+    @Param('id') id: string,
+    @Body() updatePlaylistDto: UpdatePlaylistDto,
+  ): Promise<Partial<Playlist>> {
+    return this.playlistsService.update(id, updatePlaylistDto);
   }
 }
