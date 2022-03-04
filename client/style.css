@@ -1,227 +1,227 @@
-li-icon[type='linkedin-bug'] .background {
+li-icon[type='app-bug'] .background {
   fill: #000000;
 }
-li-icon[type='linkedin-bug'][color='brand'] .background {
+li-icon[type='app-bug'][color='brand'] .background {
   fill: #0077b5;
 }
-li-icon[type='linkedin-bug'][color='inverse'] .background {
+li-icon[type='app-bug'][color='inverse'] .background {
   fill: #ffffff;
 }
-li-icon[type='linkedin-bug'][color='premium'] .background {
+li-icon[type='app-bug'][color='premium'] .background {
   fill: #af9b62;
 }
 .artdeco-premium-bug-variant
-  li-icon[type='linkedin-bug'][color='premium']
+  li-icon[type='app-bug'][color='premium']
   .background {
   fill: #efb920;
 }
-li-icon[type='linkedin-bug'] .bug-text-color {
+li-icon[type='app-bug'] .bug-text-color {
   display: none;
 }
-li-icon[type='linkedin-bug'][color] .bug-text-color {
+li-icon[type='app-bug'][color] .bug-text-color {
   display: block;
 }
-li-icon[type='linkedin-bug'][color='inverse'] .bug-text-color {
+li-icon[type='app-bug'][color='inverse'] .bug-text-color {
   display: none;
 }
-li-icon[type='linkedin-bug'][size='14dp'] {
+li-icon[type='app-bug'][size='14dp'] {
   width: 14px;
   height: 14px;
 }
-li-icon[type='linkedin-bug'][size='21dp'] {
+li-icon[type='app-bug'][size='21dp'] {
   width: 21px;
   height: 21px;
 }
-li-icon[type='linkedin-bug'][size='28dp'] {
+li-icon[type='app-bug'][size='28dp'] {
   width: 28px;
   height: 28px;
 }
-li-icon[type='linkedin-bug'][size='34dp'] {
+li-icon[type='app-bug'][size='34dp'] {
   width: 34px;
   height: 34px;
 }
-li-icon[type='linkedin-bug'][size='40dp'] {
+li-icon[type='app-bug'][size='40dp'] {
   width: 40px;
   height: 40px;
 }
-li-icon[type='linkedin-bug'][size='48dp'] {
+li-icon[type='app-bug'][size='48dp'] {
   width: 48px;
   height: 48px;
 }
-li-icon[type='linkedin-bug'] svg {
+li-icon[type='app-bug'] svg {
   width: 100%;
   height: 100%;
 }
-li-icon[type='linkedin-bug'] .bug-14dp,
-li-icon[type='linkedin-bug'] .bug-21dp,
-li-icon[type='linkedin-bug'] .bug-28dp,
-li-icon[type='linkedin-bug'] .bug-34dp,
-li-icon[type='linkedin-bug'] .bug-40dp,
-li-icon[type='linkedin-bug'] .bug-48dp {
+li-icon[type='app-bug'] .bug-14dp,
+li-icon[type='app-bug'] .bug-21dp,
+li-icon[type='app-bug'] .bug-28dp,
+li-icon[type='app-bug'] .bug-34dp,
+li-icon[type='app-bug'] .bug-40dp,
+li-icon[type='app-bug'] .bug-48dp {
   display: none;
 }
-li-icon[type='linkedin-bug'][size='14dp'] .bug-14dp,
-li-icon[type='linkedin-bug'][size='21dp'] .bug-21dp,
-li-icon[type='linkedin-bug'][size='28dp'] .bug-28dp,
-li-icon[type='linkedin-bug'][size='34dp'] .bug-34dp,
-li-icon[type='linkedin-bug'][size='40dp'] .bug-40dp,
-li-icon[type='linkedin-bug'][size='48dp'] .bug-48dp {
+li-icon[type='app-bug'][size='14dp'] .bug-14dp,
+li-icon[type='app-bug'][size='21dp'] .bug-21dp,
+li-icon[type='app-bug'][size='28dp'] .bug-28dp,
+li-icon[type='app-bug'][size='34dp'] .bug-34dp,
+li-icon[type='app-bug'][size='40dp'] .bug-40dp,
+li-icon[type='app-bug'][size='48dp'] .bug-48dp {
   display: block;
 }
-li-icon[type='linkedin-bug'] .dpi-gt1 {
+li-icon[type='app-bug'] .dpi-gt1 {
   display: block;
 }
-li-icon[type='linkedin-bug'] .dpi-1 {
+li-icon[type='app-bug'] .dpi-1 {
   display: none;
 }
 @media (-webkit-max-device-pixel-ratio: 1),
   (max-resolution: 96dpi),
   (max-resolution: 1dppx) {
-  li-icon[type='linkedin-bug'] dpi-gt1 {
+  li-icon[type='app-bug'] dpi-gt1 {
     display: none;
   }
-  li-icon[type='linkedin-bug'] .dpi-1 {
+  li-icon[type='app-bug'] .dpi-1 {
     display: block;
   }
 }
-li-icon[type='linkedin-logo'] .background {
+li-icon[type='app-logo'] .background {
   fill: #000000;
 }
 @media screen and (-ms-high-contrast: active) {
-  li-icon[type='linkedin-logo'] .background {
+  li-icon[type='app-logo'] .background {
     fill: buttonText;
   }
 }
 @media screen and (-ms-high-contrast: active) {
-  li-icon[type='linkedin-logo']:not([color='brand']) .linkedin-text path,
-  li-icon[type='linkedin-logo']:not([color='brand']) .linkedin-text polygon {
+  li-icon[type='app-logo']:not([color='brand']) .app-text path,
+  li-icon[type='app-logo']:not([color='brand']) .app-text polygon {
     fill: buttonText;
   }
 }
-li-icon[type='linkedin-logo'][color='brand'] .background {
+li-icon[type='app-logo'][color='brand'] .background {
   fill: #0077b5;
 }
 @media screen and (-ms-high-contrast: active) {
-  li-icon[type='linkedin-logo'][color='brand'] .linkedin-text path,
-  li-icon[type='linkedin-logo'][color='brand'] .linkedin-text polygon {
+  li-icon[type='app-logo'][color='brand'] .app-text path,
+  li-icon[type='app-logo'][color='brand'] .app-text polygon {
     fill: buttonText;
   }
 }
-li-icon[type='linkedin-logo'][color='inverse'] .background {
+li-icon[type='app-logo'][color='inverse'] .background {
   fill: #ffffff;
 }
 @media screen and (-ms-high-contrast: active) {
-  li-icon[type='linkedin-logo'][color='inverse'] .background {
+  li-icon[type='app-logo'][color='inverse'] .background {
     fill: buttonText;
   }
 }
-li-icon[type='linkedin-logo'][color='inverse'] .linkedin-text path,
-li-icon[type='linkedin-logo'][color='inverse'] .linkedin-text polygon,
-li-icon[type='linkedin-logo'].logo-lockup-inverse .linkedin-text path,
-li-icon[type='linkedin-logo'].logo-lockup-inverse .linkedin-text polygon {
+li-icon[type='app-logo'][color='inverse'] .app-text path,
+li-icon[type='app-logo'][color='inverse'] .app-text polygon,
+li-icon[type='app-logo'].logo-lockup-inverse .app-text path,
+li-icon[type='app-logo'].logo-lockup-inverse .app-text polygon {
   fill: #ffffff;
 }
 @media screen and (-ms-high-contrast: active) {
-  li-icon[type='linkedin-logo'][color='inverse'] .linkedin-text path,
-  li-icon[type='linkedin-logo'][color='inverse'] .linkedin-text polygon,
-  li-icon[type='linkedin-logo'].logo-lockup-inverse .linkedin-text path,
-  li-icon[type='linkedin-logo'].logo-lockup-inverse .linkedin-text polygon {
+  li-icon[type='app-logo'][color='inverse'] .app-text path,
+  li-icon[type='app-logo'][color='inverse'] .app-text polygon,
+  li-icon[type='app-logo'].logo-lockup-inverse .app-text path,
+  li-icon[type='app-logo'].logo-lockup-inverse .app-text polygon {
     fill: buttonText;
   }
 }
-li-icon[type='linkedin-logo'][color='premium'] .background {
+li-icon[type='app-logo'][color='premium'] .background {
   fill: #af9b62;
 }
 @media screen and (-ms-high-contrast: active) {
-  li-icon[type='linkedin-logo'][color='premium'] .bug-text-color {
+  li-icon[type='app-logo'][color='premium'] .bug-text-color {
     fill: black;
   }
 }
 .artdeco-premium-bug-variant
-  li-icon[type='linkedin-logo'][color='premium']
+  li-icon[type='app-logo'][color='premium']
   .background {
   fill: #efb920;
 }
 @media screen and (-ms-high-contrast: active) {
   .artdeco-premium-bug-variant
-    li-icon[type='linkedin-logo'][color='premium']
+    li-icon[type='app-logo'][color='premium']
     .background {
     fill: buttonText;
   }
 }
-li-icon[type='linkedin-logo'] .bug-text-color {
+li-icon[type='app-logo'] .bug-text-color {
   display: none;
 }
-li-icon[type='linkedin-logo'][color] .bug-text-color {
+li-icon[type='app-logo'][color] .bug-text-color {
   display: block;
 }
-li-icon[type='linkedin-logo'][color='inverse'] .bug-text-color {
+li-icon[type='app-logo'][color='inverse'] .bug-text-color {
   display: none;
 }
-li-icon[type='linkedin-logo'][size='14dp'] {
+li-icon[type='app-logo'][size='14dp'] {
   width: 56px;
   height: 14px;
 }
-li-icon[type='linkedin-logo'][size='21dp'] {
+li-icon[type='app-logo'][size='21dp'] {
   width: 84px;
   height: 21px;
 }
-li-icon[type='linkedin-logo'][size='28dp'] {
+li-icon[type='app-logo'][size='28dp'] {
   width: 110px;
   height: 28px;
 }
 @media (-webkit-min-device-pixel-ratio: 2),
   (min-resolution: 192dpi),
   (min-resolution: 2dppx) {
-  li-icon[type='linkedin-logo'][size='28dp'] {
+  li-icon[type='app-logo'][size='28dp'] {
     width: 112px;
   }
 }
-li-icon[type='linkedin-logo'][size='34dp'] {
+li-icon[type='app-logo'][size='34dp'] {
   width: 135px;
   height: 34px;
 }
-li-icon[type='linkedin-logo'][size='40dp'] {
+li-icon[type='app-logo'][size='40dp'] {
   width: 159px;
   height: 40px;
 }
-li-icon[type='linkedin-logo'][size='48dp'] {
+li-icon[type='app-logo'][size='48dp'] {
   width: 191px;
   height: 48px;
 }
-li-icon[type='linkedin-logo'] svg {
+li-icon[type='app-logo'] svg {
   width: 100%;
   height: 100%;
 }
-li-icon[type='linkedin-logo'] .logo-14dp,
-li-icon[type='linkedin-logo'] .logo-21dp,
-li-icon[type='linkedin-logo'] .logo-28dp,
-li-icon[type='linkedin-logo'] .logo-34dp,
-li-icon[type='linkedin-logo'] .logo-40dp,
-li-icon[type='linkedin-logo'] .logo-48dp {
+li-icon[type='app-logo'] .logo-14dp,
+li-icon[type='app-logo'] .logo-21dp,
+li-icon[type='app-logo'] .logo-28dp,
+li-icon[type='app-logo'] .logo-34dp,
+li-icon[type='app-logo'] .logo-40dp,
+li-icon[type='app-logo'] .logo-48dp {
   display: none;
 }
-li-icon[type='linkedin-logo'][size='14dp'] .logo-14dp,
-li-icon[type='linkedin-logo'][size='21dp'] .logo-21dp,
-li-icon[type='linkedin-logo'][size='28dp'] .logo-28dp,
-li-icon[type='linkedin-logo'][size='34dp'] .logo-34dp,
-li-icon[type='linkedin-logo'][size='40dp'] .logo-40dp,
-li-icon[type='linkedin-logo'][size='48dp'] .logo-48dp {
+li-icon[type='app-logo'][size='14dp'] .logo-14dp,
+li-icon[type='app-logo'][size='21dp'] .logo-21dp,
+li-icon[type='app-logo'][size='28dp'] .logo-28dp,
+li-icon[type='app-logo'][size='34dp'] .logo-34dp,
+li-icon[type='app-logo'][size='40dp'] .logo-40dp,
+li-icon[type='app-logo'][size='48dp'] .logo-48dp {
   display: block;
 }
-li-icon[type='linkedin-logo'] .dpi-gt1 {
+li-icon[type='app-logo'] .dpi-gt1 {
   display: block;
 }
-li-icon[type='linkedin-logo'] .dpi-1 {
+li-icon[type='app-logo'] .dpi-1 {
   display: none;
 }
 @media (-webkit-max-device-pixel-ratio: 1),
   (max-resolution: 96dpi),
   (max-resolution: 1dppx) {
-  li-icon[type='linkedin-logo'] .dpi-gt1 {
+  li-icon[type='app-logo'] .dpi-gt1 {
     display: none;
   }
-  li-icon[type='linkedin-logo'] .dpi-1 {
+  li-icon[type='app-logo'] .dpi-1 {
     display: block;
   }
 }
@@ -613,7 +613,7 @@ li-icon[type^='large-'][size='small'] {
 [dir='rtl'] li-icon[type*='follow'],
 [dir='rtl'] li-icon[type='reply-icon'],
 [dir='rtl'] li-icon[type='enter-icon'],
-[dir='rtl'] li-icon[type='share-linkedin-icon'] {
+[dir='rtl'] li-icon[type='share-app-icon'] {
   /*!rtl:begin:ignore*/
   -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg); /*!rtl:end:ignore*/
@@ -3113,86 +3113,86 @@ artdeco-pill[type='input'][color-scheme='inverse'][complete][data-artdeco-focus]
 artdeco-pill[type='input'] artdeco-typeahead-results-container {
   left: 16px;
 }
-linkedin-logo {
+app-logo {
   display: block;
 }
-linkedin-logo li-icon,
-linkedin-logo .logo-text {
+app-logo li-icon,
+app-logo .logo-text {
   vertical-align: middle;
 }
-linkedin-logo .logo-text {
+app-logo .logo-text {
   display: inline-block;
   letter-spacing: 0.2em;
   color: rgba(0, 0, 0, 0.9);
   white-space: nowrap;
 }
-linkedin-logo .logo-text.logo-lockup-dark {
+app-logo .logo-text.logo-lockup-dark {
   color: #000;
 }
-linkedin-logo .logo-text.logo-lockup-inverse {
+app-logo .logo-text.logo-lockup-inverse {
   color: #fff;
 }
-linkedin-logo[size='14dp'] li-icon {
+app-logo[size='14dp'] li-icon {
   margin-right: calc(5px - 0.2em);
 }
-linkedin-logo[size='14dp'] .logo-text {
+app-logo[size='14dp'] .logo-text {
   font-weight: 600;
   font-size: 11px;
   line-height: 14px;
 }
-linkedin-logo[size='21dp'] li-icon {
+app-logo[size='21dp'] li-icon {
   margin-right: calc(7px - 0.2em);
 }
-linkedin-logo[size='21dp'] .logo-text {
+app-logo[size='21dp'] .logo-text {
   font-size: 14px;
   line-height: 21px;
 }
-linkedin-logo[size='28dp'] li-icon {
+app-logo[size='28dp'] li-icon {
   margin-right: calc(9px - 0.2em);
 }
-linkedin-logo[size='28dp'] .logo-text {
+app-logo[size='28dp'] .logo-text {
   font-size: 17px;
   line-height: 28px;
 }
-linkedin-logo[size='34dp'] li-icon {
+app-logo[size='34dp'] li-icon {
   margin-right: calc(12px - 0.2em);
 }
-linkedin-logo[size='34dp'] .logo-text {
+app-logo[size='34dp'] .logo-text {
   font-size: 20px;
   line-height: 34px;
 }
-linkedin-logo[size='40dp'] li-icon {
+app-logo[size='40dp'] li-icon {
   margin-right: calc(14px - 0.2em);
 }
-linkedin-logo[size='40dp'] .logo-text {
+app-logo[size='40dp'] .logo-text {
   font-size: 23px;
   line-height: 40px;
 }
-linkedin-logo[size='48dp'] li-icon {
+app-logo[size='48dp'] li-icon {
   margin-right: calc(18px - 0.2em);
 }
-linkedin-logo[size='48dp'] .logo-text {
+app-logo[size='48dp'] .logo-text {
   font-size: 26px;
   line-height: 48px;
 }
-linkedin-logo.vertical {
+app-logo.vertical {
   text-align: center;
   display: inline-block;
 }
-linkedin-logo.vertical .logo-text {
+app-logo.vertical .logo-text {
   display: block;
 }
-linkedin-logo.vertical[size='40dp'] li-icon {
+app-logo.vertical[size='40dp'] li-icon {
   padding-right: 0;
 }
-linkedin-logo.vertical[size='40dp'] .logo-text {
+app-logo.vertical[size='40dp'] .logo-text {
   font-size: 30px;
   line-height: 60px;
 }
-linkedin-logo.vertical[size='48dp'] li-icon {
+app-logo.vertical[size='48dp'] li-icon {
   padding-right: 0;
 }
-linkedin-logo.vertical[size='48dp'] .logo-text {
+app-logo.vertical[size='48dp'] .logo-text {
   font-size: 35px;
   line-height: 70px;
 }
@@ -4599,11 +4599,11 @@ artdeco-typeahead-results-container li:hover {
     padding: 0 32px;
   }
 }
-.nav__base .linkedin-logo li-icon {
+.nav__base .app-logo li-icon {
   position: absolute;
 }
 @media only screen and (max-width: 359px) {
-  .nav__base .linkedin-logo li-icon svg {
+  .nav__base .app-logo li-icon svg {
     -webkit-transform: translate(-80px, 0);
     transform: translate(-80px, 0);
   }
@@ -4988,7 +4988,7 @@ html.edge .nav__base--logged-in:focus {
   -ms-flex-align: center;
   align-items: center;
 }
-.footer__base li-icon[type='linkedin-logo'] {
+.footer__base li-icon[type='app-logo'] {
   position: relative;
   top: 4px;
   right: 4px;
@@ -6250,12 +6250,12 @@ html.edge .btn__secondary--large:focus {
   -webkit-box-shadow: inset 0 0 0 2px #0a66c2 !important;
   box-shadow: inset 0 0 0 2px #0a66c2 !important;
 }
-.linkedin-logo {
+.app-logo {
   display: block;
   margin: 32px 0 0 56px;
 }
 @media only screen and (max-width: 769px) {
-  .linkedin-logo {
+  .app-logo {
     margin: 32px 32px 16px;
   }
 }
@@ -9068,293 +9068,293 @@ button,
 input {
   border: 1px solid transparent;
 }
-li-icon[type='linkedin-bug'] .background {
+li-icon[type='app-bug'] .background {
   fill: #000000;
 }
-li-icon[type='linkedin-bug'] .background-mercado {
+li-icon[type='app-bug'] .background-mercado {
   fill: #000000;
 }
-li-icon[type='linkedin-bug'][color='brand'] .background {
+li-icon[type='app-bug'][color='brand'] .background {
   fill: #0077b5;
 }
-li-icon[type='linkedin-bug'][color='brand'] .background-mercado {
+li-icon[type='app-bug'][color='brand'] .background-mercado {
   fill: #0a66c2;
 }
-li-icon[type='linkedin-bug'][color='inverse'] .background {
+li-icon[type='app-bug'][color='inverse'] .background {
   fill: #ffffff;
 }
 @media screen and (-ms-high-contrast: active) {
-  li-icon[type='linkedin-bug'][color='inverse'] .background {
+  li-icon[type='app-bug'][color='inverse'] .background {
     fill: buttonText;
   }
 }
-li-icon[type='linkedin-bug'][color='inverse'] .background-mercado {
+li-icon[type='app-bug'][color='inverse'] .background-mercado {
   fill: #ffffff;
 }
 @media screen and (-ms-high-contrast: active) {
-  li-icon[type='linkedin-bug'][color='inverse'] .background-mercado {
+  li-icon[type='app-bug'][color='inverse'] .background-mercado {
     fill: buttonText;
   }
 }
-li-icon[type='linkedin-bug'][color='premium'] .background {
+li-icon[type='app-bug'][color='premium'] .background {
   fill: #af9b62;
 }
-li-icon[type='linkedin-bug'][color='premium'] .background-mercado {
+li-icon[type='app-bug'][color='premium'] .background-mercado {
   fill: #c37d16;
 }
 .artdeco-premium-bug-variant
-  li-icon[type='linkedin-bug'][color='premium']
+  li-icon[type='app-bug'][color='premium']
   .background {
   fill: #efb920;
 }
-li-icon[type='linkedin-bug'] .bug-text-color {
+li-icon[type='app-bug'] .bug-text-color {
   display: none;
 }
-li-icon[type='linkedin-bug'][color] .bug-text-color {
+li-icon[type='app-bug'][color] .bug-text-color {
   display: block;
 }
-li-icon[type='linkedin-bug'][color='inverse'] .bug-text-color {
+li-icon[type='app-bug'][color='inverse'] .bug-text-color {
   display: none;
 }
-li-icon[type='linkedin-bug'][size='14dp'] {
+li-icon[type='app-bug'][size='14dp'] {
   width: 1.4rem;
   height: 1.4rem;
 }
-li-icon[type='linkedin-bug'][size='21dp'] {
+li-icon[type='app-bug'][size='21dp'] {
   width: 2.1rem;
   height: 2.1rem;
 }
-li-icon[type='linkedin-bug'][size='28dp'] {
+li-icon[type='app-bug'][size='28dp'] {
   width: 2.8rem;
   height: 2.8rem;
 }
-li-icon[type='linkedin-bug'][size='34dp'] {
+li-icon[type='app-bug'][size='34dp'] {
   width: 3.4rem;
   height: 3.4rem;
 }
-li-icon[type='linkedin-bug'][size='40dp'] {
+li-icon[type='app-bug'][size='40dp'] {
   width: 4rem;
   height: 4rem;
 }
-li-icon[type='linkedin-bug'][size='48dp'] {
+li-icon[type='app-bug'][size='48dp'] {
   width: 4.8rem;
   height: 4.8rem;
 }
-li-icon[type='linkedin-bug'] svg {
+li-icon[type='app-bug'] svg {
   width: 100%;
   height: 100%;
 }
-li-icon[type='linkedin-logo'] .background {
+li-icon[type='app-logo'] .background {
   fill: #000000;
 }
 @media screen and (-ms-high-contrast: active) {
-  li-icon[type='linkedin-logo'] .background {
+  li-icon[type='app-logo'] .background {
     fill: buttonText;
   }
 }
-li-icon[type='linkedin-logo'] .background-mercado {
+li-icon[type='app-logo'] .background-mercado {
   fill: #000000;
 }
 @media screen and (-ms-high-contrast: active) {
-  li-icon[type='linkedin-logo'] .background-mercado {
+  li-icon[type='app-logo'] .background-mercado {
     fill: buttonText;
   }
 }
 @media screen and (-ms-high-contrast: active) {
-  li-icon[type='linkedin-logo']:not([color='brand']) .linkedin-text path,
-  li-icon[type='linkedin-logo']:not([color='brand']) .linkedin-text polygon {
+  li-icon[type='app-logo']:not([color='brand']) .app-text path,
+  li-icon[type='app-logo']:not([color='brand']) .app-text polygon {
     fill: buttonText;
   }
 }
-li-icon[type='linkedin-logo'][color='brand'] .background {
+li-icon[type='app-logo'][color='brand'] .background {
   fill: #0077b5;
 }
-li-icon[type='linkedin-logo'][color='brand'] .background-mercado {
+li-icon[type='app-logo'][color='brand'] .background-mercado {
   fill: #0a66c2;
 }
 @media screen and (-ms-high-contrast: active) {
-  li-icon[type='linkedin-logo'][color='brand'] .linkedin-text path,
-  li-icon[type='linkedin-logo'][color='brand'] .linkedin-text polygon {
+  li-icon[type='app-logo'][color='brand'] .app-text path,
+  li-icon[type='app-logo'][color='brand'] .app-text polygon {
     fill: buttonText;
   }
 }
-li-icon[type='linkedin-logo'][color='inverse'] .background {
+li-icon[type='app-logo'][color='inverse'] .background {
   fill: #ffffff;
 }
 @media screen and (-ms-high-contrast: active) {
-  li-icon[type='linkedin-logo'][color='inverse'] .background {
+  li-icon[type='app-logo'][color='inverse'] .background {
     fill: buttonText;
   }
 }
-li-icon[type='linkedin-logo'][color='inverse'] .background-mercado {
+li-icon[type='app-logo'][color='inverse'] .background-mercado {
   fill: #ffffff;
 }
 @media screen and (-ms-high-contrast: active) {
-  li-icon[type='linkedin-logo'][color='inverse'] .background-mercado {
+  li-icon[type='app-logo'][color='inverse'] .background-mercado {
     fill: buttonText;
   }
 }
-li-icon[type='linkedin-logo'][color='inverse'] .linkedin-text path,
-li-icon[type='linkedin-logo'][color='inverse'] .linkedin-text polygon,
-li-icon[type='linkedin-logo'].logo-lockup-inverse .linkedin-text path,
-li-icon[type='linkedin-logo'].logo-lockup-inverse .linkedin-text polygon {
+li-icon[type='app-logo'][color='inverse'] .app-text path,
+li-icon[type='app-logo'][color='inverse'] .app-text polygon,
+li-icon[type='app-logo'].logo-lockup-inverse .app-text path,
+li-icon[type='app-logo'].logo-lockup-inverse .app-text polygon {
   fill: #ffffff;
 }
 @media screen and (-ms-high-contrast: active) {
-  li-icon[type='linkedin-logo'][color='inverse'] .linkedin-text path,
-  li-icon[type='linkedin-logo'][color='inverse'] .linkedin-text polygon,
-  li-icon[type='linkedin-logo'].logo-lockup-inverse .linkedin-text path,
-  li-icon[type='linkedin-logo'].logo-lockup-inverse .linkedin-text polygon {
+  li-icon[type='app-logo'][color='inverse'] .app-text path,
+  li-icon[type='app-logo'][color='inverse'] .app-text polygon,
+  li-icon[type='app-logo'].logo-lockup-inverse .app-text path,
+  li-icon[type='app-logo'].logo-lockup-inverse .app-text polygon {
     fill: buttonText;
   }
 }
-li-icon[type='linkedin-logo'][color='premium'] .background {
+li-icon[type='app-logo'][color='premium'] .background {
   fill: #af9b62;
 }
-li-icon[type='linkedin-logo'][color='premium'] .background-mercado {
+li-icon[type='app-logo'][color='premium'] .background-mercado {
   fill: #c37d16;
 }
 @media screen and (-ms-high-contrast: active) {
-  li-icon[type='linkedin-logo'][color='premium'] .bug-text-color {
+  li-icon[type='app-logo'][color='premium'] .bug-text-color {
     fill: #000;
   }
 }
 .artdeco-premium-bug-variant
-  li-icon[type='linkedin-logo'][color='premium']
+  li-icon[type='app-logo'][color='premium']
   .background {
   fill: #efb920;
 }
 @media screen and (-ms-high-contrast: active) {
   .artdeco-premium-bug-variant
-    li-icon[type='linkedin-logo'][color='premium']
+    li-icon[type='app-logo'][color='premium']
     .background {
     fill: buttonText;
   }
 }
-li-icon[type='linkedin-logo'] .bug-text-color {
+li-icon[type='app-logo'] .bug-text-color {
   display: none;
 }
-li-icon[type='linkedin-logo'][color] .bug-text-color {
+li-icon[type='app-logo'][color] .bug-text-color {
   display: block;
 }
-li-icon[type='linkedin-logo'][color='inverse'] .bug-text-color {
+li-icon[type='app-logo'][color='inverse'] .bug-text-color {
   display: none;
 }
-li-icon[type='linkedin-logo'][size='14dp'] {
+li-icon[type='app-logo'][size='14dp'] {
   width: 5.6rem;
   height: 1.4rem;
 }
-li-icon[type='linkedin-logo'][size='21dp'] {
+li-icon[type='app-logo'][size='21dp'] {
   width: 8.4rem;
   height: 2.1rem;
 }
-li-icon[type='linkedin-logo'][size='28dp'] {
+li-icon[type='app-logo'][size='28dp'] {
   width: 11rem;
   height: 2.8rem;
 }
 @media (-webkit-min-device-pixel-ratio: 2),
   (min-resolution: 192dpi),
   (min-resolution: 2dppx) {
-  li-icon[type='linkedin-logo'][size='28dp'] {
+  li-icon[type='app-logo'][size='28dp'] {
     width: 11.2rem;
   }
 }
-li-icon[type='linkedin-logo'][size='34dp'] {
+li-icon[type='app-logo'][size='34dp'] {
   width: 13.5rem;
   height: 3.4rem;
 }
-li-icon[type='linkedin-logo'][size='40dp'] {
+li-icon[type='app-logo'][size='40dp'] {
   width: 15.9rem;
   height: 4rem;
 }
-li-icon[type='linkedin-logo'][size='48dp'] {
+li-icon[type='app-logo'][size='48dp'] {
   width: 19.1rem;
   height: 4.8rem;
 }
-li-icon[type='linkedin-logo'] svg {
+li-icon[type='app-logo'] svg {
   width: 100%;
   height: 100%;
 }
-linkedin-logo {
+app-logo {
   display: block;
 }
-linkedin-logo li-icon,
-linkedin-logo .logo-text {
+app-logo li-icon,
+app-logo .logo-text {
   vertical-align: middle;
 }
-linkedin-logo .logo-text {
+app-logo .logo-text {
   display: inline-block;
   letter-spacing: 0.2em;
   color: rgba(0, 0, 0, 0.9);
   white-space: nowrap;
 }
-linkedin-logo .logo-text.logo-lockup-dark {
+app-logo .logo-text.logo-lockup-dark {
   color: #000;
 }
-linkedin-logo .logo-text.logo-lockup-inverse {
+app-logo .logo-text.logo-lockup-inverse {
   color: #fff;
 }
-linkedin-logo[size='14dp'] li-icon {
+app-logo[size='14dp'] li-icon {
   margin-right: calc(0.5rem - 0.2em);
 }
-linkedin-logo[size='14dp'] .logo-text {
+app-logo[size='14dp'] .logo-text {
   font-weight: 600;
   font-size: 1.1rem;
   line-height: '14rem' / 10;
 }
-linkedin-logo[size='21dp'] li-icon {
+app-logo[size='21dp'] li-icon {
   margin-right: calc(0.7rem - 0.2em);
 }
-linkedin-logo[size='21dp'] .logo-text {
+app-logo[size='21dp'] .logo-text {
   font-size: 1.4rem;
   line-height: '21rem' / 10;
 }
-linkedin-logo[size='28dp'] li-icon {
+app-logo[size='28dp'] li-icon {
   margin-right: calc(0.9rem - 0.2em);
 }
-linkedin-logo[size='28dp'] .logo-text {
+app-logo[size='28dp'] .logo-text {
   font-size: 1.7rem;
   line-height: '28rem' / 10;
 }
-linkedin-logo[size='34dp'] li-icon {
+app-logo[size='34dp'] li-icon {
   margin-right: calc(1.2rem - 0.2em);
 }
-linkedin-logo[size='34dp'] .logo-text {
+app-logo[size='34dp'] .logo-text {
   font-size: 2rem;
   line-height: '34rem' / 10;
 }
-linkedin-logo[size='40dp'] li-icon {
+app-logo[size='40dp'] li-icon {
   margin-right: calc(1.4rem - 0.2em);
 }
-linkedin-logo[size='40dp'] .logo-text {
+app-logo[size='40dp'] .logo-text {
   font-size: 2.3rem;
   line-height: '40rem' / 10;
 }
-linkedin-logo[size='48dp'] li-icon {
+app-logo[size='48dp'] li-icon {
   margin-right: calc(1.8rem - 0.2em);
 }
-linkedin-logo[size='48dp'] .logo-text {
+app-logo[size='48dp'] .logo-text {
   font-size: 2.6rem;
   line-height: '48rem' / 10;
 }
-linkedin-logo.vertical {
+app-logo.vertical {
   text-align: center;
   display: inline-block;
 }
-linkedin-logo.vertical .logo-text {
+app-logo.vertical .logo-text {
   display: block;
 }
-linkedin-logo.vertical[size='40dp'] li-icon {
+app-logo.vertical[size='40dp'] li-icon {
   padding-right: 0;
 }
-linkedin-logo.vertical[size='40dp'] .logo-text {
+app-logo.vertical[size='40dp'] .logo-text {
   font-size: 3rem;
   line-height: 6rem;
 }
-linkedin-logo.vertical[size='48dp'] li-icon {
+app-logo.vertical[size='48dp'] li-icon {
   padding-right: 0;
 }
-linkedin-logo.vertical[size='48dp'] .logo-text {
+app-logo.vertical[size='48dp'] .logo-text {
   font-size: 3.5rem;
   line-height: 7rem;
 }
@@ -9546,7 +9546,7 @@ li-icon svg[data-supported-dps='56x14'] {
 [dir='rtl'] li-icon[type^='reply'],
 [dir='rtl'] li-icon[type='enter-icon'],
 [dir='rtl'] li-icon[type='join-large'],
-[dir='rtl'] li-icon[type^='share-linkedin'] {
+[dir='rtl'] li-icon[type^='share-app'] {
   /*!rtl:begin:ignore*/
   -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg); /*!rtl:end:ignore*/
