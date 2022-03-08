@@ -1,2 +1,2 @@
-# spotify-playlist-guard-api
-An API for the Spotify Playlist Guard application
+# Spotify Playlist Guard API
+This project is an web server that provides an API for the data of the [Spotify Playlist Guard](https://github.com/marcus-castanho/spotify_playlist_guard) application. This API provides services for registering users and their playlists to the Playlist Guard routine.

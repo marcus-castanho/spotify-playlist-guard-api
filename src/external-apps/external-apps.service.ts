@@ -70,7 +70,12 @@ export class ExternalAppsService {
       take: 15,
     });
 
-    return externalApps;
+    return externalApps.map((externalApp) => {
+      return this.prismaService.exclude<ExternalApp, keyof ExternalApp>(
+        externalApp,
+        'apiKey',
+      );
+    });
   }
 
   async update(
