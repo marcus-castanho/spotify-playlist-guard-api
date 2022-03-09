@@ -26,17 +26,18 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiQuery,
+  ApiSecurity,
   ApiTags,
 } from '@nestjs/swagger';
 import { ResPlaylistDto } from './dto/response-playlist.dto';
 import { ResActivePlaylistDto } from './dto/response-active-playlist.dto';
 
 @ApiTags('Playlists')
-@ApiBearerAuth()
 @Controller('playlists')
 export class PlaylistsController {
   constructor(private readonly playlistsService: PlaylistsService) {}
 
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: ResPlaylistDto })
   @Post('/add')
   add(
@@ -46,6 +47,7 @@ export class PlaylistsController {
     return this.playlistsService.add(userId, createPlaylistDto);
   }
 
+  @ApiBearerAuth()
   @ApiOkResponse({ type: ResPlaylistDto })
   @Get('/find/:id')
   find(
@@ -55,6 +57,7 @@ export class PlaylistsController {
     return this.playlistsService.find(userId, id);
   }
 
+  @ApiBearerAuth()
   @ApiOkResponse({ type: [ResPlaylistDto] })
   @Get('/list/:page')
   listPage(
@@ -64,6 +67,7 @@ export class PlaylistsController {
     return this.playlistsService.listPage(userId, page);
   }
 
+  @ApiBearerAuth()
   @ApiOkResponse({
     type: ActivatePlaylistDto,
     description: 'The playlist is now active.',
@@ -77,6 +81,7 @@ export class PlaylistsController {
     return this.playlistsService.activate(userId, id, activatePlaylistDto);
   }
 
+  @ApiBearerAuth()
   @Patch('/allowUsers/:id')
   updateAllowedUsers(
     @ReqUser('sub') userId: string,
@@ -90,6 +95,7 @@ export class PlaylistsController {
     );
   }
 
+  @ApiBearerAuth()
   @Delete('/delete/:id')
   @HttpCode(204)
   delete(
@@ -100,9 +106,10 @@ export class PlaylistsController {
     return this.playlistsService.delete(userId, id, res);
   }
 
+  @ApiSecurity('api_key', ['api_key'])
   @ApiOperation({
     summary:
-      'Authenticated route to be accessed by external apps with its CLIENT_KEY as Bearer token.',
+      'Authenticated route to be accessed by external apps with its client API Key.',
   })
   @ApiQuery({
     name: 'CLIENT_ID',
@@ -117,9 +124,10 @@ export class PlaylistsController {
     return this.playlistsService.findAllActive();
   }
 
+  @ApiSecurity('api_key', ['api_key'])
   @ApiOperation({
     summary:
-      'Authenticated route to be accessed by external apps with its CLIENT_KEY as Bearer token.',
+      'Authenticated route to be accessed by external apps with its client API Key.',
   })
   @ApiQuery({
     name: 'CLIENT_ID',

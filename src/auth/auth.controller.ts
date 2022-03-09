@@ -49,7 +49,7 @@ export class AuthController {
 
   @ApiOperation({
     summary:
-      'Public route to be accessed by the Spotify OAuth2 redirection step.',
+      "Public route to be accessed by the Spotify OAuth2 redirection step carying the user's Bearer Token.",
   })
   @ApiOkResponse({ type: ResUserDto })
   @Public()
