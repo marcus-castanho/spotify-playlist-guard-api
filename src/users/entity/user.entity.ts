@@ -1,3 +1,5 @@
+import { Playlist } from 'src/playlists/entities/playlist.entity';
+
 export class User {
   country?: string;
   display_name?: string;
@@ -10,7 +12,7 @@ export class User {
   product?: string;
   type?: string;
   uri?: string;
-  playlists?: [];
+  playlists?: Playlist[];
   accessToken?: string;
   refreshToken?: string;
   expiresAt?: Date;

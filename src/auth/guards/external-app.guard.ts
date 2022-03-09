@@ -17,16 +17,29 @@ export class ExternalAppGuard implements CanActivate {
     );
 
     const { authorization } = request.headers;
-    const { id } = request.query;
-    const externalApp = await externalAppsService.findOne(id);
+    const { CLIENT_ID } = request.query;
+
+    if (!CLIENT_ID || !authorization) return false;
+
+    const parts = authorization.split(' ');
+
+    if (!(parts.length === 2)) {
+      return false;
+    }
+
+    const [scheme, apiKey] = parts;
+
+    if (!/^Bearer$/i.test(scheme)) return false;
+
+    const externalApp = await externalAppsService.findOne(CLIENT_ID);
 
     if (!externalApp) return false;
 
-    const isValidApiKey = bcrypt.compareSync(authorization, externalApp.apiKey);
+    const isValidApiKey = bcrypt.compareSync(apiKey, externalApp.apiKey);
 
     if (!isValidApiKey) return false;
 
-    request.user = { id };
+    request.user = { CLIENT_ID };
 
     return true;
   }

@@ -6,11 +6,24 @@ import { SpotifyOauthGuard } from './guards/spotify-oauth.guard';
 import { Profile } from 'passport-spotify';
 import { AuthInfo } from 'src/@types/passport-spotify';
 import { AuthGuard } from '@nestjs/passport';
+import {
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
+import { ResUserDto } from 'src/users/dto/reponse-user.dto';
+import { ResAdminUserDto } from 'src/admin-users/dto/response-admin-user.dto';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @ApiOperation({
+    summary:
+      'Public route to be accesed and redirect user to the Spotify login page for OAuth2 validation.',
+  })
   @Public()
   @UseGuards(SpotifyOauthGuard)
   @Get('login')
@@ -18,6 +31,10 @@ export class AuthController {
     return;
   }
 
+  @ApiOperation({
+    summary: 'Public route to authenticate admin users.',
+  })
+  @ApiCreatedResponse({ type: ResAdminUserDto })
   @Public()
   @UseGuards(AuthGuard('local'))
   @Post('login/admin')
@@ -30,6 +47,11 @@ export class AuthController {
     return res.status(201).json(adminUser);
   }
 
+  @ApiOperation({
+    summary:
+      'Public route to be accessed by the Spotify OAuth2 redirection step.',
+  })
+  @ApiOkResponse({ type: ResUserDto })
   @Public()
   @UseGuards(SpotifyOauthGuard)
   @Get('redirect')

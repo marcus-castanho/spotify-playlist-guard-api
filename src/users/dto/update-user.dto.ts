@@ -1,4 +1,4 @@
-import { OmitType, PartialType } from '@nestjs/mapped-types';
+import { OmitType, PartialType } from '@nestjs/swagger';
 import { IsArray, IsOptional } from 'class-validator';
 import { Playlist } from 'src/playlists/entities/playlist.entity';
 import { CreateUserDto } from './create-user.dto';

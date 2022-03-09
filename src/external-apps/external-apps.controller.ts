@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Res,
+  HttpCode,
 } from '@nestjs/common';
 import { ExternalAppsService } from './external-apps.service';
 import { CreateExternalAppDto } from './dto/create-external-app.dto';
@@ -15,7 +16,11 @@ import { ExternalApp } from './entities/external-app.entity';
 import { Response } from 'express';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/@types/role.enum';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ResExternalAppDto } from './dto/response-external-app.dto';
 
+@ApiTags('External Apps')
+@ApiBearerAuth()
 @Controller('external-apps')
 export class ExternalAppsController {
   constructor(private readonly externalAppsService: ExternalAppsService) {}
@@ -34,6 +39,7 @@ export class ExternalAppsController {
     return this.externalAppsService.findOne(id);
   }
 
+  @ApiOkResponse({ type: [ResExternalAppDto] })
   @Roles(Role.Admin)
   @Get('list/:page')
   listPage(@Param('page') page: number): Promise<ExternalApp[]> {
@@ -51,6 +57,7 @@ export class ExternalAppsController {
 
   @Roles(Role.Admin)
   @Delete('delete/:id')
+  @HttpCode(204)
   remove(@Param('id') id: string, @Res() res: Response): Promise<void> {
     return this.externalAppsService.remove(id, res);
   }

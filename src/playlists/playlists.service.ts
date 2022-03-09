@@ -10,7 +10,7 @@ import { SinglePlaylistResponse } from 'src/@types/spotify-web-api-node';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SpotifyService } from 'src/spotify/spotify.service';
 import { UsersService } from 'src/users/users.service';
-import { ActivatePlaylistDto } from './dto/activate-playlist.dto copy';
+import { ActivatePlaylistDto } from './dto/activate-playlist.dto';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
 import { UpdateAllowedUsersDto } from './dto/update-allowedUsers-playlist.dto';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
@@ -183,9 +183,8 @@ export class PlaylistsService {
         active,
       },
     });
-    const status = active ? 'active' : 'not active';
 
-    return { message: `The playlist is now ${status}.` };
+    return { active };
   }
 
   async updateAllowedUsers(
