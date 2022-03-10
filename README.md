@@ -79,7 +79,7 @@ docker compose up -d
 ```
 5. Run the following command to run the app in development mode:
 ```
-npm run dev
+npm run start:dev
 ```
 6. For a production like running app, run the following commands:
 ```
