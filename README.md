@@ -26,7 +26,7 @@ The `External App` entity represents the other projects related to this API that
 All entities have routes for writing, reading, updating and deleting data related to it. The `User` entity, specifically, does not have a route for creation because this operation is performed during the first login of the user using the [Spotify OAuth2 authentication process](https://developer.spotify.com/documentation/general/guides/authorization/client-credentials/). Also, every time users log in, all their data (except the registered playlists) are automatically synced with the Spotify service and updated.
 
 ### Authentication
-This projects uses two strategies for authentication of its users: OAuth2 and JWT.
+This projects uses three strategies for authentication of its users and clients: OAuth2, JWT and API Key.
 
 #### OAuth2
 The OAuth2 strategy is used mainly for the authentication of active Spotify users every time they login to this application.
@@ -36,6 +36,9 @@ The JWT strategy is used on two scenarios:
 
 1. Manage authenticated state of logged users. Right after a user logs in with the OAuth2 strategy, a JWT is generated so the application can manage the user's session.
 2. Authenticate admin users with their email and password and manage their session state.
+
+#### API Key
+The API key strategy is used for authenticating external apps on certain routes. With this strategy, the external app provides a CLIENT ID and a CLIENT KEY.
 
 ### Architecture
 This project uses the [NestJS](https://nestjs.com/) framework, and, therefore, uses its modularized architecture with each functionality contained in a dedicated folder with a module wrapper for all its providers and resources. For more information, please check out [NestJS official documentation](https://docs.nestjs.com/).
