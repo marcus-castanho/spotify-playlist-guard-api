@@ -1,7 +1,7 @@
 <p align="center">
   <img src="./images/guardBot-long-api.png" width="180" alt="Guard Bot Logo" />
 </p>
-<p align="center">The API for interacting with the <a src="https://github.com/marcus-castanho/spotify_playlist_guard">Spotify Playlist Guard</a> application.</p>
+<p align="center">The API for interacting with the <a  href="https://github.com/marcus-castanho/spotify_playlist_guard" target="_blank">Spotify Playlist Guard</a> application.</p>
   
 # Spotify Playlist Guard API
 This project is a web server that provides an API for of the [Spotify Playlist Guard](https://github.com/marcus-castanho/spotify_playlist_guard) application. This API provides services for registering users and their collaborative playlists to the Playlist Guard routine. For a detailed overview of all  the routes and responses of this API, access the documentation:
