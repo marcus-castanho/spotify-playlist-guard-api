@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { createCipheriv, randomBytes, scrypt } from 'crypto';
+import { createCipheriv, createDecipheriv, randomBytes, scrypt } from 'crypto';
 import { EncryptedData } from 'src/@types/encryption';
 import { promisify } from 'util';
 
@@ -29,5 +29,20 @@ export class EncryptionService {
       encryptedData: bufferEncryptedData.toString('hex'),
       iv: bufferIv.toString('hex'),
     };
+  }
+
+  async decryptData(encryptedDataObj: EncryptedData): Promise<string> {
+    const { encryptedData, iv } = encryptedDataObj;
+    const bufferIv = Buffer.from(iv, 'hex');
+    const bufferData = Buffer.from(encryptedData, 'hex');
+    const password = this.encryptionPassword;
+    const key = (await promisify(scrypt)(password, 'salt', 32)) as Buffer;
+    const decipher = createDecipheriv('aes-256-ctr', key, bufferIv);
+    const decryptedData = Buffer.concat([
+      decipher.update(bufferData),
+      decipher.final(),
+    ]);
+
+    return decryptedData.toString();
   }
 }

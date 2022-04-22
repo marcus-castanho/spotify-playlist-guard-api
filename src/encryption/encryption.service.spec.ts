@@ -2,6 +2,7 @@ import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EncryptionService } from './encryption.service';
 import { ConfigServiceSpy } from './tests/spies/config.service.spy';
+import { invalidEncryptedDataObj } from './tests/stubs/invalidEncryptedData.stub';
 
 describe('EncryptionService', () => {
   let sut: EncryptionService;
@@ -42,12 +43,41 @@ describe('EncryptionService', () => {
     });
 
     it('should return EncryptedData values as hexdadecimal strings', async () => {
-      const hexDecPattern = /[a-f0-9]/i;
+      const hexDecPattern = /^[a-f0-9]+$/i;
 
       const { encryptedData, iv } = await sut.encryptData('any_data');
 
       expect(encryptedData).toMatch(hexDecPattern);
       expect(iv).toMatch(hexDecPattern);
+    });
+  });
+
+  describe('decryptData', () => {
+    it('should not match data and decryptedData when invalid password is provided', async () => {
+      const data = 'any_data';
+
+      const encryptedDataObj = await sut.encryptData(data);
+      sut['encryptionPassword'] = 'invalid_password';
+      const decryptedData = await sut.decryptData(encryptedDataObj);
+
+      expect(decryptedData).not.toBe(data);
+    });
+
+    it('should throw error when invalid iv is provided', async () => {
+      const encryptedDataObj = invalidEncryptedDataObj;
+
+      const decryptResponse = sut.decryptData(encryptedDataObj);
+
+      await expect(decryptResponse).rejects.toThrowError();
+    });
+
+    it('should return decryptedData', async () => {
+      const data = 'any_data';
+
+      const encryptedDataObj = await sut.encryptData(data);
+      const decryptedData = await sut.decryptData(encryptedDataObj);
+
+      expect(decryptedData).toBe(data);
     });
   });
 });
