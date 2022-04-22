@@ -12,8 +12,6 @@ export class EncryptionService {
     this.encryptionPassword = this.configService.get<string>(
       'ENCRYPTION_PASSWORD',
     );
-
-    console.log();
   }
 
   async encryptData(data: string): Promise<EncryptedData> {
