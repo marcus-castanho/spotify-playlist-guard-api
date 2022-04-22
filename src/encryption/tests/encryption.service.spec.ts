@@ -1,8 +1,8 @@
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { EncryptionService } from './encryption.service';
-import { ConfigServiceSpy } from './tests/spies/config.service.spy';
-import { invalidEncryptedDataObj } from './tests/stubs/invalidEncryptedData.stub';
+import { EncryptionService } from '../encryption.service';
+import { ConfigServiceSpy } from './spies/config.service.spy';
+import { invalidEncryptedDataObj } from './stubs/invalidEncryptedData.stub';
 
 describe('EncryptionService', () => {
   let sut: EncryptionService;
