@@ -8,6 +8,7 @@ import { ExternalAppsModule } from './external-apps/external-apps.module';
 import { AdminUsersModule } from './admin-users/admin-users.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { EncryptionModule } from './encryption/encryption.module';
 
 @Module({
   imports: [
@@ -15,9 +16,10 @@ import { join } from 'path';
     UsersModule,
     PlaylistsModule,
     AuthModule,
-    ConfigModule.forRoot({ isGlobal: true }),
     ExternalAppsModule,
     AdminUsersModule,
+    EncryptionModule,
+    ConfigModule.forRoot({ isGlobal: true }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
     }),
