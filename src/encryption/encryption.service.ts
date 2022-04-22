@@ -13,7 +13,7 @@ export class EncryptionService {
       'ENCRYPTION_PASSWORD',
     );
 
-     console. log()
+    console.log();
   }
 
   async encryptData(data: string): Promise<EncryptedData> {

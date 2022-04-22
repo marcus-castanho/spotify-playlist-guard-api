@@ -26,23 +26,8 @@ jobs:
       - name: Build
         run: npm run build --if-present
 
-      - name: Run tests
+      - name: Run Jest
         run: npm test
 
       - name: Run ESLint
         run: npm run lint
-
-      - name: Setting Github user.email
-        run: git config --global user.email "<65380139+marcus-castanho@users.noreply.github.com>"
-
-      - name: Setting Github user.name
-        run: git config --global user.name "<Marcus>"
-
-      - name: Adding fixes for committing
-        run: git add .
-
-      - name: Committing ESLint fixes
-        run: git commit -m "fixed ESLint issues"
-
-      - name: Pushing fixes to current PR branch
-        run: git push
