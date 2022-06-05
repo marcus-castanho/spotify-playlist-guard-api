@@ -2,6 +2,21 @@ version: '3.1'
 
 services:
 
+  main:
+    build:
+      context: .
+      target: development
+    command: npm run start:dev
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+    depends_on:
+      - postgres    
+
   postgres:
     image: postgres
     ports: 
