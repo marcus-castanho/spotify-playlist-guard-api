@@ -62,11 +62,12 @@ This project uses the [NestJS](https://nestjs.com/) framework, and, therefore, u
 
 Also , the tools used in the development environment:
 
-- [Docker](https://www.docker.com/) for a containerized instance of [Postgre](https://hub.docker.com/_/postgres).
+- [Docker](https://www.docker.com/) for a containerized instance of the application and its services - [Postgres](https://hub.docker.com/_/postgres).
 
-## Usage - Run this app in your machine
+## Usage:
 Requirements:
 - [Docker for deskop](https://www.docker.com/products/docker-desktop) installed in your machine;
+- [Docker Compose](https://docs.docker.com/compose) (The Windows and Mac versions of Docker Desktop include Docker Compose in their installation, so you only need to install it separately if you are using the Linux version);
 - [NodeJS and npm](https://nodejs.org/en/) installed in your machine;
 - A terminal of your choice.
 
@@ -76,22 +77,36 @@ Steps:
 ```
 npm install -y
 ```
-3. Create a .env file based on the .env.example in this project and insert the values of the vars based on your development environment:
+### Run this app in your machine in a containerized environment in development mode:
+3. Create a .env file based on the .env.example in this project and insert the values of the vars based on your development environment. **When running the the app as a container, the POSTGRES_HOST env var must be set to 'postgres'**;
 
-4. Initialize the Docker app in your machine and run the following command at the root of your directory to intialize the containers:
+4. Initialize the Docker app in your machine and run the following command at the root of your directory to build the image of the app and intialize the containers:
 ```
-docker compose up -d
+docker-compose up --build -V -d
 ```
-5. Run the following command to run the app in development mode:
+The application will then be available at 'http://localhost:3000'
+### Run this app in your machine locally using only the DB container:
+3. Create a .env file based on the .env.example in this project and insert the values of the vars based on your development environment. **When running the the app locally, the POSTGRES_HOST env var must be set to 'localhost'**;
+
+4. Remove the 'main' service of the docker-compose.yml file;
+
+5. Initialize the Docker app in your machine and run the following command at the root of your directory to intialize the containers of the external services:
+```
+docker-compose up -d
+```
+
+6. Run the following command to run the app in development mode:
 ```
 npm run start:dev
 ```
-6. For a production like running app, run the following commands:
+
+7. For a production-like running app, run the following commands:
 ```
 npm run build
 ```
 ```
 npm run start
 ```
+The application will then be available at 'http://localhost:3000'
 ## License
 Spotify Playlist Guard API is published under [MIT license](https://github.com/marcus-castanho/spotify_playlist_guard/blob/main/LICENSE)
