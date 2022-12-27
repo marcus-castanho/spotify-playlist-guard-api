@@ -136,9 +136,21 @@ npm run start
 
 The application will then be available at 'http://localhost:3000'
 
+# Development and contributions
 ## Commit Message Guidelines
 
 This project uses [Convention Commit](https://www.conventionalcommits.org/) with [ AngularJS's commit message convention](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines) specifications for standard commit messages.
+
+## Git Hooks
+
+Git hooks compliant with the commit guidelines and linting of the projet are defined in the ./husky folder. The hooks are disabled by default and can be enabled or disabled using the commands:
+```
+npm run enable-hooks
+```
+
+```
+npm run disable-hooks
+```
 
 ## License
 
