@@ -96,15 +96,26 @@ npm install -y
 
 ### Run this app in your machine in a containerized environment in development mode:
 
-3. Create a .env file based on the .env.example in this project and insert the values of the vars based on your development environment. **When running the the app as a container, the POSTGRES_HOST env var must be set to 'postgres'**;
+3. Create a .env file based on the .env.example in this project and insert the values of the vars based on your development environment.
 
-4. Initialize the Docker app in your machine and run the following command at the root of your directory to build the image of the app and intialize the containers:
+Note: **When running both the app and the database as a containers, the POSTGRES_HOST env var must be set to 'postgres'**;
+
+4. Initialize the Docker app in your machine and run the following command at the root of your directory to build the image of the app, start the containers and intialize the them:
 
 ```
 docker-compose up --build -V -d
 ```
 
 The application will then be available at 'http://localhost:3000'
+
+5. Once the containers and volumes are created in your machine, simply use the commands to start and stop them:
+
+```
+docker-compose start
+```
+```
+docker-compose stop
+```
 
 ### Run this app in your machine locally using only the DB container:
 
