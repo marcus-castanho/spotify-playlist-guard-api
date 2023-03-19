@@ -119,7 +119,9 @@ docker-compose stop
 
 ### Run this app in your machine locally using only the DB container:
 
-3. Create a .env file based on the .env.example in this project and insert the values of the vars based on your development environment. **When running the the app locally, the POSTGRES_HOST env var must be set to 'localhost'**;
+3. Create a .env file based on the .env.example in this project and insert the values of the vars based on your development environment.
+
+Note: **When running the the app locally, the POSTGRES_HOST env var must be set to 'localhost'**;
 
 4. Remove the 'main' service of the docker-compose.yml file;
 
@@ -142,7 +144,7 @@ npm run build
 ```
 
 ```
-npm run start
+npm run start:prod
 ```
 
 The application will then be available at 'http://localhost:3000'
