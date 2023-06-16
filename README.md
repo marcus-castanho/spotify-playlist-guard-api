@@ -105,6 +105,7 @@ Note: **When running both the app and the database as a containers, the POSTGRES
 ```
 npm run build-start-containers
 ```
+Note: **When using a linux distribution, if there is a .docker folder with volumens inside, it may be necessary to run 'sudo rm -r .docker' to remove the old volumes before running the build script since that folder is created with root permission**;
 
 The application will then be available at 'http://localhost:3000'
 
