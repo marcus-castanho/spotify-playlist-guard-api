@@ -4,6 +4,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap(): Promise<void> {
+  console.log({ ...process.env });
+
   const app = await NestFactory.create(AppModule, { cors: true });
   const config = new DocumentBuilder()
     .addServer(process.env.API_URL)
