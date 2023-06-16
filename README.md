@@ -103,7 +103,7 @@ Note: **When running both the app and the database as a containers, the POSTGRES
 4. Initialize the Docker app in your machine and run the following command at the root of your directory to build the image of the app, start the containers and intialize the them:
 
 ```
-docker-compose up --build -V -d
+npm run build-start-containers
 ```
 
 The application will then be available at 'http://localhost:3000'
