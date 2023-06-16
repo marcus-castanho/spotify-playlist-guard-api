@@ -21,6 +21,7 @@ import { LocalStrategy } from './strategies/local.strategy';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
+        console.log({ JWT_SECRET: configService.get<string>('JWT_SECRET') });
         return {
           secret: configService.get<string>('JWT_SECRET'),
           signOptions: {
