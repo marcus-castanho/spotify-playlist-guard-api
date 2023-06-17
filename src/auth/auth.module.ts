@@ -5,6 +5,7 @@ import { SpotifyOauthStrategy } from './strategies/spotify-oauth.strategy';
 import { UsersModule } from 'src/users/users.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
@@ -18,14 +19,16 @@ import { LocalStrategy } from './strategies/local.strategy';
     PassportModule,
     AdminUsersModule,
     JwtModule.registerAsync({
-      useFactory: async () => {
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => {
         return {
-          secret: process.env.JWT_SECRET,
+          secret: configService.get<string>('JWT_SECRET'),
           signOptions: {
-            expiresIn: process.env.JWT_EXPIRES_IN,
+            expiresIn: configService.get<string>('JWT_EXPIRES_IN'),
           },
         };
       },
+      inject: [ConfigService],
     }),
   ],
   providers: [
