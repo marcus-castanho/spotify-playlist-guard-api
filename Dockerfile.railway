@@ -17,11 +17,11 @@ COPY --from=build /usr/src/app/package*.json ./
 FROM node:16 AS production
 ARG EnvironmentVariable
 ARG RAILWAY_ENVIRONMENT
+ARG JWT_SECRET
 ENV RAILWAY_ENVIRONMENT=$RAILWAY_ENVIRONMENT
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
-RUN echo $EnvironmentVariable
-RUN echo $RAILWAY_ENVIRONMENT
+RUN echo $JWT_SECRET
 RUN echo $NODE_ENV
 WORKDIR /usr/src/app
 COPY package*.json ./
