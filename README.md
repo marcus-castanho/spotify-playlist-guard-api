@@ -6,7 +6,7 @@
 # Spotify Playlist Guard API
 This project is a web server that provides an API for of the [Spotify Playlist Guard](https://github.com/marcus-castanho/spotify_playlist_guard) application. This API provides services for registering users and their collaborative playlists to the Playlist Guard routine. For a detailed overview of all  the routes and responses of this API, access the documentation:
 
-- [Spotify Playlist Guard API Docs](https://spotify-playlist-guard-api.herokuapp.com/api/)
+- [Spotify Playlist Guard API Docs](https://spotify-playlist-guard-api-production.up.railway.app/api/)
 
 ## The application
 
