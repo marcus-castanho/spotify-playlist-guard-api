@@ -34,8 +34,8 @@ async function bootstrap(): Promise<void> {
     }),
   );
 
-  console.log(process.env.port);
-
   await app.listen(process.env.PORT);
+
+  console.log({ port: process.env.port });
 }
 bootstrap();
