@@ -24,4 +24,4 @@ COPY --from=build /usr/src/app/dist ./dist
 COPY --from=build /usr/src/app/package*.json ./
 RUN npm ci --only=production
 EXPOSE 3000
-RUN npm run start:migrate:prod
+CMD [ "npm", "run", "start:migrate:prod" ]
