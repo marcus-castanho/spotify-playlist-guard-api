@@ -70,6 +70,7 @@ This project uses the [NestJS](https://nestjs.com/) framework, and, therefore, u
 - [Spotify Web API](https://developer.spotify.com/documentation/web-api/) with [spotify-web-api-node](https://github.com/thelinmichael/spotify-web-api-node) as client wrapper;
 - [PostgreSQL](https://www.postgresql.org/) as database, using:
   - [Prisma](https://www.prisma.io/) as ORM;
+- [GitHub Actions](https://github.com/features/actions) as CI/CD tool;
 - [Railway](https://railway.app/) as cloud server host;
 
 Also , the tools used in the development environment:
