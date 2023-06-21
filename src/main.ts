@@ -36,6 +36,6 @@ async function bootstrap(): Promise<void> {
 
   await app.listen(process.env.PORT);
 
-  console.log({ port: process.env.port });
+  console.log({ port: process.env.PORT });
 }
 bootstrap();
