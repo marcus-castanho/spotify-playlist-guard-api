@@ -7,6 +7,7 @@ import {
   Delete,
   Res,
   HttpCode,
+  ForbiddenException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './entity/user.entity';
@@ -14,6 +15,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Response } from 'express';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ResUserDto } from './dto/reponse-user.dto';
+import { ReqUser } from 'src/auth/decorators/user.decorator';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/@types/role.enum';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -23,28 +27,73 @@ export class UsersController {
 
   @ApiOkResponse({ type: ResUserDto })
   @Get('/find/:id')
-  find(@Param('id') id: string): Promise<User> {
-    return this.usersService.find(id);
-  }
+  find(@ReqUser('sub') userId: string, @Param('id') id: string): Promise<User> {
+    if (userId !== id) throw new ForbiddenException();
 
-  @ApiOkResponse({ type: [ResUserDto] })
-  @Get('/list/:page')
-  listPage(@Param('page') page: number): Promise<Array<User>> {
-    return this.usersService.listPage(page);
+    return this.usersService.find(id);
   }
 
   @ApiOkResponse({ type: ResUserDto })
   @Patch('/update/:id')
   update(
+    @ReqUser('sub') userId: string,
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<User> {
+    if (userId !== id) throw new ForbiddenException();
+
+    return this.usersService.update(id, updateUserDto);
+  }
+
+  @Delete('/delete/:id')
+  @HttpCode(204)
+  delete(
+    @ReqUser('sub') userId: string,
+    @Param('id') id: string,
+    @Res() res: Response,
+  ): Promise<void> {
+    if (userId !== id) throw new ForbiddenException();
+
+    return this.usersService.delete(id, res);
+  }
+
+  @ApiOkResponse({ type: ResUserDto })
+  @Get('/me')
+  me(@ReqUser('sub') userId: string): Promise<User> {
+    return this.usersService.find(userId);
+  }
+
+  @ApiOkResponse({ type: ResUserDto })
+  @Roles(Role.Admin)
+  @Get('protected/find/:id')
+  protectedFind(@Param('id') id: string): Promise<User> {
+    return this.usersService.find(id);
+  }
+
+  @ApiOkResponse({ type: [ResUserDto] })
+  @Roles(Role.Admin)
+  @Get('protected/list/:page')
+  protectedListPage(@Param('page') page: number): Promise<Array<User>> {
+    return this.usersService.listPage(page);
+  }
+
+  @ApiOkResponse({ type: ResUserDto })
+  @Roles(Role.Admin)
+  @Patch('protected/update/:id')
+  protectedUpdate(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<User> {
     return this.usersService.update(id, updateUserDto);
   }
 
-  @Delete('/delete/:id')
+  @Delete('protected/delete/:id')
+  @Roles(Role.Admin)
   @HttpCode(204)
-  delete(@Param('id') id: string, @Res() res: Response): Promise<void> {
+  protectedDelete(
+    @Param('id') id: string,
+    @Res() res: Response,
+  ): Promise<void> {
     return this.usersService.delete(id, res);
   }
 }
