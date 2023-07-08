@@ -2,11 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import morgan from 'morgan';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, { cors: true });
   const config = new DocumentBuilder()
-    .addServer(process.env.API_URL)
+    .addServer(process.env.API_URL || '')
     .addBearerAuth({
       type: 'http',
       name: 'Authorization',
@@ -34,6 +35,8 @@ async function bootstrap(): Promise<void> {
     }),
   );
 
-  await app.listen(process.env.PORT);
+  app.use(morgan('dev'));
+
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();

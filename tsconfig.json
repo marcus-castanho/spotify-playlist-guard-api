@@ -12,16 +12,13 @@
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "lib": ["esnext"],
     "esModuleInterop": true,
-    "typeRoots": [
-      "./node_modules/@types",
-      "src/@types"
-    ]
+    "typeRoots": ["./node_modules/@types", "src/@types"]
   }
 }

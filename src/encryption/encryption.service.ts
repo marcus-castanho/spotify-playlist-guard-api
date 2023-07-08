@@ -9,9 +9,8 @@ export class EncryptionService {
   private encryptionPassword: string;
 
   constructor(private readonly configService: ConfigService) {
-    this.encryptionPassword = this.configService.get<string>(
-      'ENCRYPTION_PASSWORD',
-    );
+    this.encryptionPassword =
+      this.configService.get<string>('ENCRYPTION_PASSWORD') || '';
   }
 
   async encryptData(data: string): Promise<EncryptedData> {

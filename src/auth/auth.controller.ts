@@ -63,7 +63,6 @@ export class AuthController {
 
     if (!user) {
       res.redirect('/');
-      return;
     }
 
     const authUser = await this.authService

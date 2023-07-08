@@ -25,7 +25,10 @@ export class ExternalAppGuard implements CanActivate {
 
     if (!externalApp) return false;
 
-    const isValidApiKey = bcrypt.compareSync(authorization, externalApp.apiKey);
+    const isValidApiKey = bcrypt.compareSync(
+      authorization,
+      externalApp.apiKey || '',
+    );
 
     if (!isValidApiKey) return false;
 

@@ -21,11 +21,16 @@ export class AuthService {
   login(user: User | AdminUser) {
     const name = user instanceof User ? user.display_name : user.name;
     const roles = user instanceof User ? [] : user.roles;
-    const payload: JwtPayload = {
-      name,
-      sub: user.id,
-      roles,
-    };
+    const payload: JwtPayload<'iat' | 'exp'> =
+      user instanceof User
+        ? {
+            sub: user.id as string,
+          }
+        : {
+            name,
+            sub: user.id as string,
+            roles,
+          };
 
     return this.jwtService.sign(payload);
   }
@@ -33,11 +38,11 @@ export class AuthService {
   async validateAdminUser(
     email: string,
     inputPassword: string,
-  ): Promise<AdminUser> {
+  ): Promise<AdminUser | null> {
     const adminUser = await this.adminUserSerivce.findOneByEmail(email);
     const validatePassword = bcrypt.compareSync(
       inputPassword,
-      adminUser.password,
+      adminUser.password as string,
     );
 
     if (adminUser && validatePassword) {

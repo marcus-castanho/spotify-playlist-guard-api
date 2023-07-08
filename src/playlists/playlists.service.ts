@@ -29,6 +29,9 @@ export class PlaylistsService {
     createPlaylistDto: CreatePlaylistDto,
   ): Promise<Playlist> {
     const { id, allowed_userIds, active } = createPlaylistDto;
+    function notEmpty<T>(value: T | undefined): value is T {
+      return value !== null && value !== undefined;
+    }
 
     await this.usersService.setUserTokens(userId);
 
@@ -51,9 +54,17 @@ export class PlaylistsService {
       owner,
       followers,
       external_urls,
+      description,
+      ['public']: isPublic,
       ...playlistData
     } = playlist;
-    const tracksIds = tracks.items.map((track) => track.track.id);
+    const tracksIds = tracks.items
+      .map((trackData) => {
+        const { track } = trackData;
+        if (!track) return;
+        return track.id;
+      })
+      .filter(notEmpty);
 
     if (owner.id !== userId) {
       throw new UnprocessableEntityException(
@@ -80,6 +91,8 @@ export class PlaylistsService {
         tracks: tracksIds,
         followers: followers.total,
         external_url: external_urls.spotify,
+        description: description || '',
+        public: !!isPublic,
         ...playlistData,
         owner: {
           connect: {
