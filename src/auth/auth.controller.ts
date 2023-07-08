@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Post,
+  Query,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
@@ -49,7 +58,7 @@ export class AuthController {
 
   @ApiOperation({
     summary:
-      "Public route to be accessed by the Spotify OAuth2 redirection step carying the user's Bearer Token.",
+      "Public route to be accessed after Spotify OAuth2 authentication carying the user's code",
   })
   @ApiOkResponse({ type: ResUserDto })
   @Public()
@@ -57,13 +66,12 @@ export class AuthController {
   @Get('redirect')
   async spotifyAuthRedirect(
     @Req() req: any,
+    @Query('code') code: string,
     @Res() res: Response,
   ): Promise<Response> {
     const { user, authInfo }: { user: Profile; authInfo: AuthInfo } = req;
 
-    if (!user) {
-      res.redirect('/');
-    }
+    if (!user) throw new BadRequestException();
 
     const authUser = await this.authService
       .validateUser(user, {
