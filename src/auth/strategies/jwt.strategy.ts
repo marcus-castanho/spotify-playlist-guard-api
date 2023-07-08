@@ -1,6 +1,11 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { JwtPayload } from 'src/@types/jwt';
+import {
+  validateAdminJwtPayload,
+  validateUserJwtPayload,
+} from '../validations/jwt';
+import { UnauthorizedException } from '@nestjs/common';
 
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor() {
@@ -11,7 +16,14 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
 
-  async validate(payload: JwtPayload): Promise<JwtPayload> {
-    return payload;
+  async validate(payload: unknown): Promise<JwtPayload> {
+    const adminJwtPayload = validateAdminJwtPayload(payload);
+    const userJwtPayload = validateUserJwtPayload(payload);
+
+    if (!adminJwtPayload && !userJwtPayload)
+      throw new UnauthorizedException('JWT Malformed');
+    if (!userJwtPayload) throw new UnauthorizedException('JWT Malformed');
+
+    return adminJwtPayload || userJwtPayload;
   }
 }
