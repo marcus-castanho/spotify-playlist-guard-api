@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Profile } from 'passport-spotify';
-import { JwtPayload } from 'src/@types/jwt';
+import { JwtPayloadAdmin, JwtPayloadUser } from 'src/@types/jwt';
 import { AuthInfo, ProfileJson } from 'src/@types/passport-spotify';
 import { AdminUsersService } from 'src/admin-users/admin-users.service';
 import { AdminUser } from 'src/admin-users/entities/admin-user.entity';
@@ -18,19 +18,22 @@ export class AuthService {
     private readonly adminUserSerivce: AdminUsersService,
   ) {}
 
-  login(user: User | AdminUser) {
-    const name = user instanceof User ? user.display_name : user.name;
-    const roles = user instanceof User ? [] : user.roles;
-    const payload: JwtPayload<'iat' | 'exp'> =
-      user instanceof User
-        ? {
-            sub: user.id as string,
-          }
-        : {
-            name,
-            sub: user.id as string,
-            roles,
-          };
+  loginUser(user: User) {
+    const payload: Omit<JwtPayloadUser, 'iat' | 'exp'> = {
+      sub: user.id as string,
+    };
+
+    return this.jwtService.sign(payload);
+  }
+
+  loginAdminUser(user: Required<AdminUser>) {
+    const { name, roles } = user;
+
+    const payload: Omit<JwtPayloadAdmin, 'iat' | 'exp'> = {
+      name,
+      sub: user.id,
+      roles,
+    };
 
     return this.jwtService.sign(payload);
   }

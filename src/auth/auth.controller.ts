@@ -40,7 +40,7 @@ export class AuthController {
   @Post('login/admin')
   loginAdmin(@Req() req: any, @Res() res: Response): Response {
     const adminUser = req.user;
-    const jwt = this.authService.login(adminUser);
+    const jwt = this.authService.loginAdminUser(adminUser);
 
     res.set('authorization', `Bearer ${jwt}`);
 
@@ -75,7 +75,7 @@ export class AuthController {
         return user;
       });
 
-    const jwt = this.authService.login(authUser);
+    const jwt = this.authService.loginUser(authUser);
 
     res.set('authorization', `Bearer ${jwt}`);
 

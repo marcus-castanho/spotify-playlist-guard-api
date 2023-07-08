@@ -1,5 +1,7 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy, VerifyCallback } from 'passport-spotify';
+import { validateOAuthData } from '../validations/oAuth';
+import { UnauthorizedException } from '@nestjs/common';
 
 export class SpotifyOauthStrategy extends PassportStrategy(
   Strategy,
@@ -21,6 +23,10 @@ export class SpotifyOauthStrategy extends PassportStrategy(
         profile: Profile,
         done: VerifyCallback,
       ): void => {
+        const userData = validateOAuthData(profile);
+
+        if (!userData) throw new UnauthorizedException();
+
         return done(null, profile, { accessToken, refreshToken, expires_in });
       },
     );
