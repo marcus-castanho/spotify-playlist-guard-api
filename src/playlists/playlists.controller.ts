@@ -1,6 +1,5 @@
 import {
   Controller,
-  Post,
   Body,
   Get,
   Param,
@@ -11,7 +10,6 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import { PlaylistsService } from './playlists.service';
-import { CreatePlaylistDto } from './dto/create-playlist.dto';
 import { Playlist } from './entities/playlist.entity';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 import { Response } from 'express';
@@ -22,7 +20,6 @@ import { Public } from 'src/auth/decorators/public.decorator';
 import { ExternalAppGuard } from 'src/auth/guards/external-app.guard';
 import {
   ApiBearerAuth,
-  ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
   ApiQuery,
@@ -36,16 +33,6 @@ import { ResActivePlaylistDto } from './dto/response-active-playlist.dto';
 @Controller('playlists')
 export class PlaylistsController {
   constructor(private readonly playlistsService: PlaylistsService) {}
-
-  @ApiBearerAuth()
-  @ApiCreatedResponse({ type: ResPlaylistDto })
-  @Post('/add')
-  add(
-    @ReqUser('sub') userId: string,
-    @Body() createPlaylistDto: CreatePlaylistDto,
-  ): Promise<Playlist> {
-    return this.playlistsService.add(userId, createPlaylistDto);
-  }
 
   @ApiBearerAuth()
   @ApiOkResponse({ type: ResPlaylistDto })

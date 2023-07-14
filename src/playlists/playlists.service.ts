@@ -1,17 +1,13 @@
 import {
   BadRequestException,
-  ConflictException,
   Injectable,
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { SinglePlaylistResponse } from 'src/@types/spotify-web-api-node';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SpotifyService } from 'src/spotify/spotify.service';
-import { UsersService } from 'src/users/users.service';
 import { ActivatePlaylistDto } from './dto/activate-playlist.dto';
-import { CreatePlaylistDto } from './dto/create-playlist.dto';
 import { UpdateAllowedUsersDto } from './dto/update-allowedUsers-playlist.dto';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 import { Playlist } from './entities/playlist.entity';
@@ -20,87 +16,63 @@ import { Playlist } from './entities/playlist.entity';
 export class PlaylistsService {
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly usersService: UsersService,
     private readonly spotifyService: SpotifyService,
   ) {}
 
-  async add(
-    userId: string,
-    createPlaylistDto: CreatePlaylistDto,
-  ): Promise<Playlist> {
-    const { id, allowed_userIds, active } = createPlaylistDto;
-    function notEmpty<T>(value: T | undefined): value is T {
-      return value !== null && value !== undefined;
-    }
+  async addManyByUserId(userId: string): Promise<void> {
+    const page = 1;
+    const limit = 50;
+    let playlistsResults: SpotifyApi.PlaylistObjectSimplified[] = [];
+    let continuePulling = true;
 
-    await this.usersService.setUserTokens(userId);
-
-    const playlist: SinglePlaylistResponse = await this.spotifyService
-      .getPlaylist(id)
-      .then((data) => {
-        return data.body;
-      })
-      .catch((error) => {
-        throw new NotFoundException(error.message);
+    while (continuePulling) {
+      const offsetConfig = (page - 1) * limit;
+      const response = await this.spotifyService.getUserPlaylists(userId, {
+        limit: 50,
+        offset: offsetConfig,
       });
-    const {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      images,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      type,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      primary_color,
-      tracks,
-      owner,
-      followers,
-      external_urls,
-      description,
-      ['public']: isPublic,
-      ...playlistData
-    } = playlist;
-    const tracksIds = tracks.items
-      .map((trackData) => {
-        const { track } = trackData;
-        if (!track) return;
-        return track.id;
-      })
-      .filter(notEmpty);
 
-    if (owner.id !== userId) {
-      throw new UnprocessableEntityException(
-        'The user ID provided does not match the owner of the playlist.',
-      );
-    }
-    if (!playlistData.collaborative) {
-      throw new ConflictException('Only collaborative playlists are allowed.');
-    }
-    if (
-      await this.prismaService.playlist.findUnique({
-        where: { id: playlistData.id },
-      })
-    ) {
-      throw new ConflictException(
-        'The playlist Spotify ID provided is already registered.',
-      );
+      const { next, items } = response.body;
+      playlistsResults = [...playlistsResults, ...items];
+
+      continuePulling = !!next;
     }
 
-    return await this.prismaService.playlist.create({
-      data: {
-        active,
-        allowed_userIds,
-        tracks: tracksIds,
-        followers: followers.total,
-        external_url: external_urls.spotify,
-        description: description || '',
-        public: !!isPublic,
-        ...playlistData,
-        owner: {
-          connect: {
-            id: owner.id,
-          },
-        },
-      },
-    });
+    const playlists = playlistsResults
+      .map((playlist) => {
+        const {
+          owner,
+          collaborative,
+          external_urls,
+          description,
+          ['public']: isPublic,
+          id,
+          name,
+          href,
+          snapshot_id,
+          uri,
+        } = playlist;
+
+        return {
+          collaborative,
+          active: collaborative,
+          allowed_userIds: [],
+          external_url: external_urls.spotify,
+          description: description || '',
+          public: !!isPublic,
+          userId: owner.id,
+          id,
+          name,
+          href,
+          snapshot_id,
+          uri,
+        };
+      })
+      .filter((playlist) => {
+        return playlist.userId === userId;
+      });
+
+    await this.prismaService.playlist.createMany({ data: playlists });
   }
 
   async find(userId: string, id: string): Promise<Playlist> {

@@ -9,12 +9,14 @@ import { SpotifyService } from 'src/spotify/spotify.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entity/user.entity';
+import { PlaylistsService } from 'src/playlists/playlists.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     private readonly spotifyService: SpotifyService,
     private readonly prismaService: PrismaService,
+    private readonly playlistService: PlaylistsService,
   ) {}
 
   async createIfNotExists(createUserDto: CreateUserDto): Promise<User> {
@@ -32,12 +34,24 @@ export class UsersService {
       data: { ...createUserDto },
     });
 
-    return this.prismaService.exclude<User, keyof User>(
-      newUser,
+    await this.setUserTokens(id);
+    await this.playlistService.addManyByUserId(id);
+
+    const newUserWithPlaylists = (await this.prismaService.user.findFirst({
+      where: { id: newUser.id },
+      include: {
+        playlists: true,
+      },
+    })) as User;
+
+    const userData = this.prismaService.exclude<User, keyof User>(
+      newUserWithPlaylists,
       'accessToken',
       'refreshToken',
       'expiresAt',
     );
+
+    return { ...userData };
   }
 
   async find(id: string): Promise<User> {

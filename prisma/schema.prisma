@@ -46,14 +46,12 @@ model Playlist {
   collaborative   Boolean
   description     String
   external_url    String
-  followers       Int
   href            String
   name            String
   owner           User     @relation(fields: [userId], references: [id])
   userId          String
   public          Boolean
   snapshot_id     String
-  tracks          String[]
   uri             String
   active          Boolean
   allowed_userIds String[]
