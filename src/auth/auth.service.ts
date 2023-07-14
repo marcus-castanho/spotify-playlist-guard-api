@@ -84,7 +84,7 @@ export class AuthService {
       ...profileJson,
     };
 
-    return this.userService.createIfNotExists({
+    return this.userService.upsertUserData({
       ...userData,
     });
   }

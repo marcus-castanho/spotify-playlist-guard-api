@@ -19,7 +19,7 @@ export class UsersService {
     private readonly playlistService: PlaylistsService,
   ) {}
 
-  async createIfNotExists(createUserDto: CreateUserDto): Promise<User> {
+  async upsertUserData(createUserDto: CreateUserDto): Promise<User> {
     const { id } = createUserDto;
 
     const user = await this.prismaService.user.findUnique({
@@ -30,12 +30,14 @@ export class UsersService {
       return this.update(id, createUserDto);
     }
 
-    const newUser = await this.prismaService.user.create({
-      data: { ...createUserDto },
+    const newUser = await this.prismaService.user.upsert({
+      where: { id },
+      update: { ...createUserDto },
+      create: { ...createUserDto },
     });
 
     await this.setUserTokens(id);
-    await this.playlistService.addManyByUserId(id);
+    await this.playlistService.upsertManyByUserId(id);
 
     const newUserWithPlaylists = (await this.prismaService.user.findFirst({
       where: { id: newUser.id },
