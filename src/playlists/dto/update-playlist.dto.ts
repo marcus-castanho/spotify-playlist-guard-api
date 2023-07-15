@@ -1,16 +1,6 @@
-import {
-  IsArray,
-  IsBoolean,
-  IsNumber,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsArray, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdatePlaylistDto {
-  @IsOptional()
-  @IsBoolean()
-  collaborative: boolean;
-
   @IsOptional()
   @IsString()
   description: string;
@@ -32,10 +22,6 @@ export class UpdatePlaylistDto {
   name: string;
 
   @IsOptional()
-  @IsBoolean()
-  public: boolean;
-
-  @IsOptional()
   @IsString()
   snapshot_id: string;
 
@@ -46,8 +32,4 @@ export class UpdatePlaylistDto {
   @IsOptional()
   @IsString()
   uri: string;
-
-  @IsOptional()
-  @IsBoolean()
-  active: boolean;
 }

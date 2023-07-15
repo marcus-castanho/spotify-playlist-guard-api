@@ -178,14 +178,6 @@ export class PlaylistsService {
         'There is no playlist match for the provided ID',
       );
 
-    if (
-      updatePlaylistDto.hasOwnProperty('public') ||
-      updatePlaylistDto.hasOwnProperty('collaborative')
-    ) {
-      const { collaborative } = updatePlaylistDto;
-      const isPublic = updatePlaylistDto.public;
-      if (isPublic || !collaborative) updatePlaylistDto.active = !collaborative;
-    }
     const updatedPlaylist = await this.prismaService.playlist.update({
       where: { id },
       data: {
@@ -207,6 +199,14 @@ export class PlaylistsService {
 
     if (!playlist || playlist.userId !== userId) {
       throw new UnprocessableEntityException();
+    }
+
+    const { ['public']: isPublic, collaborative } = playlist;
+
+    if (active && (!isPublic || !collaborative)) {
+      throw new UnprocessableEntityException(
+        'The playlist must be public and collaborative to be activated',
+      );
     }
 
     await this.prismaService.playlist.update({
