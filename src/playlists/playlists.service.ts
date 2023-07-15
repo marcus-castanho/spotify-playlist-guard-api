@@ -201,9 +201,9 @@ export class PlaylistsService {
       throw new UnprocessableEntityException();
     }
 
-    const { ['public']: isPublic, collaborative } = playlist;
+    const { collaborative } = playlist;
 
-    if (active && (!isPublic || !collaborative)) {
+    if (active && !collaborative) {
       throw new UnprocessableEntityException(
         'The playlist must be public and collaborative to be activated',
       );
@@ -215,8 +215,6 @@ export class PlaylistsService {
         active,
       },
     });
-
-    return { active };
   }
 
   async updateAllowedUsers(

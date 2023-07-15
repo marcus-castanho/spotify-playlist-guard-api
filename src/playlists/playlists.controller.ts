@@ -56,15 +56,15 @@ export class PlaylistsController {
 
   @ApiBearerAuth()
   @ApiOkResponse({
-    type: ActivatePlaylistDto,
-    description: 'The playlist is now active.',
+    description: 'The playlist is now active/inactive.',
   })
   @Patch('/active/:id')
+  @HttpCode(204)
   activate(
     @ReqUser('sub') userId: string,
     @Param('id') id: string,
     @Body() activatePlaylistDto: ActivatePlaylistDto,
-  ): Promise<Playlist> {
+  ): Promise<void> {
     return this.playlistsService.activate(userId, id, activatePlaylistDto);
   }
 
