@@ -74,7 +74,7 @@ export class PlaylistsService {
           external_url: external_urls.spotify,
           description: description || '',
           public: !!isPublic,
-          userId: owner.id,
+          userId: owner.id === userSpotifyId ? userId : owner.id,
           spotify_id,
           name,
           href,
