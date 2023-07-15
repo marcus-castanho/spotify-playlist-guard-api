@@ -20,7 +20,8 @@ model AdminUser {
 }
 
 model User {
-  id           String     @id
+  id           String     @id @default(uuid())
+  spotify_id   String     @unique
   country      String
   display_name String
   email        String
@@ -42,7 +43,8 @@ model User {
 }
 
 model Playlist {
-  id              String   @id
+  id              String   @id @default(uuid())
+  spotify_id      String   @unique
   collaborative   Boolean
   description     String
   external_url    String

@@ -20,24 +20,16 @@ export class UsersService {
   ) {}
 
   async upsertUserData(createUserDto: CreateUserDto): Promise<User> {
-    const { id } = createUserDto;
-
-    const user = await this.prismaService.user.findUnique({
-      where: { id },
-    });
-
-    if (user) {
-      return this.update(id, createUserDto);
-    }
+    const { spotify_id } = createUserDto;
 
     const newUser = await this.prismaService.user.upsert({
-      where: { id },
+      where: { spotify_id },
       update: { ...createUserDto },
       create: { ...createUserDto },
     });
 
-    await this.setUserTokens(id);
-    await this.playlistService.upsertManyByUserId(id);
+    await this.setUserTokens(newUser.id);
+    await this.playlistService.upsertManyByUserId(newUser.id, spotify_id);
 
     const newUserWithPlaylists = (await this.prismaService.user.findFirst({
       where: { id: newUser.id },

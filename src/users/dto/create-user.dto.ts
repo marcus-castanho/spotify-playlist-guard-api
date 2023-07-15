@@ -26,7 +26,7 @@ export class CreateUserDto {
   href: string;
 
   @IsString()
-  id: string;
+  spotify_id: string;
 
   @IsArray()
   @ArrayMinSize(1)

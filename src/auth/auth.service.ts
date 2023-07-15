@@ -69,12 +69,14 @@ export class AuthService {
       external_urls,
       followers,
       images,
+      ['id']: spotify_id,
       ...profileJson
     } = profile._json as ProfileJson;
 
     const imagesUrl = images.map((object) => object.url);
 
     const userData: CreateUserDto = {
+      spotify_id,
       external_url: external_urls.spotify,
       followers: followers.total,
       images: imagesUrl,

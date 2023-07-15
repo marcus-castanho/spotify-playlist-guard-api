@@ -1,6 +1,7 @@
 import { Playlist } from 'src/playlists/entities/playlist.entity';
 
 export class User {
+  spotify_id?: string;
   country?: string;
   display_name?: string;
   email?: string;

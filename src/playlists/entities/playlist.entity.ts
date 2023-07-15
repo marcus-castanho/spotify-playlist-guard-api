@@ -1,4 +1,5 @@
 export class Playlist {
+  spotify_id?: string;
   collaborative?: boolean;
   description?: string;
   external_url?: string;

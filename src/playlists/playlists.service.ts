@@ -19,7 +19,10 @@ export class PlaylistsService {
     private readonly spotifyService: SpotifyService,
   ) {}
 
-  async upsertManyByUserId(userId: string): Promise<void> {
+  async upsertManyByUserId(
+    userId: string,
+    userSpotifyId: string,
+  ): Promise<void> {
     const page = 1;
     const limit = 50;
     let playlistsResults: SpotifyApi.PlaylistObjectSimplified[] = [];
@@ -27,10 +30,13 @@ export class PlaylistsService {
 
     while (continuePulling) {
       const offsetConfig = (page - 1) * limit;
-      const response = await this.spotifyService.getUserPlaylists(userId, {
-        limit: 50,
-        offset: offsetConfig,
-      });
+      const response = await this.spotifyService.getUserPlaylists(
+        userSpotifyId,
+        {
+          limit: 50,
+          offset: offsetConfig,
+        },
+      );
 
       const { next, items } = response.body;
       playlistsResults = [...playlistsResults, ...items];
@@ -54,7 +60,7 @@ export class PlaylistsService {
           external_urls,
           description,
           ['public']: isPublic,
-          id,
+          ['id']: spotify_id,
           name,
           href,
           snapshot_id,
@@ -69,7 +75,7 @@ export class PlaylistsService {
           description: description || '',
           public: !!isPublic,
           userId: owner.id,
-          id,
+          spotify_id,
           name,
           href,
           snapshot_id,
@@ -81,15 +87,21 @@ export class PlaylistsService {
       });
 
     const deletedPlaylistsIds = currentPlaylists
-      .filter(({ id }) => {
-        return !playlists.map((playlist) => playlist.id).includes(id);
+      .filter(({ spotify_id }) => {
+        return !playlists
+          .map((playlist) => playlist.spotify_id)
+          .includes(spotify_id);
       })
       .map(({ id }) => id);
-    const updatedPlaylists = playlists.filter(({ id }) => {
-      return currentPlaylists.map((playlist) => playlist.id).includes(id);
+    const updatedPlaylists = playlists.filter(({ spotify_id }) => {
+      return currentPlaylists
+        .map((playlist) => playlist.spotify_id)
+        .includes(spotify_id);
     });
-    const createdPlaylists = playlists.filter(({ id }) => {
-      return !currentPlaylists.map((playlist) => playlist.id).includes(id);
+    const createdPlaylists = playlists.filter(({ spotify_id }) => {
+      return !currentPlaylists
+        .map((playlist) => playlist.spotify_id)
+        .includes(spotify_id);
     });
 
     await this.prismaService.playlist.deleteMany({
@@ -102,9 +114,9 @@ export class PlaylistsService {
     await this.prismaService.playlist.createMany({ data: createdPlaylists });
 
     for (let i = 0; i < updatedPlaylists.length; i++) {
-      const { id } = updatedPlaylists[i];
+      const { spotify_id } = updatedPlaylists[i];
       await this.prismaService.playlist.update({
-        where: { id },
+        where: { spotify_id },
         data: updatedPlaylists[i],
       });
     }
