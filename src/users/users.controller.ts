@@ -8,9 +8,10 @@ import {
   Res,
   HttpCode,
   ForbiddenException,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { User } from './entity/user.entity';
+import { User } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Response } from 'express';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
@@ -18,6 +19,7 @@ import { ResUserDto } from './dto/reponse-user.dto';
 import { ReqUser } from 'src/auth/decorators/user.decorator';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/@types/role.enum';
+import { User as QueryUser } from 'src/spotify-scrapping/entities/user.entity';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -61,6 +63,11 @@ export class UsersController {
   @Get('/me')
   me(@ReqUser('sub') userId: string): Promise<User> {
     return this.usersService.find(userId);
+  }
+
+  @Get('/query')
+  query(@Query('identifier') identifier: string): Promise<QueryUser[]> {
+    return this.usersService.query(identifier);
   }
 
   @ApiOkResponse({ type: ResUserDto })

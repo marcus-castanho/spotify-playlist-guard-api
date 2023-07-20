@@ -6,7 +6,7 @@ import { AuthInfo, ProfileJson } from 'src/@types/passport-spotify';
 import { AdminUsersService } from 'src/admin-users/admin-users.service';
 import { AdminUser } from 'src/admin-users/entities/admin-user.entity';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { User } from 'src/users/entity/user.entity';
+import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
 

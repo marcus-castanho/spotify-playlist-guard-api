@@ -8,6 +8,7 @@ import { ExternalAppsModule } from './external-apps/external-apps.module';
 import { AdminUsersModule } from './admin-users/admin-users.module';
 import { EncryptionModule } from './encryption/encryption.module';
 import { AppController } from './app.controller';
+import { SpotifyScrappingModule } from './spotify-scrapping/spotify-scrapping.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AppController } from './app.controller';
     ExternalAppsModule,
     AdminUsersModule,
     EncryptionModule,
+    SpotifyScrappingModule,
     ConfigModule.forRoot({ isGlobal: true }),
   ],
   controllers: [AppController],

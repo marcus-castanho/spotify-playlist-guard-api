@@ -1,6 +1,6 @@
 import { OmitType, PartialType } from '@nestjs/swagger';
 import { IsDate } from 'class-validator';
-import { User } from '../entity/user.entity';
+import { User } from '../entities/user.entity';
 
 export class ResUserDto extends PartialType(
   OmitType(User, [

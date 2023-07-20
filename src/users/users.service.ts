@@ -8,8 +8,10 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { SpotifyService } from 'src/spotify/spotify.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entity/user.entity';
+import { User } from './entities/user.entity';
 import { PlaylistsService } from 'src/playlists/playlists.service';
+import { SpotifyScrappingService } from 'src/spotify-scrapping/spotify-scrapping.service';
+import { User as QueryUser } from 'src/spotify-scrapping/entities/user.entity';
 
 @Injectable()
 export class UsersService {
@@ -17,6 +19,7 @@ export class UsersService {
     private readonly spotifyService: SpotifyService,
     private readonly prismaService: PrismaService,
     private readonly playlistService: PlaylistsService,
+    private readonly spotifyScrappingService: SpotifyScrappingService,
   ) {}
 
   async upsertUserData(createUserDto: CreateUserDto): Promise<User> {
@@ -154,5 +157,9 @@ export class UsersService {
     });
 
     res.status(204).json();
+  }
+
+  async query(identifier: string): Promise<QueryUser[]> {
+    return this.spotifyScrappingService.queryUsers(identifier);
   }
 }
