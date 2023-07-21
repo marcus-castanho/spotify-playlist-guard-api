@@ -70,9 +70,15 @@ export class UsersController {
     return this.usersService.query(identifier);
   }
 
-  @Get('/profile/:id')
-  findProfile(@Param('id') id: string): Promise<User> {
-    return this.usersService.findProfile(id);
+  @Get('/profile/:spotify_id')
+  getProfile(@Param('spotify_id') spotifyId: string): Promise<User> {
+    return this.usersService.getProfile(spotifyId);
+  }
+
+  @Get('/profile')
+  getProfiles(@Query('spotify_id') spotifyIds: string | string[]): any {
+    const ids = Array.isArray(spotifyIds) ? spotifyIds : [spotifyIds];
+    return this.usersService.getProfiles(ids);
   }
 
   @ApiOkResponse({ type: ResUserDto })

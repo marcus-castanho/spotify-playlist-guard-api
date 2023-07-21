@@ -164,7 +164,19 @@ export class UsersService {
     return this.spotifyScrappingService.queryUsers(identifier);
   }
 
-  async findProfile(id: string): Promise<Profile> {
-    return this.spotifyScrappingService.findUser(id);
+  async getProfile(spotifyId: string): Promise<Profile> {
+    return this.spotifyScrappingService.getUser(spotifyId);
+  }
+
+  async getProfiles(spotifyIds: string[]): Promise<Profile[]> {
+    const users: Profile[] = [];
+
+    for (let i = 0; i < spotifyIds.length; i++) {
+      const id = spotifyIds[i];
+      const user = await this.spotifyScrappingService.getUser(id);
+      users.push(user);
+    }
+
+    return users;
   }
 }

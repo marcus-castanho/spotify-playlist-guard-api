@@ -185,7 +185,7 @@ export class SpotifyScrappingService {
     });
   }
 
-  async findUser(userId: string) {
+  async getUser(userId: string) {
     const response = await this.getUserProfile(userId);
     const { name, image_url } = response;
 
