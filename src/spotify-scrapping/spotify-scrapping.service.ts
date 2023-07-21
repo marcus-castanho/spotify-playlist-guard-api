@@ -6,7 +6,10 @@ import { User } from './entities/user.entity';
 @Injectable()
 export class SpotifyScrappingService {
   private clientURL = 'https://open.spotify.com';
-  private privateAPIURL = 'https://api-partner.spotify.com/pathfinder/v1';
+  private privateQueriesAPIURL =
+    'https://api-partner.spotify.com/pathfinder/v1';
+  private privateUserAPIURL =
+    'https://spclient.wg.spotify.com/user-profile-view/v3';
 
   async getAccessToken() {
     const response = await fetch(`${this.clientURL}/get_access_token`);
@@ -28,7 +31,8 @@ export class SpotifyScrappingService {
     return validation.data;
   }
 
-  async query(token: string, searchTerm: string) {
+  async query(searchTerm: string) {
+    const { ['accessToken']: token } = await this.getAccessToken();
     const queryParams = qs.stringify({
       operationName: 'searchUsers',
       variables: JSON.stringify({
@@ -44,7 +48,7 @@ export class SpotifyScrappingService {
         },
       }),
     });
-    const url = `${this.privateAPIURL}/query?${queryParams}`;
+    const url = `${this.privateQueriesAPIURL}/query?${queryParams}`;
 
     const response = await fetch(url, {
       headers: {
@@ -116,9 +120,61 @@ export class SpotifyScrappingService {
     return validation.data;
   }
 
-  async queryUsers(identifier: string): Promise<User[]> {
+  async getUserProfile(userId: string) {
     const { ['accessToken']: token } = await this.getAccessToken();
-    const response = await this.query(token, identifier);
+    const queryParams = qs.stringify({
+      playlist_limit: 10,
+      artist_limit: 10,
+      episode_limit: 10,
+      market: 'from_token',
+    });
+
+    const url = `${this.privateUserAPIURL}/profile/${userId}?${queryParams}`;
+
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const resBody = await response.json().catch(() => ({}));
+
+    const resBodySchema = z.object({
+      uri: z.string(),
+      name: z.string(),
+      image_url: z.string(),
+      has_spotify_image: z.boolean(),
+      color: z.number(),
+      allow_follows: z.boolean(),
+      show_follows: z.boolean(),
+      has_spotify_name: z.boolean().optional(),
+      is_current_user: z.boolean().optional(),
+      followers_count: z.number().optional(),
+      following_count: z.number().optional(),
+      public_playlists: z
+        .array(
+          z.object({
+            followers_count: z.number(),
+            image_url: z.string(),
+            name: z.string(),
+            uri: z.string(),
+          }),
+        )
+        .optional(),
+      total_public_playlists_count: z.number().optional(),
+    });
+
+    const validation = resBodySchema.safeParse(resBody);
+
+    if (!validation.success) {
+      throw new InternalServerErrorException();
+    }
+
+    return validation.data;
+  }
+
+  async queryUsers(identifier: string): Promise<User[]> {
+    const response = await this.query(identifier);
     const { users } = response.data.searchV2;
 
     return users.items.map((item) => {
@@ -127,5 +183,16 @@ export class SpotifyScrappingService {
 
       return { id, displayName, avatar };
     });
+  }
+
+  async findUser(userId: string) {
+    const response = await this.getUserProfile(userId);
+    const { name, image_url } = response;
+
+    return {
+      id: userId,
+      name,
+      image_url,
+    };
   }
 }

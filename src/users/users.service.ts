@@ -12,6 +12,7 @@ import { User } from './entities/user.entity';
 import { PlaylistsService } from 'src/playlists/playlists.service';
 import { SpotifyScrappingService } from 'src/spotify-scrapping/spotify-scrapping.service';
 import { User as QueryUser } from 'src/spotify-scrapping/entities/user.entity';
+import { Profile } from 'src/spotify-scrapping/entities/profile.entity';
 
 @Injectable()
 export class UsersService {
@@ -161,5 +162,9 @@ export class UsersService {
 
   async query(identifier: string): Promise<QueryUser[]> {
     return this.spotifyScrappingService.queryUsers(identifier);
+  }
+
+  async findProfile(id: string): Promise<Profile> {
+    return this.spotifyScrappingService.findUser(id);
   }
 }

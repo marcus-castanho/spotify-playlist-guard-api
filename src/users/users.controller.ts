@@ -70,6 +70,11 @@ export class UsersController {
     return this.usersService.query(identifier);
   }
 
+  @Get('/profile/:id')
+  findProfile(@Param('id') id: string): Promise<User> {
+    return this.usersService.findProfile(id);
+  }
+
   @ApiOkResponse({ type: ResUserDto })
   @Roles(Role.Admin)
   @Get('protected/find/:id')
