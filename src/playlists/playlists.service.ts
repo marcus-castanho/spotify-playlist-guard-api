@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
   UnprocessableEntityException,
@@ -70,7 +71,7 @@ export class PlaylistsService {
         return {
           collaborative,
           active: collaborative,
-          allowed_userIds: [],
+          allowed_userIds: [userSpotifyId],
           external_url: external_urls.spotify,
           description: description || '',
           public: !!isPublic,
@@ -225,10 +226,19 @@ export class PlaylistsService {
     const { allowed_userIds } = updateAllowedUsersDto;
     const playlist = await this.prismaService.playlist.findUnique({
       where: { id },
+      include: {
+        owner: true,
+      },
     });
 
-    if (!playlist || playlist.userId !== userId) {
-      throw new UnprocessableEntityException();
+    playlist?.owner.spotify_id;
+
+    if (!playlist) throw new NotFoundException();
+    if (playlist.userId !== userId) throw new ForbiddenException();
+    if (!allowed_userIds.includes(playlist?.owner.spotify_id)) {
+      throw new UnprocessableEntityException(
+        'The list of allowed users ids for a playlist must contain at least its owner id',
+      );
     }
 
     return this.prismaService.playlist.update({
