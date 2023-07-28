@@ -143,7 +143,7 @@ export class SpotifyScrappingService {
       uri: z.string(),
       name: z.string(),
       image_url: z.string(),
-      has_spotify_image: z.boolean(),
+      has_spotify_image: z.boolean().optional(),
       color: z.number(),
       allow_follows: z.boolean(),
       show_follows: z.boolean(),
@@ -154,14 +154,26 @@ export class SpotifyScrappingService {
       public_playlists: z
         .array(
           z.object({
-            followers_count: z.number(),
+            followers_count: z.number().optional(),
             image_url: z.string(),
             name: z.string(),
             uri: z.string(),
+            owner_name: z.string().optional(),
+            owner_uri: z.string().optional(),
           }),
         )
         .optional(),
       total_public_playlists_count: z.number().optional(),
+      recently_played_artists: z
+        .array(
+          z.object({
+            uri: z.string(),
+            name: z.string(),
+            image_url: z.string(),
+            followers_count: z.number(),
+          }),
+        )
+        .optional(),
     });
 
     const validation = resBodySchema.safeParse(resBody);
