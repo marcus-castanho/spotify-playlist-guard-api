@@ -53,7 +53,7 @@ export class AuthController {
 
     res.set('Authorization', `Bearer ${jwt}`);
 
-    return res.status(200).json(adminUser);
+    return res.status(200).end();
   }
 
   @ApiOperation({

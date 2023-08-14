@@ -25,6 +25,7 @@ import { CreateAdminUserDto } from './dto/create-admin-user.dto';
 import { ResAdminUserDto } from './dto/response-admin-user.dto';
 import { UpdateAdminUserDto } from './dto/update-admin-user.dto';
 import { AdminUser } from './entities/admin-user.entity';
+import { ReqUser } from 'src/auth/decorators/user.decorator';
 
 @ApiTags('Admin Users')
 @Controller('admin-users')
@@ -58,6 +59,14 @@ export class AdminUsersController {
   @Get('find/:id')
   findOne(@Param('id') id: string) {
     return this.adminUsersService.findOne(id);
+  }
+
+  @ApiBearerAuth()
+  @ApiOkResponse({ type: ResAdminUserDto })
+  @Roles(Role.Admin)
+  @Get('me')
+  me(@ReqUser('sub') userId: string) {
+    return this.adminUsersService.findOne(userId);
   }
 
   @ApiBearerAuth()
