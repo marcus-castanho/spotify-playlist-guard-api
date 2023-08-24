@@ -26,7 +26,7 @@ export class ExternalAppsService {
 
     if (externalApp) {
       throw new ConflictException(
-        'The playlist Spotify ID provided is already registered.',
+        'The baseUrl provided is already registered.',
       );
     }
 
