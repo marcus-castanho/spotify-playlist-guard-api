@@ -19,15 +19,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
           adminUser.password = hash;
           params.args.data = adminUser;
         }
-      } else if (
-        params.model === 'ExternalApp' &&
-        ['create', 'update'].includes(params.action)
-      ) {
-        const externalApp = params.args.data;
-        const salt = await bcrypt.genSalt();
-        const hash = await bcrypt.hash(externalApp.apiKey, salt);
-        externalApp.apiKey = hash;
-        params.args.data = externalApp;
       }
 
       return next(params);
