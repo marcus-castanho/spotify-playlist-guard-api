@@ -3,9 +3,15 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule, {
+    cors: {
+      origin: true,
+      credentials: true,
+    },
+  });
   const config = new DocumentBuilder()
     .addServer(process.env.API_URL || '')
     .addBearerAuth({
@@ -36,6 +42,7 @@ async function bootstrap(): Promise<void> {
   );
 
   app.use(morgan('dev'));
+  app.use(cookieParser());
 
   await app.listen(process.env.PORT || 3000);
 }
