@@ -51,7 +51,9 @@ export class AuthController {
     const adminUser = req.user;
     const jwt = this.authService.loginAdminUser(adminUser);
 
-    return res.status(200).json({ token: jwt });
+    res.cookie('s-p-guard-admin_token', jwt);
+
+    return res.status(204).end();
   }
 
   @ApiOperation({
