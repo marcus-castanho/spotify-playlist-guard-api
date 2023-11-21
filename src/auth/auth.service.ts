@@ -43,19 +43,20 @@ export class AuthService {
     inputPassword: string,
   ): Promise<AdminUser | null> {
     const adminUser = await this.adminUserSerivce.findOneByEmail(email);
+
+    if (!adminUser) return null;
+
     const validatePassword = bcrypt.compareSync(
       inputPassword,
-      adminUser.password as string,
+      adminUser.password || '',
     );
 
-    if (adminUser && validatePassword) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...userData } = adminUser;
+    if (!validatePassword) return null;
 
-      return userData;
-    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...userData } = adminUser;
 
-    return null;
+    return userData;
   }
 
   async validateUser(profile: Profile, info: AuthInfo): Promise<User> {

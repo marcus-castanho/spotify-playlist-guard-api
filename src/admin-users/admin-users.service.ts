@@ -66,16 +66,10 @@ export class AdminUsersService {
     );
   }
 
-  async findOneByEmail(email: string): Promise<AdminUser> {
+  async findOneByEmail(email: string): Promise<AdminUser | null> {
     const adminUser = await this.prismaService.adminUser.findUnique({
       where: { email },
     });
-
-    if (!adminUser) {
-      throw new NotFoundException(
-        'No admin user registered with the provided email.',
-      );
-    }
 
     return adminUser;
   }
