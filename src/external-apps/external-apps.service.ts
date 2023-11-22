@@ -64,10 +64,11 @@ export class ExternalAppsService {
 
   async listPage(page: number): Promise<ExternalApp[]> {
     if (page <= 0) throw new BadRequestException();
+    const takePerPage = 15;
 
     const externalApps = await this.prismaService.externalApp.findMany({
-      skip: page - 1,
-      take: 15,
+      skip: (page - 1) * takePerPage,
+      take: takePerPage,
     });
 
     return externalApps.map((externalApp) => {
@@ -76,6 +77,12 @@ export class ExternalAppsService {
         'apiKey',
       );
     });
+  }
+
+  async countPages(takePerPage: number): Promise<number> {
+    const total = await this.prismaService.externalApp.count();
+
+    return Math.ceil(total / takePerPage);
   }
 
   async update(

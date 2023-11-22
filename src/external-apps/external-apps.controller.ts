@@ -39,11 +39,18 @@ export class ExternalAppsController {
     return this.externalAppsService.findOne(id);
   }
 
-  @ApiOkResponse({ type: [ResExternalAppDto] })
+  @ApiOkResponse({ type: ResExternalAppDto })
   @Roles(Role.Admin)
   @Get('list/:page')
-  listPage(@Param('page') page: number): Promise<ExternalApp[]> {
-    return this.externalAppsService.listPage(page);
+  async listPage(
+    @Param('page') page: number,
+  ): Promise<{ pages: number; items: ExternalApp[] }> {
+    const pages = await this.externalAppsService.countPages(15);
+    const items = await this.externalAppsService.listPage(page);
+    return {
+      pages,
+      items,
+    };
   }
 
   @Roles(Role.Admin)
