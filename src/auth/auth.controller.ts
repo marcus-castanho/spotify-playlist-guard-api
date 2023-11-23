@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Controller,
   Get,
+  HttpCode,
   Post,
   Query,
   Req,
@@ -15,14 +16,8 @@ import { SpotifyOauthGuard } from './guards/spotify-oauth.guard';
 import { Profile } from 'passport-spotify';
 import { AuthInfo } from 'src/@types/passport-spotify';
 import { AuthGuard } from '@nestjs/passport';
-import {
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiOperation,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResUserDto } from 'src/users/dto/reponse-user.dto';
-import { ResAdminUserDto } from 'src/admin-users/dto/response-admin-user.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -43,7 +38,7 @@ export class AuthController {
   @ApiOperation({
     summary: 'Public route to authenticate admin users.',
   })
-  @ApiCreatedResponse({ type: ResAdminUserDto })
+  @HttpCode(204)
   @Public()
   @UseGuards(AuthGuard('local'))
   @Post('login/admin')
