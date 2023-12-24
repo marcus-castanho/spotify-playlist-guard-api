@@ -66,6 +66,7 @@ export class PlaylistsService {
           href,
           snapshot_id,
           uri,
+          images,
         } = playlist;
 
         return {
@@ -81,6 +82,7 @@ export class PlaylistsService {
           href,
           snapshot_id,
           uri,
+          images: images.map((image) => image.url),
         };
       })
       .filter((playlist) => {
@@ -206,7 +208,7 @@ export class PlaylistsService {
 
     if (active && !collaborative) {
       throw new UnprocessableEntityException(
-        'The playlist must be public and collaborative to be activated',
+        'The playlist must be collaborative to be activated',
       );
     }
 

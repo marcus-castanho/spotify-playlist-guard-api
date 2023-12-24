@@ -14,4 +14,5 @@ export class Playlist {
   uri?: string;
   active?: boolean;
   allowed_userIds?: string[];
+  images?: string[];
 }
