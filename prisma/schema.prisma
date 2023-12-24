@@ -57,6 +57,7 @@ model Playlist {
   uri             String
   active          Boolean
   allowed_userIds String[]
+  images          String[]
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
