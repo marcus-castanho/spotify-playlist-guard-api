@@ -154,6 +154,7 @@ export class PlaylistsService {
 
   async listPage(userId: string, page: number): Promise<Array<Playlist>> {
     if (page <= 0) throw new BadRequestException();
+    const takePerPage = 5;
 
     const playlists = await this.prismaService.playlist.findMany({
       where: {
@@ -161,8 +162,8 @@ export class PlaylistsService {
           id: userId,
         },
       },
-      skip: page - 1,
-      take: 15,
+      skip: (page - 1) * takePerPage,
+      take: takePerPage,
     });
 
     return playlists;
@@ -267,5 +268,11 @@ export class PlaylistsService {
     res.status(204).json();
 
     return;
+  }
+
+  async countPages(takePerPage: number): Promise<number> {
+    const total = await this.prismaService.playlist.count();
+
+    return Math.ceil(total / takePerPage);
   }
 }

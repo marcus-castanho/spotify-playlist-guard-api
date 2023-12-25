@@ -28,6 +28,7 @@ import {
 } from '@nestjs/swagger';
 import { ResPlaylistDto } from './dto/response-playlist.dto';
 import { ResActivePlaylistDto } from './dto/response-active-playlist.dto';
+import { ResPaginatedPlaylistDto } from './dto/response-paginated-playlist.dto';
 
 @ApiTags('Playlists')
 @Controller('playlists')
@@ -45,13 +46,19 @@ export class PlaylistsController {
   }
 
   @ApiBearerAuth()
-  @ApiOkResponse({ type: [ResPlaylistDto] })
+  @ApiOkResponse({ type: ResPaginatedPlaylistDto })
   @Get('/list/:page')
-  listPage(
+  async listPage(
     @ReqUser('sub') userId: string,
     @Param('page') page: number,
-  ): Promise<Array<Playlist>> {
-    return this.playlistsService.listPage(userId, page);
+  ): Promise<{ pages: number; items: Playlist[] }> {
+    const pages = await this.playlistsService.countPages(5);
+    const items = await this.playlistsService.listPage(userId, page);
+
+    return {
+      pages,
+      items,
+    };
   }
 
   @ApiBearerAuth()
