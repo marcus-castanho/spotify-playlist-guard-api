@@ -108,10 +108,11 @@ export class UsersService {
 
   async listPage(page: number): Promise<Array<User>> {
     if (page <= 0) throw new BadRequestException();
+    const takePerPage = 15;
 
     const users = await this.prismaService.user.findMany({
-      skip: page - 1,
-      take: 15,
+      skip: (page - 1) * takePerPage,
+      take: takePerPage,
     });
 
     return users.map((user) =>

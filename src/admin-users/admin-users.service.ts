@@ -52,10 +52,11 @@ export class AdminUsersService {
 
   async listPage(page: number): Promise<AdminUser[]> {
     if (page <= 0) throw new BadRequestException();
+    const takePerPage = 15;
 
     const adminUsers = await this.prismaService.adminUser.findMany({
-      skip: page - 1,
-      take: 15,
+      skip: (page - 1) * takePerPage,
+      take: takePerPage,
     });
 
     return adminUsers.map((adminUser) =>
