@@ -72,7 +72,6 @@ export class PlaylistsService {
         return {
           collaborative,
           active: collaborative,
-          allowed_userIds: [userSpotifyId],
           external_url: external_urls.spotify,
           description: description || '',
           public: !!isPublic,
