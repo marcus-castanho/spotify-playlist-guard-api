@@ -25,5 +25,5 @@ primary_region = "gig"
   API_URL = "https://spotify-playlist-guard-api.fly.dev"
   PLAYLIS_GUARD_WEBSITE_URL = "https://spotify-playlist-guard-website.vercel.app/"
   JWT_EXPIRES_IN = "28800s"
-  CALLBACK_URL = "${PLAYLIS_GUARD_WEBSITE_URL}/signin"
+  CALLBACK_URL = "https://spotify-playlist-guard-website.vercel.app/signin"
 
