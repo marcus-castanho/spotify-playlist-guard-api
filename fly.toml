@@ -24,11 +24,6 @@ primary_region = "gig"
 [env]
   API_URL = "https://spotify-playlist-guard-api.fly.dev"
   PLAYLIS_GUARD_WEBSITE_URL = "https://spotify-playlist-guard-website.vercel.app/"
-  ADMIN_KEY = "81768d512d6160e87f595b1b9c58ab2c543c7336"
-  ENCRYPTION_PASSWORD = "f62e9ba1fdcffdd6d8cf0ddefd326bfc7131e4a2"
-  JWT_SECRET = "cd80c9a5c92d3be6074d96762ffd4d62e3343779"
   JWT_EXPIRES_IN = "28800s"
-  SPOTIFY_CLIENT_ID = "9644a152f32f4fc48df6e77275ce310a"
-  SPOTIFY_CLIENT_SECRET = "66db43429c9246ccbf75f2ad264acc26"
   CALLBACK_URL = "${PLAYLIS_GUARD_WEBSITE_URL}/signin"
 
