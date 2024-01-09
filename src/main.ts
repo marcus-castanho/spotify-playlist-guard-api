@@ -12,7 +12,7 @@ async function bootstrap(): Promise<void> {
       credentials: true,
     },
   });
-   const config = new DocumentBuilder()
+  const config = new DocumentBuilder()
     .addServer(process.env.API_URL || '')
     .addBearerAuth({
       type: 'http',
