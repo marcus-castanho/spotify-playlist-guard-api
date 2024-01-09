@@ -7,6 +7,27 @@ on:
     branches: [main]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build --if-present
+
+      - name: Run ESLint
+        run: npm run lint
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -27,14 +48,3 @@ jobs:
 
       - name: Run Jest
         run: npm test
-
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    concurrency: deploy-group
-    steps:
-      - uses: actions/checkout@v3
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
