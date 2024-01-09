@@ -24,7 +24,7 @@ jobs:
         run: npm run build --if-present
 
       - name: Run ESLint
-        run: npm run lint
+        run: npm run lint:check
 
   test:
     runs-on: ubuntu-latest
