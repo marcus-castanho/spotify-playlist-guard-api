@@ -1,0 +1,34 @@
+name: CD
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    name: Build and deploy app on Google App Engine
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          credentials_json: ${{ secrets.GCP_CREDENTIALS_KEY }}
+
+      - name: Login to Google Artifact Registry
+        uses: docker/login-action@v3
+        with:
+          registry: us-east1-docker.pkg.dev
+          username: _json_key
+          password: ${{ secrets.GCP_CREDENTIALS_KEY }}
+
+      - name: Tag Docker image and push to Google Artifact Registry
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: us-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/spotify-playlist-guard-api/spotify-playlist-guard-api-main:latest
+
+      - name: Deploy to App Engine
+        run: gcloud app deploy app.yaml --quiet --format=json --promote --image-url=us-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/spotify-playlist-guard-api/spotify-playlist-guard-api-main:latest
