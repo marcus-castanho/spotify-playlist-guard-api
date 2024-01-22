@@ -1,16 +1,50 @@
-name: CD - Deploy on Fly.io
+name: CD
 on:
   push:
     branches:
       - main
 jobs:
   deploy:
-    name: Deploy app
+    name: Build and deploy app on Google App Engine
     runs-on: ubuntu-latest
-    concurrency: deploy-group
     steps:
-      - uses: actions/checkout@v3
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          credentials_json: ${{ secrets.GCP_CREDENTIALS_KEY }}
+
+      - name: Login to Google Artifact Registry
+        uses: docker/login-action@v3
+        with:
+          registry: us-east1-docker.pkg.dev
+          username: _json_key
+          password: ${{ secrets.GCP_CREDENTIALS_KEY }}
+
+      - name: Tag Docker image and push to Google Artifact Registry
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: us-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/spotify-playlist-guard-api/spotify-playlist-guard-api-main:latest
+
+      - name: Populate app.yml env secrets
+        uses: 73h/gae-app-yaml-replace-env-variables@v0.3
         env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          APP_SECRET_API_URL: ${{ secrets.APP_SECRET_API_URL }}
+          APP_SECRET_PLAYLIS_GUARD_WEBSITE_URL: ${{ secrets.APP_SECRET_PLAYLIS_GUARD_WEBSITE_URL }}
+          APP_SECRET_ADMIN_KEY: ${{ secrets.APP_SECRET_ADMIN_KEY }}
+          APP_SECRET_ENCRYPTION_PASSWORD: ${{ secrets.APP_SECRET_ENCRYPTION_PASSWORD }}
+          APP_SECRET_JWT_SECRET: ${{ secrets.APP_SECRET_JWT_SECRET }}
+          APP_SECRET_JWT_EXPIRES_IN: ${{ secrets.APP_SECRET_JWT_EXPIRES_IN }}
+          APP_SECRET_DATABASE_URL: ${{ secrets.APP_SECRET_DATABASE_URL }}
+          APP_SECRET_SPOTIFY_CLIENT_ID: ${{ secrets.APP_SECRET_SPOTIFY_CLIENT_ID }}
+          APP_SECRET_SPOTIFY_CLIENT_SECRET: ${{ secrets.APP_SECRET_SPOTIFY_CLIENT_SECRET }}
+          APP_SECRET_CALLBACK_URL: ${{ secrets.APP_SECRET_CALLBACK_URL }}
+        with:
+          app_yaml_path: 'app.yaml'
+
+      - name: Deploy to App Engine
+        run: gcloud app deploy app.yaml --quiet --format=json --promote --image-url=us-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/spotify-playlist-guard-api/spotify-playlist-guard-api-main:latest
