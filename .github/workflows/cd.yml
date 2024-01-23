@@ -44,7 +44,7 @@ jobs:
           APP_SECRET_SPOTIFY_CLIENT_SECRET: ${{ secrets.APP_SECRET_SPOTIFY_CLIENT_SECRET }}
           APP_SECRET_CALLBACK_URL: ${{ secrets.APP_SECRET_CALLBACK_URL }}
         with:
-          app_yaml_path: 'app.yaml'
+          app_yaml_path: '.gcp/app.yaml'
 
       - name: Deploy to App Engine
-        run: gcloud app deploy app.yaml --quiet --format=json --promote --image-url=us-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/spotify-playlist-guard-api/spotify-playlist-guard-api-main:latest
+        run: gcloud app deploy .gcp/app.yaml --quiet --format=json --promote --image-url=us-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/spotify-playlist-guard-api/spotify-playlist-guard-api-main:latest
