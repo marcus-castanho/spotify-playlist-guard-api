@@ -34,7 +34,7 @@ jobs:
         uses: 73h/gae-app-yaml-replace-env-variables@v0.3
         env:
           APP_SECRET_API_URL: ${{ secrets.APP_SECRET_API_URL }}
-          APP_SECRET_PLAYLIS_GUARD_WEBSITE_URL: ${{ secrets.APP_SECRET_PLAYLIS_GUARD_WEBSITE_URL }}
+          APP_SECRET_PLAYLIST_GUARD_WEBSITE_URL: ${{ secrets.APP_SECRET_PLAYLIST_GUARD_WEBSITE_URL }}
           APP_SECRET_ADMIN_KEY: ${{ secrets.APP_SECRET_ADMIN_KEY }}
           APP_SECRET_ENCRYPTION_PASSWORD: ${{ secrets.APP_SECRET_ENCRYPTION_PASSWORD }}
           APP_SECRET_JWT_SECRET: ${{ secrets.APP_SECRET_JWT_SECRET }}
