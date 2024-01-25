@@ -100,11 +100,13 @@ export class PlaylistsService {
         .map((playlist) => playlist.spotify_id)
         .includes(spotify_id);
     });
-    const createdPlaylists = playlists.filter(({ spotify_id }) => {
-      return !currentPlaylists
-        .map((playlist) => playlist.spotify_id)
-        .includes(spotify_id);
-    });
+    const createdPlaylists = playlists
+      .filter(({ spotify_id }) => {
+        return !currentPlaylists
+          .map((playlist) => playlist.spotify_id)
+          .includes(spotify_id);
+      })
+      .map((playlist) => ({ ...playlist, allowed_userIds: [userSpotifyId] }));
 
     await this.prismaService.playlist.deleteMany({
       where: {
@@ -232,8 +234,6 @@ export class PlaylistsService {
         owner: true,
       },
     });
-
-    playlist?.owner.spotify_id;
 
     if (!playlist) throw new NotFoundException();
     if (playlist.userId !== userId) throw new ForbiddenException();
