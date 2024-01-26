@@ -1,7 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { ContextIdFactory, ModuleRef } from '@nestjs/core';
 import { ExternalAppsService } from 'src/external-apps/external-apps.service';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class ExternalAppGuard implements CanActivate {
@@ -25,10 +24,7 @@ export class ExternalAppGuard implements CanActivate {
 
     if (!externalApp) return false;
 
-    const isValidApiKey = bcrypt.compareSync(
-      authorization,
-      externalApp.apiKey || '',
-    );
+    const isValidApiKey = authorization === externalApp.apiKey || '';
 
     if (!isValidApiKey) return false;
 
