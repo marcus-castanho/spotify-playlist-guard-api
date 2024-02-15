@@ -1,4 +1,4 @@
-import { IsArray, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdatePlaylistDto {
   @IsOptional()
@@ -24,10 +24,6 @@ export class UpdatePlaylistDto {
   @IsOptional()
   @IsString()
   snapshot_id: string;
-
-  @IsOptional()
-  @IsArray()
-  tracks: string[];
 
   @IsOptional()
   @IsString()
