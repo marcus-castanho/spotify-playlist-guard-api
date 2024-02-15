@@ -10,7 +10,6 @@ export class Playlist {
   userId?: string;
   public?: boolean;
   snapshot_id?: string;
-  tracks?: string[];
   uri?: string;
   active?: boolean;
   allowed_userIds?: string[];
