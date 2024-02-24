@@ -1,6 +1,6 @@
-<p align="center">
+<div align="center">
   <img src="./images/guardBot-long-api.png" width="180" alt="Guard Bot Logo" />
-</p>
+</div>
 <p align="center">The API for interacting with the <a  href="https://github.com/marcus-castanho/spotify_playlist_guard" target="_blank">Spotify Playlist Guard</a> application.</p>
   
 # Spotify Playlist Guard API
@@ -12,7 +12,8 @@ This project is a web server that provides an API for of the [Spotify Playlist G
 
 This is the codebase of the API for registering Spotify users and their collaborative playlists to be guarded from unthaurized editing. Please check the **other app related to this project**:
 
-- [Spotify Playlist Guard](https://github.com/marcus-castanho/spotify_playlist_guard): An application tha performs a guard routine periodically removing, from selected playlists, tracks added by unauthorized users.
+- [Spotify Playlist Guard](https://github.com/marcus-castanho/spotify_playlist_guard): An application tha performs a guard routine periodically removing, from selected playlists, tracks added by unauthorized users;
+- [Spotify Playlist Guard Website](https://github.com/marcus-castanho/spotify-playlist-guard-website): A web app for configuring spotify collaborative playlists to be guarded by the guard bot;
 
 ### Entities
 
@@ -106,6 +107,7 @@ Note: **When running both the app and the database as a containers, the POSTGRES
 ```
 npm run build-start-containers
 ```
+
 Note: **When using a linux distribution, if there is a .docker folder with volumens inside, it may be necessary to run 'sudo rm -r .docker' to remove the old volumes before running the build script since that folder is created with root permission**;
 
 The application will then be available at 'http://localhost:3000'
@@ -115,6 +117,7 @@ The application will then be available at 'http://localhost:3000'
 ```
 docker-compose start
 ```
+
 ```
 docker-compose stop
 ```
@@ -152,6 +155,7 @@ npm run start:prod
 The application will then be available at 'http://localhost:3000'
 
 # Development and contributions
+
 ## Commit Message Guidelines
 
 This project uses [Convention Commit](https://www.conventionalcommits.org/) with [ AngularJS's commit message convention](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines) specifications for standard commit messages.
@@ -159,6 +163,7 @@ This project uses [Convention Commit](https://www.conventionalcommits.org/) with
 ## Git Hooks
 
 Git hooks compliant with the commit guidelines and linting of the projet are defined in the ./husky folder. The hooks are disabled by default and can be enabled or disabled using the commands:
+
 ```
 npm run enable-hooks
 ```
