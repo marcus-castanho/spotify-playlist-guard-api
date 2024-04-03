@@ -71,6 +71,7 @@ This project uses the [NestJS](https://nestjs.com/) framework, and, therefore, u
 - [Spotify Web API](https://developer.spotify.com/documentation/web-api/) with [spotify-web-api-node](https://github.com/thelinmichael/spotify-web-api-node) as client wrapper;
 - [PostgreSQL](https://www.postgresql.org/) as database, using:
   - [Prisma](https://www.prisma.io/) as ORM;
+  - [ElephantSQL](https://www.elephantsql.com/) as cloud service for PostgreSQL;
 - [GitHub Actions](https://github.com/features/actions) as CI/CD tool;
 - [Google App Engine](https://cloud.google.com/appengine) as cloud server host;
 
