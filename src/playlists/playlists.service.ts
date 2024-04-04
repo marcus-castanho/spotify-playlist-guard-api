@@ -55,6 +55,7 @@ export class PlaylistsService {
 
     const playlists = playlistsResults
       .map((playlist) => {
+        console.log(playlist);
         const {
           owner,
           collaborative,
