@@ -55,6 +55,7 @@ export class PlaylistsService {
 
     const playlists = playlistsResults
       .map((playlist) => {
+        // eslint-disable-next-line no-console
         console.log(playlist);
         const {
           owner,
