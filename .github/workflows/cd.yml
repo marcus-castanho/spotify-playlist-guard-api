@@ -5,46 +5,8 @@ on:
       - main
 jobs:
   deploy:
-    name: Build and deploy app on Google App Engine
+    name: Build and deploy app on Render
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          credentials_json: ${{ secrets.GCP_CREDENTIALS_KEY }}
-
-      - name: Login to Google Artifact Registry
-        uses: docker/login-action@v3
-        with:
-          registry: us-east1-docker.pkg.dev
-          username: _json_key
-          password: ${{ secrets.GCP_CREDENTIALS_KEY }}
-
-      - name: Tag Docker image and push to Google Artifact Registry
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: us-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/spotify-playlist-guard-api/spotify-playlist-guard-api-main:latest
-
-      - name: Populate app.yml env secrets
-        uses: 73h/gae-app-yaml-replace-env-variables@v0.3
-        env:
-          APP_SECRET_API_URL: ${{ secrets.APP_SECRET_API_URL }}
-          APP_SECRET_PLAYLIST_GUARD_WEBSITE_URL: ${{ secrets.APP_SECRET_PLAYLIST_GUARD_WEBSITE_URL }}
-          APP_SECRET_ADMIN_KEY: ${{ secrets.APP_SECRET_ADMIN_KEY }}
-          APP_SECRET_ENCRYPTION_PASSWORD: ${{ secrets.APP_SECRET_ENCRYPTION_PASSWORD }}
-          APP_SECRET_JWT_SECRET: ${{ secrets.APP_SECRET_JWT_SECRET }}
-          APP_SECRET_JWT_EXPIRES_IN: ${{ secrets.APP_SECRET_JWT_EXPIRES_IN }}
-          APP_SECRET_DATABASE_URL: ${{ secrets.APP_SECRET_DATABASE_URL }}
-          APP_SECRET_SPOTIFY_CLIENT_ID: ${{ secrets.APP_SECRET_SPOTIFY_CLIENT_ID }}
-          APP_SECRET_SPOTIFY_CLIENT_SECRET: ${{ secrets.APP_SECRET_SPOTIFY_CLIENT_SECRET }}
-          APP_SECRET_CALLBACK_URL: ${{ secrets.APP_SECRET_CALLBACK_URL }}
-        with:
-          app_yaml_path: '.gcp/app.yaml'
-
-      - name: Deploy to App Engine
-        run: gcloud app deploy .gcp/app.yaml --quiet --format=json --promote --image-url=us-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/spotify-playlist-guard-api/spotify-playlist-guard-api-main:latest
+      - name: Deploy to Render
+        run: echo "Deploying to Render"
