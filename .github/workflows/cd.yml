@@ -9,4 +9,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to Render
-        run: echo "Deploying to Render"
+        run: echo "Auto deploy enabled on Render. Verify the deploying pipeline in the events tab in the Render app page."
