@@ -55,8 +55,6 @@ export class PlaylistsService {
 
     const playlists = playlistsResults
       .map((playlist) => {
-        // eslint-disable-next-line no-console
-        console.log(playlist);
         const {
           owner,
           collaborative,
@@ -68,7 +66,6 @@ export class PlaylistsService {
           href,
           snapshot_id,
           uri,
-          images,
         } = playlist;
 
         return {
@@ -83,7 +80,9 @@ export class PlaylistsService {
           href,
           snapshot_id,
           uri,
-          images: images.map((image) => image.url),
+          images: playlist?.images
+            ? playlist.images.map((image) => image.url)
+            : [],
         };
       })
       .filter((playlist) => {
